@@ -1,6 +1,10 @@
 <ion-view title="Carnaval Nazaré Paulista 2016">
     <ion-content overflow-scroll=e"true" padding="true" class="has-header" ng-init="loadImages()">
-        <img src="img/ZCzjZx5SiW1IKQODNlJf_logo.png" width="auto" height="50%" style="width: auto; height: 50%;display: block; margin-left: auto; margin-right: auto">
+        <div class="row">
+            <div class="col col-50 col-offset-25">
+                <img src="img/ZCzjZx5SiW1IKQODNlJf_logo.png" width="100%">
+            </div>
+        </div>
         <h3>Heading</h3>
         <div>
             <p>Some friendly
@@ -9,9 +13,14 @@
         </div>
         <ul class="">
 
-        <div class="row responsive-md">
-            <div class="col col-50" ng-repeat="image in images">
-                <img ng-src="{{image.src}}" width="100%" />
+        <div class="row responsive-sm">
+            <div class="row" ng-repeat="image in images" ng-if="$index % 2 === 0">
+                <div class="col col-25" ng-if="$index < images.length">
+                    <img ng-src="{{images[$index].src}}" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 1 < images.length">
+                    <img ng-src="{{images[$index + 1].src}}" width="100%" />
+                </div>
             </div>
         </div>
     </ion-content>
