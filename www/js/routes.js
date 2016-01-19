@@ -7,17 +7,13 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-      
+
     .state('menu', {
       url: '/menu',
       abstract:true,
       templateUrl: 'templates/menu.html'
     })
-      
-    
-      
-        
+
     .state('menu.carnavalNazarePaulista2016', {
       url: '/inicio',
       views: {
@@ -27,11 +23,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.programacao', {
       url: '/programacao',
       views: {
@@ -41,11 +33,17 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
+    .state('menu.transito', {
+      url: '/transito',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/transito.html',
+          controller: 'transitoCtrl'
+        }
+      }
+    })
+
     .state('menu.mapaDoCircuito', {
       url: '/mapa',
       views: {
@@ -55,11 +53,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.musicasDosBlocos', {
       url: '/musicas',
       views: {
@@ -69,11 +63,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.pontosDeEncontro', {
       url: '/pontos',
       views: {
@@ -83,11 +73,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.telefonesUteis', {
       url: '/telefones',
       views: {
@@ -97,11 +83,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.conhecaNazare', {
       url: '/conheca',
       views: {
@@ -111,11 +93,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.alimentacao', {
       url: '/alimentacao',
       views: {
@@ -125,11 +103,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.carnavalConsciente', {
       url: '/conscientizacao',
       views: {
@@ -139,11 +113,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+
     .state('menu.mandamentos', {
       url: '/mandatamentos',
       views: {
@@ -153,9 +123,8 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    ;
+
+  ;
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/menu/inicio');

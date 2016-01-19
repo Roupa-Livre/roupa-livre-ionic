@@ -1,6 +1,6 @@
 {
   "name": "CarnavalNazareIonic",
-  "app_id": "",
+  "app_id": "abff07ce",
   "gulpStartupTasks": [
     "sass",
     "watch"
