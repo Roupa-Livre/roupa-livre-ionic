@@ -3335,7 +3335,7 @@ body,
   overflow: hidden;
   margin: 0;
   padding: 0;
-  color: #000;
+  color: #fff;
   word-wrap: break-word;
   font-size: 14px;
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
@@ -3574,7 +3574,7 @@ cite {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: #000;
+  color: #fff;
   font-weight: 500;
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 1.2; }
@@ -5633,8 +5633,8 @@ ion-tabs.tabs-color-active-dark .tab-item {
  * --------------------------------------------------
  */
 .item {
-  border-color: #ddd;
-  background-color: #fff;
+  border-color: #17648d;
+  background-color: #1b73a3;
   color: #444;
   position: relative;
   z-index: 2;
@@ -5855,7 +5855,7 @@ button.item.item-complex {
   z-index: 2;
   padding: 16px 49px 16px 16px;
   border: none;
-  background-color: #fff; }
+  background-color: #1b73a3; }
 
 a.item-content {
   display: block;
@@ -6850,7 +6850,7 @@ legend {
   margin-bottom: 1.42857;
   padding: 0;
   width: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid #17648d;
   color: #444;
   font-size: 21px;
   line-height: 2.85714; }
@@ -7790,7 +7790,7 @@ input:checked + .checkbox-icon:after {
     padding: 0 48px 0 16px;
     max-width: 65%;
     border: none;
-    background: #fff;
+    background: #1b73a3;
     color: #333;
     text-indent: .01px;
     text-overflow: '';
@@ -9088,3 +9088,6 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+ion-nav-view ion-view.pane {
+  background: url("../img/LJlhfuN9RoS8IskTqugN_fundo.jpg") no-repeat center; }

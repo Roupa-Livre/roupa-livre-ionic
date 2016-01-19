@@ -18,12 +18,138 @@ angular.module('app.routes', [])
     
       
         
-    .state('menu.inicio', {
+    .state('menu.carnavalNazarePaulista2016', {
       url: '/inicio',
       views: {
         'side-menu21': {
-          templateUrl: 'templates/inicio.html',
-          controller: 'inicioCtrl'
+          templateUrl: 'templates/carnavalNazarePaulista2016.html',
+          controller: 'carnavalNazarePaulista2016Ctrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.programacao', {
+      url: '/programacao',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/programacao.html',
+          controller: 'programacaoCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.mapaDoCircuito', {
+      url: '/mapa',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/mapaDoCircuito.html',
+          controller: 'mapaDoCircuitoCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.musicasDosBlocos', {
+      url: '/musicas',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/musicasDosBlocos.html',
+          controller: 'musicasDosBlocosCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.pontosDeEncontro', {
+      url: '/pontos',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/pontosDeEncontro.html',
+          controller: 'pontosDeEncontroCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.telefonesUteis', {
+      url: '/telefones',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/telefonesUteis.html',
+          controller: 'telefonesUteisCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.conhecaNazare', {
+      url: '/conheca',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/conhecaNazare.html',
+          controller: 'conhecaNazareCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.alimentacao', {
+      url: '/alimentacao',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/alimentacao.html',
+          controller: 'alimentacaoCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.carnavalConsciente', {
+      url: '/conscientizacao',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/carnavalConsciente.html',
+          controller: 'carnavalConscienteCtrl'
+        }
+      }
+    })
+        
+      
+    
+      
+        
+    .state('menu.mandamentos', {
+      url: '/mandatamentos',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/mandamentos.html',
+          controller: 'mandamentosCtrl'
         }
       }
     })
