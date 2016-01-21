@@ -9102,5 +9102,17 @@ ion-nav-view ion-view.pane {
   width: 100%;
   height: 100%; }
 
+<<<<<<< HEAD
 #musica {
   text-align: center; }
+=======
+.item {
+  color: white; }
+
+.item h2 {
+  white-space: normal; }
+
+.item a {
+  color: white;
+  text-decoration: none; }
+>>>>>>> f64aa42a6b7613b135815a5495647295983f9608
