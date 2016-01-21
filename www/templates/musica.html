@@ -1,0 +1,9 @@
+<ion-view title="Música {{entity.title}}">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <div class="col col-100" id="musica">
+            <h1>{{entity.title}}</h1>
+            <h2 ng-if="entity.subtitle && entity.subtitle.length > 0">{{entity.subtitle}}</h2>
+            <p style="white-space: pre;">{{entity.content.trim()}}</p>
+        </div>
+    </ion-content>
+</ion-view>

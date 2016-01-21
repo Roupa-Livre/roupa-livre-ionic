@@ -64,6 +64,16 @@ angular.module('app.routes', [])
       }
     })
 
+    .state('menu.musica', {
+      url: "/musicas/:musicaId",  // here is what you annouce the params
+      views: {
+        'side-menu21': {
+          templateUrl: "templates/musica.html",
+          controller: 'musicaPageCtrl'
+        }
+      }
+    })
+
     .state('menu.pontosDeEncontro', {
       url: '/pontos',
       views: {

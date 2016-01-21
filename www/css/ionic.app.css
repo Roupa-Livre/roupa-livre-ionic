@@ -9089,6 +9089,9 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.item p {
+  color: #fff; }
+
 ion-nav-view ion-view.pane {
   background: url("../img/LJlhfuN9RoS8IskTqugN_fundo.jpg") no-repeat center; }
 
@@ -9098,3 +9101,6 @@ ion-nav-view ion-view.pane {
 #map {
   width: 100%;
   height: 100%; }
+
+#musica {
+  text-align: center; }

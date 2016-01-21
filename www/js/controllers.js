@@ -41,9 +41,16 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('musicasDosBlocosCtrl', function($scope) {
+.controller('musicasDosBlocosCtrl', ['$scope', '$state', 'Musica', function($scope, $state, Musica) {
+  $scope.entitiesList = Musica.query();
+  $scope.entityClicked = function(entity) {
+    $state.go('menu.musica', { musicaId: entity.id });
+  };
+}])
 
-})
+.controller('musicaPageCtrl', ['$scope', '$stateParams', 'Musica', function($scope, $stateParams, Musica) {
+  $scope.entity = Musica.get($stateParams.musicaId);
+}])
 
 .controller('pontosDeEncontroCtrl', function($scope) {
 
