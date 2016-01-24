@@ -18,23 +18,18 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
-$base-background-color:           #1b73a3;
-$base-color: #fff;
+$base-color: #2F3968;
+$dark:       darken($base-color, 10%);
 
-$colors: (
-  dark:       #1b73a3,
-);
+$button-dark-active-bg:           $base-color;
+$button-dark-bg: $base-color;
+$button-dark-border: $dark;
 
-$button-dark-active-bg:           #1b73a3;
-$button-dark-bg: #1b73a3;
-$button-dark-border: darken(#1b73a3, 5%);
+$item-default-bg: #fff;
+$item-default-border: $dark;
 
-$item-default-bg: #1b73a3;
-$item-default-border: darken(#1b73a3, 5%);
-
-$menu-bg: #1b73a3;
-$text-color: #fff;
-
+$menu-bg: $base-color;
+$text-color: #2F3968;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
@@ -48,7 +43,7 @@ $text-color: #fff;
 ion-nav-view {
   ion-view {
     &.pane {
-      background: url("../img/LJlhfuN9RoS8IskTqugN_fundo.jpg") no-repeat center;
+      background-color: #fff
     }
   }
 }
@@ -67,7 +62,7 @@ ion-nav-view {
 }
 
 .item {
-  color: white;
+  color: $text-color;
 }
 
 .item h2{
@@ -75,6 +70,6 @@ ion-nav-view {
 }
 
 .item a{
-  color: white;
+  color: $text-color;
   text-decoration: none;
 }
