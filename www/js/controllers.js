@@ -38,7 +38,6 @@ angular.module('app.controllers', [])
 
 
 .controller('mapaDoCircuitoCtrl', function($scope) {
-
 })
 
 .controller('musicasDosBlocosCtrl', ['$scope', '$state', 'Musica', function($scope, $state, Musica) {

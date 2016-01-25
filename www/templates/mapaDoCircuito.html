@@ -1,22 +1,28 @@
 <ion-view title="Mapa do Circuito">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list></ion-list>
-        <div style="line-height: 250px; border: 1px solid rgb(238, 238, 238); border-radius: 3px; text-align: center; width: 100%; height: auto; background-color: rgb(255, 255, 255);">
-            <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
-        </div>
-        <h1>Heading</h1>
+
+        <!-- <h1>Heading</h1>
         <div>
             <p>Some friendly
                 <strong>markdown</strong>
             </p>
-        </div>
+        </div> -->
         <div class="list card">
-            <div class="item item-divider">Card</div>
-            <div class="item item-body"></div>
+
+          <ion-scroll direction="xy" scrollbar-x="false" scrollbar-y="false"
+                zooming="true" min-zoom="1" style="width: 100%; height: 100%"
+                delegate-handle="scrollHandle{{$index}}" on-scroll="updateSlideStatus(activeSlide)" on-release="updateSlideStatus(activeSlide)">
+
+                <div class="image" style="background-image: url('img/mapa.jpg')"></div>
+
+              </ion-scroll>
+
+
         </div>
         <div>
-            <p>Some friendly
-                <strong>markdown</strong>
+            <p>Arraste com os dedos para dar
+                <strong>zoom</strong>
             </p>
         </div>
     </ion-content>
