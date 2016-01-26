@@ -9164,3 +9164,6 @@ ion-nav-view ion-view.pane {
   left: 0;
   width: 100%;
   height: 100%; }
+
+#lugares #hoteis .list {
+  margin-bottom: 10px; }
