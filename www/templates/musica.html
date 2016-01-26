@@ -3,7 +3,14 @@
         <div class="col col-100" id="musica">
             <h1>{{entity.title}}</h1>
             <h2 ng-if="entity.subtitle && entity.subtitle.length > 0">{{entity.subtitle}}</h2>
-            <p style="white-space: pre;">{{entity.content.trim()}}</p>
+            <div style="text-align;center; width:100%;">
+              <p style="display:inline-block;white-space: pre;text-align:center;width:auto;">{{entity.content.trim()}}</p>
+            </div>
+        </div>
+        <div class="col col-80 col-offset-10" style="padding:5px;" ng-if="entity.videoCode && entity.videoCode.length > 0">
+          <div class="video-container">
+            <iframe ng-src="{{ trustSrc(videoUrl) }}" frameborder="0" allowfullscreen></iframe>
+          </div>
         </div>
     </ion-content>
 </ion-view>

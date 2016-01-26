@@ -47,8 +47,12 @@ angular.module('app.controllers', [])
   };
 }])
 
-.controller('musicaPageCtrl', ['$scope', '$stateParams', 'Musica', function($scope, $stateParams, Musica) {
+.controller('musicaPageCtrl', ['$scope', '$sce', '$stateParams', 'Musica', function($scope, $sce, $stateParams, Musica) {
   $scope.entity = Musica.get($stateParams.musicaId);
+  $scope.videoUrl = 'http://www.youtube.com/embed/' + $scope.entity.videoCode + '?rel=0';
+  $scope.trustSrc = function(src) {
+    return $sce.trustAsResourceUrl(src);
+  }
 }])
 
 .controller('pontosDeEncontroCtrl', function($scope) {

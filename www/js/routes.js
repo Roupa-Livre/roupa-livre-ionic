@@ -54,7 +54,7 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('menu.musicasDosBlocos', {
+    .state('menu.musicas', {
       url: '/musicas',
       views: {
         'side-menu21': {
@@ -65,7 +65,7 @@ angular.module('app.routes', [])
     })
 
     .state('menu.musica', {
-      url: "/musicas/:musicaId",  // here is what you annouce the params
+      url: "/musica/:musicaId",  // here is what you annouce the params
       views: {
         'side-menu21': {
           templateUrl: "templates/musica.html",
