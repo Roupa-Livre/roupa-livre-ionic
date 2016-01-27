@@ -9195,7 +9195,7 @@ ion-nav-view ion-view.pane {
     right: 0;
     top: 0; }
   #destaques .destaque .destaqueContainer {
-    background-color: #0f1222;
+    background-color: #2F3968;
     max-width: 100%;
     min-width: 100%;
     color: #fff;
@@ -9218,4 +9218,5 @@ ion-nav-view ion-view.pane {
     text-decoration: initial;
     padding: 5px;
     white-space: nowrap;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    margin: 0px; }
