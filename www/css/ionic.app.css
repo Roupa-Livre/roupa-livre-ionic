@@ -9177,22 +9177,38 @@ ion-nav-view ion-view.pane {
 #destaques .destaque {
   padding: 10px;
   display: inline-block;
-  height: 100%;
-  max-width: calc(50% - 2px); }
+  height: 100%; }
+  #destaques .destaque.left {
+    height: 100%;
+    width: 50%;
+    max-width: calc(50% - 2px);
+    position: relative;
+    left: 0;
+    top: 0; }
+  #destaques .destaque.right {
+    height: 100%;
+    width: 50%;
+    max-width: calc(50% - 2px);
+    position: relative;
+    right: 0;
+    top: 0; }
   #destaques .destaque .destaqueContainer {
     background-color: #0f1222;
+    max-width: 100%;
     color: #fff;
     height: 100%;
     display: inline-flex; }
   #destaques .destaque a {
-    text-decoration: initial; }
+    text-decoration: initial;
+    width: 100%;
+    max-width: 100%; }
   #destaques .destaque img {
     background-color: #fefefe; }
-  #destaques .destaque h2 {
-    width: 100%;
+  #destaques .destaque h5 {
     text-transform: uppercase;
     text-align: left;
     color: #fff !important;
     text-decoration: initial;
-    padding: 7px;
-    padding-left: 10px; }
+    padding: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis; }

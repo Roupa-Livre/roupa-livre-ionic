@@ -154,10 +154,27 @@ ion-nav-view {
     padding: 10px;
     display: inline-block;
     height: 100%;
-    max-width: calc(50% - 2px);
-    
+    &.left {
+      height: 100%;
+      width: 50%;
+      max-width: calc(50% - 2px);
+      position: relative;
+      left: 0;
+      top: 0;
+    }
+
+    &.right {
+      height: 100%;
+      width: 50%;
+      max-width: calc(50% - 2px);
+      position: relative;
+      right: 0;
+      top: 0;
+    }
+
     .destaqueContainer {
       background-color: #0f1222;
+      max-width: 100%;
       color: #fff;
       height: 100%;
       display: inline-flex;
@@ -165,20 +182,22 @@ ion-nav-view {
 
     a {
       text-decoration: initial;
+      width: 100%;
+      max-width: 100%;
     }
 
     img {
       background-color: #fefefe;
     }
 
-    h2 {
-      width:100%;
+    h5 {
       text-transform: uppercase;
       text-align: left;
       color:#fff !important;
       text-decoration: initial;
-      padding: 7px;
-      padding-left: 10px;
+      padding: 5px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
