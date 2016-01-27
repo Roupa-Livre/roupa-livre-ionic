@@ -142,3 +142,43 @@ ion-nav-view {
     }
   }
 }
+
+#destaques {
+  .destaque-row {
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+  .destaque {
+    padding: 10px;
+    display: inline-block;
+    height: 100%;
+    max-width: calc(50% - 2px);
+    
+    .destaqueContainer {
+      background-color: #0f1222;
+      color: #fff;
+      height: 100%;
+      display: inline-flex;
+    }
+
+    a {
+      text-decoration: initial;
+    }
+
+    img {
+      background-color: #fefefe;
+    }
+
+    h2 {
+      width:100%;
+      text-transform: uppercase;
+      text-align: left;
+      color:#fff !important;
+      text-decoration: initial;
+      padding: 7px;
+      padding-left: 10px;
+    }
+  }
+}

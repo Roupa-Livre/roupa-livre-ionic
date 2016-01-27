@@ -9167,3 +9167,32 @@ ion-nav-view ion-view.pane {
 
 #lugares #hoteis .list {
   margin-bottom: 10px; }
+
+#destaques .destaque-row {
+  display: block;
+  max-width: 100%;
+  min-width: 100%;
+  width: 100%; }
+
+#destaques .destaque {
+  padding: 10px;
+  display: inline-block;
+  height: 100%;
+  max-width: calc(50% - 2px); }
+  #destaques .destaque .destaqueContainer {
+    background-color: #0f1222;
+    color: #fff;
+    height: 100%;
+    display: inline-flex; }
+  #destaques .destaque a {
+    text-decoration: initial; }
+  #destaques .destaque img {
+    background-color: #fefefe; }
+  #destaques .destaque h2 {
+    width: 100%;
+    text-transform: uppercase;
+    text-align: left;
+    color: #fff !important;
+    text-decoration: initial;
+    padding: 7px;
+    padding-left: 10px; }

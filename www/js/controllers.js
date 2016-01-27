@@ -1,12 +1,17 @@
 angular.module('app.controllers', [])
 
 .controller('carnavalNazarePaulista2016Ctrl', function($scope) {
-  $scope.images = [];
+  $scope.images = [
+    { src: 'img/inicio/1-carnaval.png', title: 'Destaque', url: '#/menu/programacao'},
+    { src: 'img/inicio/2-esporte.jpg', title: 'Conheça Nazaré', url: '#/menu/conheca'},
+    { src: 'img/inicio/3-restaurante.jpg', title: 'Restaurantes', url: '#/menu/alimentacao'},
+    { src: 'img/inicio/4-HOTEL.jpg', title: 'Hotéis/Pousadas e Marinas', url: '#/menu/conheca'},
+    { src: 'img/inicio/5-cidade.jpg', title: 'A Cidade', url: false},
+    { src: 'img/inicio/6-festas.jpg', title: 'Festejos e Calendário', url: false}
+  ];
 
   $scope.loadImages = function() {
-      for(var i = 0; i < 10; i++) {
-          $scope.images.push({id: i, src: "http://placehold.it/50x50"});
-      }
+      
   }
 })
 

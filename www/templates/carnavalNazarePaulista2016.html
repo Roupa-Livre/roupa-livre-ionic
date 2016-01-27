@@ -4,15 +4,33 @@
                 <img src="img/abertura.jpg" width="100%">
             </div>
         </div>
-        <ul class="">
 
-        <div class="row responsive-sm">
-            <div class="row" ng-repeat="image in images" ng-if="$index % 2 === 0">
-                <div class="col col-25" ng-if="$index < images.length">
-                    <img ng-src="{{images[$index].src}}" width="100%" />
+        <div id="destaques">
+            <div class="destaque-row" ng-repeat="currentImage in images" ng-if="$index % 2 === 0">
+                <div class="col col-50 destaque" ng-init="image=images[$index]">
+                    <div class="destaqueContainer">
+                        <a ng-if="image.url" href="{{image.url}}">
+                            <h2>{{image.title}}</h2>
+                            <img ng-src="{{image.src}}" width="100%" />
+                        </a>
+                        <div ng-if="!image.url" >
+                            <h2>{{image.title}}</h2>
+                            <img ng-src="{{image.src}}" width="100%" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col col-25" ng-if="$index + 1 < images.length">
-                    <img ng-src="{{images[$index + 1].src}}" width="100%" />
+
+                <div class="col col-50 destaque" ng-if="$index + 1 < images.length" ng-init="image=images[$index + 1]">
+                    <div class="destaqueContainer">
+                        <a ng-if="image.url" href="{{image.url}}">
+                            <h2>{{image.title}}</h2>
+                            <img ng-src="{{image.src}}" width="100%" />
+                        </a>
+                        <div ng-if="!image.url" >
+                            <h2>{{image.title}}</h2>
+                            <img ng-src="{{image.src}}" width="100%" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
