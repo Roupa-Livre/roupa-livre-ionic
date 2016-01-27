@@ -9182,6 +9182,7 @@ ion-nav-view ion-view.pane {
     height: 100%;
     width: 50%;
     max-width: calc(50% - 2px);
+    min-width: calc(50% - 2px);
     position: relative;
     left: 0;
     top: 0; }
@@ -9189,21 +9190,27 @@ ion-nav-view ion-view.pane {
     height: 100%;
     width: 50%;
     max-width: calc(50% - 2px);
+    min-width: calc(50% - 2px);
     position: relative;
     right: 0;
     top: 0; }
   #destaques .destaque .destaqueContainer {
     background-color: #0f1222;
     max-width: 100%;
+    min-width: 100%;
     color: #fff;
     height: 100%;
     display: inline-flex; }
+    #destaques .destaque .destaqueContainer div {
+      min-width: 100%; }
   #destaques .destaque a {
     text-decoration: initial;
     width: 100%;
     max-width: 100%; }
   #destaques .destaque img {
-    background-color: #fefefe; }
+    background-color: #fefefe;
+    min-width: 100%;
+    height: auto; }
   #destaques .destaque h5 {
     text-transform: uppercase;
     text-align: left;

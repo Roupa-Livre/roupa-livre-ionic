@@ -158,6 +158,7 @@ ion-nav-view {
       height: 100%;
       width: 50%;
       max-width: calc(50% - 2px);
+      min-width:calc(50% - 2px);
       position: relative;
       left: 0;
       top: 0;
@@ -167,6 +168,7 @@ ion-nav-view {
       height: 100%;
       width: 50%;
       max-width: calc(50% - 2px);
+      min-width:calc(50% - 2px);
       position: relative;
       right: 0;
       top: 0;
@@ -175,9 +177,14 @@ ion-nav-view {
     .destaqueContainer {
       background-color: #0f1222;
       max-width: 100%;
+      min-width:100%;
       color: #fff;
       height: 100%;
       display: inline-flex;
+
+      div {
+        min-width:100%;
+      }
     }
 
     a {
@@ -188,6 +195,8 @@ ion-nav-view {
 
     img {
       background-color: #fefefe;
+      min-width:100%;
+      height:auto;
     }
 
     h5 {
