@@ -1,5 +1,5 @@
 <ion-view title="Nazaré Paulista">
-    <ion-content overflow-scroll=e"true" padding="true" class="has-header" ng-init="loadImages()">
+    <ion-content overflow-scroll=e"true"  class="has-header" ng-init="loadImages()">
         <div class="header">
                 <img src="img/abertura.jpg" width="100%">
             </div>
@@ -11,11 +11,11 @@
                     <div class="destaqueContainer">
                         <a ng-if="image.url" href="{{image.url}}">
                             <h5>{{image.title}}</h5>
-                            <img ng-src="{{image.src}}" width="100%" />
+                            <img ng-src="{{image.src}}" />
                         </a>
                         <div ng-if="!image.url" >
                             <h5>{{image.title}}</h5>
-                            <img ng-src="{{image.src}}" width="100%" />
+                            <img ng-src="{{image.src}}" />
                         </div>
                     </div>
                 </div>
@@ -24,11 +24,11 @@
                     <div class="destaqueContainer">
                         <a ng-if="image.url" href="{{image.url}}">
                             <h5>{{image.title}}</h5>
-                            <img ng-src="{{image.src}}" width="100%" />
+                            <img ng-src="{{image.src}}" />
                         </a>
                         <div ng-if="!image.url" >
                             <h5>{{image.title}}</h5>
-                            <img ng-src="{{image.src}}" width="100%" />
+                            <img ng-src="{{image.src}}" />
                         </div>
                     </div>
                 </div>

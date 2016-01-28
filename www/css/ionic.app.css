@@ -9206,17 +9206,17 @@ ion-nav-view ion-view.pane {
   #destaques .destaque a {
     text-decoration: initial;
     width: 100%;
-    max-width: 100%; }
+    padding: 5px 5px 0px 5px; }
   #destaques .destaque img {
     background-color: #fefefe;
-    min-width: 100%;
+    width: 100%;
     height: auto; }
   #destaques .destaque h5 {
     text-transform: uppercase;
-    text-align: left;
+    text-align: center;
     color: #fff !important;
     text-decoration: initial;
-    padding: 5px;
+    padding: 0px 0px 4px 0px;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0px; }
