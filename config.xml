@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.nucleo235.carnavalnazareionic" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Nazaré Paulista 2016</name>
+<widget id="com.ionicframework.carnavalnazareionic622834" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Nazaré Paulista</name>
   <description>
-        Nazaré Paulista 2016
+        Nazaré Paulista
     </description>
   <author email="mobileapps@nucleo235.com.br" href="http://nucleo235.com.br/">
       Núcleo 235
