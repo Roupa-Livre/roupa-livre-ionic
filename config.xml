@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.nucleo235.carnavalnazareionic" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>CarnavalNazareIonic</name>
+<widget id="com.nucleo235.carnavalnazareionic" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Nazaré Paulista 2016</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Nazaré Paulista 2016
     </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+  <author email="mobileapps@nucleo235.com.br" href="http://nucleo235.com.br/">
+      Núcleo 235
     </author>
   <content src="index.html"/>
   <access origin="*"/>
