@@ -4,7 +4,7 @@
             <h1>{{entity.title}}</h1>
             <h2 ng-if="entity.subtitle && entity.subtitle.length > 0">{{entity.subtitle}}</h2>
             <div style="text-align;center; width:100%;">
-              <p style="display:inline-block;white-space: pre;text-align:center;width:auto;">{{entity.content.trim()}}</p>
+              <p style="display:inline-block;white-space: pre-wrap;text-align:center;width:auto;">{{entity.content.trim()}}</p>
             </div>
         </div>
         <div class="col col-80 col-offset-10" style="padding:5px;" ng-if="entity.videoCode && entity.videoCode.length > 0">
