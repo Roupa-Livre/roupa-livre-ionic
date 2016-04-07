@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('carnavalNazarePaulista2016Ctrl', function($scope) {
+.controller('mainCtrl', function($scope) {
   $scope.images = [
     { src: 'img/inicio/1-carnaval.png', title: 'Destaque', url: '#/menu/programacao'},
     { src: 'img/inicio/2-esporte.jpg', title: 'Conheça Nazaré', url: '#/menu/conheca'},

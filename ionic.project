@@ -1,6 +1,6 @@
 {
-  "name": "Nazaré Paulista",
-  "app_id": "abff07ce",
+  "name": "Roupa Livre",
+  "app_id": "dfb85f99",
   "gulpStartupTasks": [
     "sass",
     "watch"
