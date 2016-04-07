@@ -6,9 +6,11 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var slim = require("gulp-slim");
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/*.scss'],
+  slim: ['./slim/**/*.slim']
 };
 
 gulp.task('default', ['sass']);
@@ -26,8 +28,15 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+gulp.task('slim', function(){
+  gulp.src("./slim/**/*.slim")
+    .pipe(slim({ pretty: true }))
+    .pipe(gulp.dest("./www/"));
+});
+
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.slim, ['slim']);
 });
 
 gulp.task('install', ['git-check'], function() {
