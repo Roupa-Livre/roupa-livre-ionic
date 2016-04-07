@@ -11272,7 +11272,8 @@ ion-nav-view ion-view.pane {
   #apparel-result .info .kind-hearted {
     padding: 0px 5px;
     width: 100%;
-    text-align: center; }
+    text-align: center;
+    margin-bottom: 30px; }
     #apparel-result .info .kind-hearted .name {
       text-align: center;
       font-size: 20px;
