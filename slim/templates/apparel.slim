@@ -14,16 +14,16 @@ ion-view#apparel-result title=""
           li ng-repeat="tag in entry.apparel_tags" ng-bind="'#' + tag.name"
         p.description ng-bind="entry.description"
         .kind-hearted
-          img.profile ng-src="{{entry.user.social_image || entry.user.image}}"
+          img.profile ng-src="{{entry.user.social_image || entry.user.image || 'img/sample/kind-hearted.png' }}"
           .name ng-bind="entry.user.nickname"
           .distance ng-bind="'< ' + entry.user.distance"
   .lower-bar style=""
     #rate.button-bar.text-center
-      a.dislike href=""
+      a.dislike href="" ng-click="dislike()"
         span.fa-stack.fa-3x
           i.fa.fa-circle-thin.fa-stack-2x.back
           i.fa.fa-times.fa-stack-1x.front
-      a.like href=""
+      a.like href="" ng-click="like()"
         span.fa-stack.fa-3x
           i.fa.fa-circle-thin.fa-stack-2x.back
           i.fa.fa-heart.fa-stack-1x.front

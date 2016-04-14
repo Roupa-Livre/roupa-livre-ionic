@@ -113,6 +113,10 @@
       }
       .front {
       }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
     .dislike {
       color: #f46554;

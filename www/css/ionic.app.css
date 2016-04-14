@@ -11263,6 +11263,8 @@ a.button {
     #rate.button-bar a .back {
       color: #e1e1e1;
       text-shadow: 1px 1px 1px #818181; }
+    #rate.button-bar a:hover {
+      cursor: pointer; }
   #rate.button-bar .dislike {
     color: #f46554;
     text-shadow: #f9a69c; }

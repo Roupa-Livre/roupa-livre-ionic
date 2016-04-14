@@ -49,7 +49,7 @@ angular.module('app.routes', [])
     })
 
     .state('menu.apparel', {
-      url: '/apparel',
+      url: '/apparel/:last_id',
       views: {
         'side-menu21': {
           templateUrl: 'templates/apparel.html',
