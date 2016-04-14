@@ -1,5 +1,5 @@
 {
-  "name": "Roupa Livre",
+  "name": "RoupaLivre",
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.2.4",
@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "font-awesome": "fontawesome#^4.5.0",
-    "angularjs-rails-resource": "^2.1.0"
+    "angularjs-rails-resource": "^2.1.0",
+    "ng-token-auth": "^0.0.28"
   }
 }

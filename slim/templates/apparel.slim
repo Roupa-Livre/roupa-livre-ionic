@@ -1,9 +1,9 @@
 ion-view#apparel-result title=""
   .content.with-lower-bar
     ion-content overflow-scroll="true"
-      ion-slide-box.main show-pager="{{entry.apparel_images.length > 1}}"
+      ion-slide-box.main show-pager="{{entry.apparel_images.length > 1}}" does-continue="true"
         ion-slide ng-repeat="image in entry.apparel_images"
-          img.main src="{{image.file}}" 
+          img.main ng-src="{{image.file}}" 
       .info
         h1.title ng-bind="entry.title"
         ul.extra-info
@@ -14,7 +14,7 @@ ion-view#apparel-result title=""
           li ng-repeat="tag in entry.apparel_tags" ng-bind="'#' + tag.name"
         p.description ng-bind="entry.description"
         .kind-hearted
-          img.profile src="{{entry.user.social_image || entry.user.image}}"
+          img.profile ng-src="{{entry.user.social_image || entry.user.image}}"
           .name ng-bind="entry.user.nickname"
           .distance ng-bind="'< ' + entry.user.distance"
   .lower-bar style=""

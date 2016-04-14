@@ -1,5 +1,5 @@
 {
-  "name": "Roupa Livre",
+  "name": "RoupaLivre",
   "app_id": "dfb85f99",
   "gulpStartupTasks": [
     "sass",

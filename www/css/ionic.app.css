@@ -11179,11 +11179,12 @@ a.button {
     opacity: 1; }
 
 #apparel-result .main {
-  width: 100%;
-  height: auto; }
+  width: 100%; }
 
 #apparel-result img.main {
-  border-bottom: solid 5px #6bf5e0; }
+  border-bottom: solid 5px #6bf5e0;
+  width: 100%;
+  height: auto; }
 
 #apparel-result .info {
   color: #acacac; }

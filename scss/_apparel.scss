@@ -1,12 +1,14 @@
 #apparel-result {
 
   .main {
+    
     width:100%;
-    height:auto;
   }
     
   img.main {
     border-bottom: solid 5px $main-highlight-color;
+    width:100%;
+    height:auto;
   }
   .info {
     color: $text-color;
