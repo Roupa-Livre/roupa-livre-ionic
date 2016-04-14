@@ -3338,7 +3338,7 @@ body,
   color: #0062F2;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", sans-serif;
   line-height: 20px;
   text-rendering: optimizeLegibility;
   -webkit-backface-visibility: hidden;
@@ -3576,7 +3576,7 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #0062F2;
   font-weight: 500;
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", sans-serif;
   line-height: 1.2; }
   h1 small, h2 small, h3 small, h4 small, h5 small, h6 small,
   .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {
@@ -5062,7 +5062,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
   white-space: nowrap;
   font-weight: 400;
   font-size: 14px;
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", sans-serif;
   opacity: 0.7; }
   .tab-item:hover {
     cursor: pointer; }
@@ -6871,7 +6871,7 @@ input,
 button,
 select,
 textarea {
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif; }
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", sans-serif; }
 
 .item-input {
   display: -webkit-box;
@@ -11168,6 +11168,113 @@ a.button {
 .fa-percent:before {
   content: ""; }
 
+.slider-pager .slider-pager-page {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8; }
+  .slider-pager .slider-pager-page.active {
+    color: #6bf5e0;
+    -webkit-transition: opacity 0.4s ease-in;
+    transition: opacity 0.4s ease-in;
+    opacity: 1; }
+
+#apparel-result .main {
+  width: 100%;
+  height: auto; }
+
+#apparel-result img.main {
+  border-bottom: solid 5px #6bf5e0; }
+
+#apparel-result .info {
+  color: #acacac; }
+  #apparel-result .info h1.title {
+    padding: 0px 5px;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: #797979; }
+  #apparel-result .info ul.extra-info {
+    padding: 0px 5px;
+    display: block;
+    width: auto;
+    text-align: center;
+    list-style-type: none; }
+    #apparel-result .info ul.extra-info li {
+      display: inline-block; }
+      #apparel-result .info ul.extra-info li:after {
+        content: "|";
+        padding-left: 5px; }
+      #apparel-result .info ul.extra-info li:last-child:after {
+        content: ""; }
+  #apparel-result .info ul.tags {
+    padding: 0px 5px;
+    display: block;
+    width: auto;
+    text-align: center;
+    list-style-type: none; }
+    #apparel-result .info ul.tags:before {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 2em;
+      content: "\f107";
+      display: block; }
+    #apparel-result .info ul.tags li {
+      display: inline-block;
+      padding-right: 5px; }
+      #apparel-result .info ul.tags li:last-child {
+        padding-right: 0px; }
+  #apparel-result .info .description {
+    margin: 30px 0px;
+    padding: 30px 20px;
+    width: 100%;
+    border-top: solid 1px #e1e1e1;
+    border-bottom: solid 1px #e1e1e1;
+    text-align: center;
+    font-size: 16px;
+    color: #797979; }
+  #apparel-result .info .kind-hearted {
+    padding: 0px 5px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px; }
+    #apparel-result .info .kind-hearted .name {
+      text-align: center;
+      font-size: 20px;
+      color: #797979; }
+    #apparel-result .info .kind-hearted .distance {
+      text-align: center; }
+
+#rate.button-bar {
+  text-align: center;
+  height: 100%;
+  display: block;
+  padding-top: 10px;
+  border-top: solid 1px #e1e1e1; }
+  #rate.button-bar a {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    position: relative;
+    background-color: #fff;
+    margin-left: 10px;
+    margin-right: 10px; }
+    #rate.button-bar a .back {
+      color: #e1e1e1;
+      text-shadow: 1px 1px 1px #818181; }
+  #rate.button-bar .dislike {
+    color: #f46554;
+    text-shadow: #f9a69c; }
+    #rate.button-bar .dislike .front {
+      font-size: 0.9em !important;
+      left: 1px; }
+  #rate.button-bar .like {
+    color: #0058d9;
+    text-shadow: #267eff; }
+    #rate.button-bar .like .front {
+      font-size: 0.8em !important;
+      left: 1px; }
+
 .item p {
   color: #acacac; }
 
@@ -11219,94 +11326,3 @@ ion-nav-view ion-view.pane {
   z-index: 9;
   height: 100px;
   width: 100%; }
-
-#apparel-result img.main {
-  width: 100%;
-  height: auto;
-  border-bottom: solid 5px #6bf5e0; }
-
-#apparel-result .info {
-  color: #acacac; }
-  #apparel-result .info h1.title {
-    padding: 0px 5px;
-    text-align: center;
-    width: 100%;
-    font-size: 20px;
-    color: #797979; }
-  #apparel-result .info ul.extra-info {
-    padding: 0px 5px;
-    display: block;
-    width: auto;
-    text-align: center;
-    list-style-type: none; }
-    #apparel-result .info ul.extra-info li {
-      display: inline-block; }
-      #apparel-result .info ul.extra-info li:after {
-        content: "|"; }
-      #apparel-result .info ul.extra-info li:last-child:after {
-        content: ""; }
-  #apparel-result .info ul.tags {
-    padding: 0px 5px;
-    display: block;
-    width: auto;
-    text-align: center;
-    list-style-type: none; }
-    #apparel-result .info ul.tags:before {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font: normal normal normal 14px/1 FontAwesome;
-      font-size: 2em;
-      content: "\f107";
-      display: block; }
-    #apparel-result .info ul.tags li {
-      display: inline-block; }
-  #apparel-result .info .description {
-    margin: 30px 0px;
-    padding: 30px 20px;
-    width: 100%;
-    border-top: solid 1px #e1e1e1;
-    border-bottom: solid 1px #e1e1e1;
-    text-align: center;
-    font-size: 16px;
-    color: #797979; }
-  #apparel-result .info .kind-hearted {
-    padding: 0px 5px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 30px; }
-    #apparel-result .info .kind-hearted .name {
-      text-align: center;
-      font-size: 20px;
-      color: #797979; }
-    #apparel-result .info .kind-hearted .distance {
-      text-align: center; }
-
-#rate.button-bar {
-  text-align: center;
-  height: 100%;
-  display: block;
-  padding-top: 10px;
-  border-top: solid 1px #e1e1e1; }
-  #rate.button-bar a {
-    display: inline-block;
-    width: auto;
-    height: auto;
-    position: relative;
-    background-color: #fff;
-    margin-left: 10px;
-    margin-right: 10px; }
-    #rate.button-bar a .back {
-      color: #e1e1e1;
-      text-shadow: 1px 1px 1px #818181; }
-  #rate.button-bar .dislike {
-    color: #f46554;
-    text-shadow: #f9a69c; }
-    #rate.button-bar .dislike .front {
-      font-size: 0.9em !important;
-      left: 1px; }
-  #rate.button-bar .like {
-    color: #0058d9;
-    text-shadow: #267eff; }
-    #rate.button-bar .like .front {
-      font-size: 0.8em !important;
-      left: 1px; }

@@ -6,6 +6,7 @@
     "ngCordova": "~0.1.24-alpha"
   },
   "dependencies": {
-    "font-awesome": "fontawesome#^4.5.0"
+    "font-awesome": "fontawesome#^4.5.0",
+    "angularjs-rails-resource": "^2.1.0"
   }
 }

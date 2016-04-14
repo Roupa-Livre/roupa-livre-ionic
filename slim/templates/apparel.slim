@@ -1,23 +1,22 @@
 ion-view#apparel-result title=""
   .content.with-lower-bar
     ion-content overflow-scroll="true"
-      img.main src="./img/sample/apparel.png"
+      ion-slide-box.main show-pager="{{entry.apparel_images.length > 1}}"
+        ion-slide ng-repeat="image in entry.apparel_images"
+          img.main src="{{image.file}}" 
       .info
-        h1.title vestidinho florido
+        h1.title ng-bind="entry.title"
         ul.extra-info
-          li.size-info tamanho M
-          li.gender fem
-          li.age-info adulto
-        ul.tags
-          li #vestido
-          li #florido
-          li #vermelho
-        p.description
-          vestido coringa! forever 21, usado apenas uma vez!
+          li.size-info ng-bind="'tamanho' + entry.size_info"
+          li.gender ng-bind="entry.gender"
+          li.age-info ng-bind="entry.age_info"
+        ul.tags ng-if="entry.apparel_tags.length > 0"
+          li ng-repeat="tag in entry.apparel_tags" ng-bind="'#' + tag.name"
+        p.description ng-bind="entry.description"
         .kind-hearted
-          img.profile src="./img/sample/kind-hearted.png"
-          .name giovana camargo
-          .distance < 3km
+          img.profile src="{{entry.user.social_image || entry.user.image}}"
+          .name ng-bind="entry.user.nickname"
+          .distance ng-bind="'< ' + entry.user.distance"
   .lower-bar style=""
     #rate.button-bar.text-center
       a.dislike href=""
