@@ -94,7 +94,7 @@ angular.module('app.controllers', ['ngCordova'])
       });
   })
 
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, $ionicLoading) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, $ionicLoading) {
     $scope.show = function() {
       $ionicLoading.show({
         template: 'Carregando roupas ...'
@@ -139,12 +139,14 @@ angular.module('app.controllers', ['ngCordova'])
     }
 
     $scope.like = function() {
-      $scope.entry.$post($scope.entry.$url('like')).then(function(data) {
+      var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
+      rating.save().then(function(data) {
         alert('MATCH!')
       });
     };
     $scope.dislike = function() {
-      $scope.entry.$post($scope.entry.$url('dislike')).then(function(data) {
+      var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: false})
+      rating.save().then(function(data) {
         $ionicHistory.nextViewOptions({ disableBack: true });
         // $state.go($state.current, {}, {reload: true});
         $state.transitionTo($state.current, { last_id: $scope.entry.id }, {

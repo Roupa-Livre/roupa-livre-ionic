@@ -19,6 +19,16 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
+  .factory('ApparelRating', ['$resource', '$auth', 'railsResourceFactory', 
+    function($resource, $auth, railsResourceFactory) {
+      var resource = railsResourceFactory({
+        url: $auth.apiUrl() + '/apparel_ratings', 
+        name: 'apparel_rating'
+      });
+
+      return resource;
+  }])
+
   .factory('BlankFactory', [function(){
     return {
       teste: function() {
