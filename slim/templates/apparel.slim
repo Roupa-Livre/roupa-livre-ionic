@@ -7,7 +7,7 @@ ion-view#apparel-result title=""
       .info
         h1.title ng-bind="entry.title"
         ul.extra-info
-          li.size-info ng-bind="'tamanho' + entry.size_info"
+          li.size-info ng-bind="'tamanho ' + entry.size_info"
           li.gender ng-bind="entry.gender"
           li.age-info ng-bind="entry.age_info"
         ul.tags ng-if="entry.apparel_tags.length > 0"

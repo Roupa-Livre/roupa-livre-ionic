@@ -127,10 +127,14 @@ angular.module('app.controllers', ['ngCordova'])
       Apparel.search().then(function(data) {
           $rootScope.apparels = data;
           setCurrentApparel();
+          $scope.hide();
+        }, function(data) {
+          $scope.hide();
         });
     }
 
     function checkNextApparel(onHasData, onLoadRequired) {
+      $scope.show();
       if ($rootScope.apparels && $rootScope.apparels.length > 0) {
         onHasData();
       } else {
