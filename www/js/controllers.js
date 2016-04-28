@@ -1,27 +1,5 @@
-function updateLatLng($cordovaGeolocation, $auth, $q) {
-  var deferred = $q.defer();
-  var posOptions = {timeout: 10000, enableHighAccuracy: true};
-  $cordovaGeolocation.getCurrentPosition(posOptions)
-    .then(function (position) {
-      var lat  = position.coords.latitude;
-      var lng = position.coords.longitude;
-      
-      $auth.updateAccount({lat: lat, lng: lng})
-        .then(function(resp) {
-          deferred.resolve(resp);
-        }, function(resp) {
-          console.log(resp)
-          deferred.reject(resp);
-        });
-    }, function(resp) { 
-      console.log(resp); 
-      deferred.reject(resp);
-    });
-  return deferred.promise;
-}
-
-angular.module('app.controllers', ['ngCordova'])
-  .controller('loginCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth) {
+angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
+  .controller('loginCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     function successLogged(data) {
       $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go('menu.start');
@@ -31,7 +9,9 @@ angular.module('app.controllers', ['ngCordova'])
       var uuid, provider;
       try {
         uuid = $cordovaDevice.getUUID();
+        console.log(uuid);
         provider = $cordovaDevice.getPlatform();
+        console.log(provider);
       } catch(ex) {
         if (!window.cordova) {
           uuid = "IN-APP12341";
@@ -42,7 +22,7 @@ angular.module('app.controllers', ['ngCordova'])
       loginWithUUID(uuid, provider).then(successLogged,
         function(loginResp) {
           console.log(loginResp);
-          registerWithUUID().then(successLogged, function(resp) {
+          registerWithUUID(uuid, provider).then(successLogged, function(resp) {
             // handle error response
             console.log(resp);
           })
@@ -52,11 +32,16 @@ angular.module('app.controllers', ['ngCordova'])
     function loginWithUUID(uuid, provider) {
       var loginData = { email: uuid + '@local.com', password:uuid };
 
-      return $auth.submitLogin(loginData)
-        .then(successLogged, function(resp) {
+      var deferred = $q.defer();
+      $auth.submitLogin(loginData)
+        .then(function(data) {
+          deferred.resolve(data);
+        }, function(resp) {
           console.log(resp);
+          deferred.reject(resp);
           // handle error response
         });
+      return deferred.promise;
     };
 
     function registerWithUUID(uuid, provider) {
@@ -67,10 +52,18 @@ angular.module('app.controllers', ['ngCordova'])
       return $auth.submitRegistration(registrationData);
     };
 
-    $auth.validateUser().then(successLogged, function(result) {
-      logOrRegisterWithUUID();
-      return result;
-    });
+    function validate() {
+      $auth.validateUser().then(successLogged, function(result) {
+        setTimeout(logOrRegisterWithUUID, 100);
+        return result;
+      });
+    }
+
+    var isMob = window.cordova !== undefined;
+    if (isMob)
+      document.addEventListener("deviceready", validate, false);
+    else
+      validate();
   })
 
   .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth) {
@@ -174,5 +167,4 @@ angular.module('app.controllers', ['ngCordova'])
       });
     // $scope.show();
 
-    
   });

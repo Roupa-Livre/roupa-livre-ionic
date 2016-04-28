@@ -1,15 +1,5 @@
 #apparel-result {
 
-  .main {
-    
-    width:100%;
-  }
-    
-  img.main {
-    border-bottom: solid 5px $main-highlight-color;
-    width:100%;
-    height:auto;
-  }
   .info {
     color: $text-color;
 
@@ -89,6 +79,10 @@
       }
     }
   }
+
+  .lower-bar {
+    background-color: white;
+  }
 }
 
 #rate {
@@ -97,6 +91,7 @@
     height:100%;
     display:block;
     padding-top: 10px;
+    padding-bottom: 0px;
     border-top: solid 1px $standard-content-border;
     a {
       display: inline-block;

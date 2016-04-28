@@ -56,6 +56,16 @@ angular.module('app.routes', [])
           controller: 'apparelCtrl' // TODO Mudar pra 
         }
       }
+    })
+
+    .state('menu.new', {
+      url: '/new_apparel',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/new-apparel.html',
+          controller: 'newApparelCtrl' // TODO Mudar pra 
+        }
+      }
     });
 
   // if none of the above states are matched, use this as the fallback

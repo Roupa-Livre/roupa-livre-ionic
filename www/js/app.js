@@ -9,9 +9,14 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 .config(function($authProvider) {
   var isMob = window.cordova !== undefined;
   $authProvider.configure({
+    //apiUrl: isMob ? 'http://roupa-livre-api-staging.herokuapp.com' : 'http://localhost:3000',
     apiUrl: 'http://localhost:3000',
-    storage: isMob ? 'localStorage' : 'localStorage'
+    storage: isMob ? 'localStorage' : 'localStorage',
+    validateOnPageLoad: false
   });      
+})
+.config(function($compileProvider){
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|data):/);
 })
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

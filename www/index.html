@@ -3,21 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" name="viewport" />
-    <title></title><!--compiled css output-->
+    <meta content="default-src *; img-src &#39;self&#39; * data: content: &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src * &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;" http-equiv="Content-Security-Policy" />
+    <!--compiled css output-->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ionic/js/angular/angular-resource.min.js"></script>
     <script src="lib/angularjs-rails-resource/angularjs-rails-resource.min.js"></script>
     <script src="lib/angular-cookie/angular-cookie.min.js"></script>
     <script src="lib/ng-token-auth/dist/ng-token-auth.min.js"></script>
+    <script src="lib/ng-img-crop/compile/unminified/ng-img-crop.js"></script>
     <!--cordova script (this will be a 404 during development)-->
     <script src="cordova.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="lib/ionic-native-transitions.js"></script>
     <link href="css/ionic.app.css" rel="stylesheet" />
+    <link href="lib/ng-img-crop/compile/minified/ng-img-crop.css" rel="stylesheet" type="text/css" />
     <script src="js/app.js"></script>
+    <script src="js/upload-service.js"></script>
+    <script src="js/controllers/common.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/controllers/new-apparel.js"></script>
     <script src="js/routes.js"></script>
     <script src="js/services.js"></script>
+    <script src="js/services/fileManager.service.js"></script>
     <script src="js/directives.js"></script>
     <!--Other js-->
   </head>

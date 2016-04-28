@@ -1,0 +1,27 @@
+<ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 0}}"><ion-slide ng-repeat="image in entry.apparel_images"><img class="main" ng-src="{{image.file}}" /></ion-slide><ion-slide class="full-width"><a href="" ng-click="newImage()"><img class="main" src="img/bg-new-image.png" /></a></ion-slide></ion-slide-box>
+<div class="form">
+  <div class="form-group">
+    <label>Título</label><input ng-model="entry.title" placeholder="dê um nome diferentão para sua peça" type="text" />
+  </div>
+  <div class="form-group">
+    <label>Descrição</label><textarea ng-model="entry.description" placeholder="capriche! venda, ou melhor, troque seu peixe."></textarea>
+  </div>
+  <div class="form-group">
+    <label>Tamanho</label><input ng-model="entry.size_info" placeholder="p, m, g ou 48?" type="text" />
+  </div>
+  <h1 class="title" ng-bind="entry.title"></h1>
+  <ul class="extra-info">
+    <li class="size-info" ng-bind="&#39;tamanho &#39; + entry.size_info"></li>
+    <li class="gender" ng-bind="entry.gender"></li>
+    <li class="age-info" ng-bind="entry.age_info"></li>
+  </ul>
+  <ul class="tags" ng-if="entry.apparel_tags.length &gt; 0">
+    <li ng-bind="&#39;#&#39; + tag.name" ng-repeat="tag in entry.apparel_tags"></li>
+  </ul>
+  <p class="description" ng-bind="entry.description"></p>
+  <div class="kind-hearted">
+    <img class="profile" ng-src="{{entry.user.social_image || entry.user.image || &#39;img/sample/kind-hearted.png&#39; }}" />
+    <div class="name" ng-bind="entry.user.nickname"></div>
+    <div class="distance" ng-bind="&#39;&lt; &#39; + entry.user.distance"></div>
+  </div>
+</div>

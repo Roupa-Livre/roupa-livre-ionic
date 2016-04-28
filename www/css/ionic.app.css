@@ -11178,14 +11178,6 @@ a.button {
     transition: opacity 0.4s ease-in;
     opacity: 1; }
 
-#apparel-result .main {
-  width: 100%; }
-
-#apparel-result img.main {
-  border-bottom: solid 5px #6bf5e0;
-  width: 100%;
-  height: auto; }
-
 #apparel-result .info {
   color: #acacac; }
   #apparel-result .info h1.title {
@@ -11246,11 +11238,15 @@ a.button {
     #apparel-result .info .kind-hearted .distance {
       text-align: center; }
 
+#apparel-result .lower-bar {
+  background-color: white; }
+
 #rate.button-bar {
   text-align: center;
   height: 100%;
   display: block;
   padding-top: 10px;
+  padding-bottom: 0px;
   border-top: solid 1px #e1e1e1; }
   #rate.button-bar a {
     display: inline-block;
@@ -11282,7 +11278,7 @@ a.button {
   color: #acacac; }
 
 .button {
-  color: #0062F2;
+  color: #fff;
   background-color: #0062F2; }
 
 ion-nav-bar {
@@ -11294,9 +11290,6 @@ ion-nav-bar {
     border: none;
     height: 60px !important;
     padding: 12px 20px !important; }
-
-ion-nav-view .has-header {
-  top: 0px !important; }
 
 ion-nav-view ion-view.pane {
   background-color: transparent; }
@@ -11320,12 +11313,69 @@ ion-nav-view ion-view.pane {
   bottom: 100px;
   z-index: 8; }
 
+.main {
+  width: 100%; }
+  .main.slider {
+    margin-bottom: 10px;
+    border-bottom: solid 3px #6bf5e0; }
+  .main .container, .main .slider-slide {
+    overflow: hidden;
+    display: block; }
+
+img.main {
+  width: 100%;
+  height: 100%; }
+
 .lower-bar {
   position: absolute;
   right: 0;
   left: 0;
   bottom: 0px;
-  background-color: white;
   z-index: 9;
   height: 100px;
   width: 100%; }
+  .lower-bar .button-bar {
+    height: 100%;
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: solid 1px #e1e1e1; }
+
+#main-actions {
+  background-color: #eefdfb; }
+  #main-actions.two-buttons a {
+    width: 40%; }
+  #main-actions a {
+    display: inline-block;
+    width: auto;
+    height: 100%;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #0062F2;
+    color: white;
+    text-transform: lowercase; }
+    #main-actions a .back {
+      color: #e1e1e1;
+      text-shadow: 1px 1px 1px #818181; }
+    #main-actions a.cancel {
+      background-color: #6bf5e0;
+      text-shadow: #f9a69c; }
+      #main-actions a.cancel .front {
+        font-size: 0.9em !important;
+        left: 1px; }
+    #main-actions a:hover {
+      cursor: pointer; }
+
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  height: auto; }
+
+.modal .bar-footer .button.button-block, .modal .bar-footer .button.button-full {
+  margin-top: 3px;
+  margin-bottom: 3px; }
