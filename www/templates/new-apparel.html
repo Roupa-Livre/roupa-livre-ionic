@@ -1,12 +1,10 @@
-<ion-view id="apparel-result" title="">
-  <div class="content with-lower-bar">
+<ion-view title="">
+  <div class="content no-lower-bar">
     <ion-content overflow-scroll="true">
       <div ng-include="&#39;templates/_form.html&#39;"></div>
+      <div class="button-bar text-center two-buttons" id="main-actions">
+        <a class="cancel" href="" ng-click="cancel()">Cancelar</a><a class="submit" href="" ng-click="submit()">Adicionar Peça</a>
+      </div>
     </ion-content>
-  </div>
-  <div class="lower-bar" style="">
-    <div class="button-bar text-center two-buttons" id="main-actions">
-      <a class="cancel" href="" ng-click="cancel()">Cancelar</a><a class="submit" href="" ng-click="submit()">Adicionar Peça</a>
-    </div>
   </div>
 </ion-view>

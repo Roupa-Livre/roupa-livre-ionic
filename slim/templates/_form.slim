@@ -8,25 +8,34 @@ ion-slide-box.main show-pager="{{entry.apparel_images.length > 0}}" does-continu
   ion-slide.full-width
     a href="" ng-click="newImage()" 
       img.main src="img/bg-new-image.png"
-.form
+.form.list
   .form-group
-    label Título
-    input type="text" ng-model="entry.title" placeholder="dê um nome diferentão para sua peça"
+    label.item.item-input.item-stacked-label
+      span.input-label título
+      input type="text" ng-model="entry.title" placeholder="dê um nome diferentão para sua peça" /
   .form-group
-    label Descrição
-    textarea ng-model="entry.description" placeholder="capriche! venda, ou melhor, troque seu peixe."
+    label.item.item-input.item-stacked-label
+      span.input-label tamanho
+      input type="text" ng-model="entry.size_info" placeholder="p, m, g ou 48?" /
   .form-group
-    label Tamanho
-    input type="text" ng-model="entry.size_info" placeholder="p, m, g ou 48?"
-  h1.title ng-bind="entry.title"
-  ul.extra-info
-    li.size-info ng-bind="'tamanho ' + entry.size_info"
-    li.gender ng-bind="entry.gender"
-    li.age-info ng-bind="entry.age_info"
-  ul.tags ng-if="entry.apparel_tags.length > 0"
-    li ng-repeat="tag in entry.apparel_tags" ng-bind="'#' + tag.name"
-  p.description ng-bind="entry.description"
-  .kind-hearted
-    img.profile ng-src="{{entry.user.social_image || entry.user.image || 'img/sample/kind-hearted.png' }}"
-    .name ng-bind="entry.user.nickname"
-    .distance ng-bind="'< ' + entry.user.distance"
+    label.item.item-input.item-select.item-stacked-label
+      span.input-label gênero
+      select placeholder="-selecione-" ng-model="entry.gender"
+        option value="FEM" feminino
+        option value="MASC" masculino
+        option value="NO" sem gênero
+  .form-group
+    label.item.item-input.item-select.item-stacked-label
+      span.input-label adulta ou infantil
+      select placeholder="-selecione-" ng-model="entry.age_info"
+        option value="ADU" adulta
+        option value="INF" infantil
+        option value="NO" tanto faz
+  .form-group
+    label.item.item-input.item-stacked-label
+      span.input-label #hashtags
+      tags-input type="text" ng-model="entry.apparel_tags" display-property="name" keyProperty="id" placeholder="tags da peça" /
+  .form-group
+    label.item.item-input.item-stacked-label
+      span.input-label Descrição
+      textarea ng-model="entry.description" placeholder="capriche! venda, ou melhor, troque seu peixe." /

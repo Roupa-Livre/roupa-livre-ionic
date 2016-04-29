@@ -35,6 +35,10 @@ $menu-bg: $base-color;
 $text-color: #acacac;
 $button-text-color: #fff;
 
+$input-color: #111;
+$input-color-placeholder: lighten($input-color, 10%);
+$input-label-color: darken($text-color,20%);
+
 $font-family-sans-serif:          "Roboto", "Helvetica Neue", "Segoe UI", sans-serif !default;
 $font-family-light-sans-serif:    "Roboto-Light", "HelveticaNeue-Light", "Segoe UI-Light", sans-serif-light !default;
 $font-family-serif:               serif !default;
@@ -55,6 +59,17 @@ $main-highlight-color: #6bf5e0;
 .item {
   p {
     color: $text-color;
+  }
+  &.item-input {
+    padding: 20px;
+    border-width: 0px;
+    border-bottom-color: $standard-content-border;
+    border-bottom-width: 1px;
+
+    select {
+      background-color: transparent;
+    }
+
   }
 }
 
@@ -104,6 +119,15 @@ ion-nav-view {
   }
 }
 
+.no-lower-bar {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0px;
+  z-index: 8;
+}
+
 .with-lower-bar {
   position: absolute;
   right: 0;
@@ -116,7 +140,6 @@ ion-nav-view {
 .main {
   width:100%;
   &.slider {
-    margin-bottom: 10px;
     border-bottom: solid 3px #6bf5e0;
   }
 
@@ -139,14 +162,14 @@ img.main {
   z-index: 9;
   height: 100px;
   width:100%;
+}
 
-  .button-bar {
-    height:100%;
-    display:block;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: solid 1px $standard-content-border;
-  }
+.button-bar {
+  height: 100px;
+  display:block;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: solid 1px $standard-content-border;
 }
 
 #main-actions {
@@ -167,6 +190,15 @@ img.main {
     background-color: $base-color;
     color:white;
     text-transform: lowercase;
+    border-radius: 30px;
+    box-shadow:1px 1px 1px #414141;
+
+    &:before {
+        content:'';
+        height:100%;
+        display:inline-block;
+        vertical-align: middle;
+    }
 
     .back {
       color: $standard-content-border;
@@ -177,7 +209,6 @@ img.main {
 
     &.cancel {
       background-color: $main-highlight-color;
-      text-shadow: lighten(#f46554, 15%);
       .front {
         font-size: 0.9em !important;
         left: 1px;
