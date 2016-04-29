@@ -9,6 +9,7 @@
     "font-awesome": "fontawesome#^4.5.0",
     "angularjs-rails-resource": "^2.1.0",
     "ng-token-auth": "^0.0.28",
-    "ng-tags-input": "^3.0.0"
+    "ng-tags-input": "^3.0.0",
+    "ionic-toast": "^0.2.0"
   }
 }

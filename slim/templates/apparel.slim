@@ -3,7 +3,7 @@ ion-view#apparel-result.has-header title=""
     ion-content overflow-scroll="true"
       ion-slide-box.main show-pager="{{entry.apparel_images.length > 1}}" does-continue="true" height-as-width=""
         ion-slide ng-repeat="image in entry.apparel_images"
-          img.main ng-src="{{image.file}}"
+          img.main ng-src="{{image | imageSrc}}"
       .info
         h1.title ng-bind="entry.title"
         ul.extra-info

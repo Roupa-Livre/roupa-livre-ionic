@@ -1,6 +1,6 @@
 ion-slide-box.main show-pager="{{entry.apparel_images.length > 0}}" does-continue="true" height-as-width=""
   ion-slide ng-repeat="image in entry.apparel_images"
-    img.main ng-src="{{image.file}}" 
+    img.main ng-src="{{image | imageSrc }}" 
   / Testing Modal Cropping on WEB BROWSER
   / ion-slide.full-width 
   /   a href="" ng-click="editImage('img/bg-new-image.png')" 
@@ -24,13 +24,14 @@ ion-slide-box.main show-pager="{{entry.apparel_images.length > 0}}" does-continu
         option value="FEM" feminino
         option value="MASC" masculino
         option value="NO" sem gênero
+        option value="SKIP" não informar
   .form-group
     label.item.item-input.item-select.item-stacked-label
       span.input-label adulta ou infantil
       select placeholder="-selecione-" ng-model="entry.age_info"
         option value="ADU" adulta
         option value="INF" infantil
-        option value="NO" tanto faz
+        option value="SKIP" não informar
   .form-group
     label.item.item-input.item-stacked-label
       span.input-label #hashtags

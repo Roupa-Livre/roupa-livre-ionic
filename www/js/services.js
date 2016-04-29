@@ -5,11 +5,19 @@ angular.module('app.services', ['ngResource', 'rails'])
       railsSerializerProvider.underscore(angular.identity).camelize(angular.identity);
   }])
 
-  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 
-    function($resource, $auth, railsResourceFactory) {
+  .factory('ApparelSerializer', function (railsSerializer) {
+    return railsSerializer(function () {
+      this.nestedAttribute('apparel_images');
+      this.nestedAttribute('apparel_tags');
+    });
+  })
+
+  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', 
+    function($resource, $auth, railsResourceFactory, ApparelSerializer) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/apparels', 
-        name: 'apparel'
+        name: 'apparel',
+        serializer: 'ApparelSerializer'
       });
 
       resource.search = function (params) {

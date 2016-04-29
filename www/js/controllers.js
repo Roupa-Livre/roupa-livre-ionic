@@ -130,6 +130,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       $scope.show();
       if ($rootScope.apparels && $rootScope.apparels.length > 0) {
         onHasData();
+        $scope.hide();
       } else {
         onLoadRequired();
       }

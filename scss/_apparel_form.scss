@@ -1,20 +1,20 @@
 .host {
-    .tags {
-        border: none !important;
-        box-shadow: none !important;
-        .input {
-            width: 100% !important;
-        }
-        .tag-item {
-          background: transparent !important;
-
-          &:before {
-            color: $input-color;
-            content: "#"
-          }
-          span {
-            color: $input-color;
-          }
-        }
+  .tags {
+    border: none !important;
+    box-shadow: none !important;
+    .input {
+      width: 100% !important;
     }
+    .tag-item {
+      background: transparent !important;
+
+      &:before {
+        color: $input-color;
+        content: "#"
+      }
+      span {
+        color: $input-color;
+      }
+    }
+  }
 }

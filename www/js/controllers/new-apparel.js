@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('newApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager) {
+  .controller('newApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, ionicToast) {
     var currentController = this;
 
     $scope.show = function() {
@@ -59,12 +59,20 @@ angular.module('app.controllers')
           return currentController.cropImage(result, 1);
         })
         .then(function(result) {
-          $scope.entry.apparel_images.push({file: result});
+          $scope.entry.apparel_images.push({ data: result });
           console.log(result);
           $ionicSlideBoxDelegate.update();
         }, function(error) {
           console.log(error);
         });
+    };
+
+    $scope.submit = function() {
+      $scope.entry.save().then(function(data) {
+        ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('menu.apparel');
+      });
     };
 
     // Upload.fileTo($auth.apiUrl() + '/apparels').then(
@@ -75,7 +83,7 @@ angular.module('app.controllers')
     //   });
 
     function setCurrentApparel() {
-      $scope.entry = new Apparel({apparel_images: []});
+      $scope.entry = new Apparel({apparel_images: [], apparel_tags: []});
       
       $ionicSlideBoxDelegate.update();
     }

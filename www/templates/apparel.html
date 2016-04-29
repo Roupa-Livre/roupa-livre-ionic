@@ -1,6 +1,6 @@
 <ion-view class="has-header" id="apparel-result" title="">
   <div class="content with-lower-bar">
-    <ion-content overflow-scroll="true"><ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 1}}"><ion-slide ng-repeat="image in entry.apparel_images"><img class="main" ng-src="{{image.file}}" /></ion-slide></ion-slide-box>
+    <ion-content overflow-scroll="true"><ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 1}}"><ion-slide ng-repeat="image in entry.apparel_images"><img class="main" ng-src="{{image | imageSrc}}" /></ion-slide></ion-slide-box>
       <div class="info">
         <h1 class="title" ng-bind="entry.title"></h1>
         <ul class="extra-info">
