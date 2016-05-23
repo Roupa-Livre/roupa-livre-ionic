@@ -110,7 +110,8 @@ angular.module('app.controllers')
     //   });
 
     function setCurrentApparel() {
-      $scope.entry = new Apparel({apparel_images: [ {id:1, file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}], apparel_tags: []});
+      //$scope.entry = new Apparel({apparel_images: [ {id:1, file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}], apparel_tags: []});
+      $scope.entry = new Apparel({apparel_images: [ ], apparel_tags: []});
       
       $ionicSlideBoxDelegate.update();
     }

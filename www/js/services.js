@@ -12,8 +12,8 @@ angular.module('app.services', ['ngResource', 'rails'])
     });
   })
 
-  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', 
-    function($resource, $auth, railsResourceFactory, ApparelSerializer) {
+  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', '$q', 
+    function($resource, $auth, railsResourceFactory, ApparelSerializer, $q) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/apparels', 
         name: 'apparel',
@@ -22,6 +22,22 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       resource.search = function (params) {
         return resource.$get(resource.$url('search'), params);
+      };
+
+      resource.owned = function() {
+        return $q(function(resolve, reject) {
+          if (!resource.hasOwnProperty('_owned_apparels')) {
+            resource.$get(resource.$url('owned'), params).then(function(data) {
+              if (data != null) {
+                // TODO: Salvar em local storage
+                resource._owned_apparels = data;
+              }
+              resolve(data);
+            }, reject);
+          } else {
+            resolve(resource._owned_apparels);
+          }
+        })
       };
 
       return resource;

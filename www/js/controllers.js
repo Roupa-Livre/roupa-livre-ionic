@@ -76,14 +76,27 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       });
   })
 
-  .controller('startCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q) {
+  .controller('startCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Apparel) {
+    function successUpdatedGeo() {
+      Apparel.owned().then(function(data) {
+        if (data && data != null && data.length > 0) {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('menu.apparel');
+        } else {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('menu.new');
+        }
+      }, function() {
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('menu.new');
+      });
+    };
+
     updateLatLng($cordovaGeolocation, $auth, $q)
       .then(function(resp) {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.apparel');
+        successUpdatedGeo();
       }, function(resp) {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.apparel');
+        successUpdatedGeo();
       });
   })
 
