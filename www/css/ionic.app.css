@@ -11288,6 +11288,11 @@ a.button {
     .host .tags .tag-item span {
       color: #111; }
 
+.main .actions {
+  position: absolute;
+  width: 100%;
+  bottom: 50px; }
+
 .item p {
   color: #acacac; }
 

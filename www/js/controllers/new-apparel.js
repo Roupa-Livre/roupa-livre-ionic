@@ -67,6 +67,33 @@ angular.module('app.controllers')
         });
     };
 
+    $scope.filterOnlyNotDestroyed = function(element) {
+      return !element.hasOwnProperty('_destroy') || !element._destroy;
+    };
+
+    $scope.removeImage = function(image) {
+      if (image.hasOwnProperty('id') && image.id > 0) {
+        image['_destroy'] = true;
+      } else {
+        var index = $scope.entry.apparel_images.indexOf(image);
+        if (index > -1)
+          $scope.entry.apparel_images.splice(index, 1);
+      }
+      $ionicSlideBoxDelegate.update();
+    };
+
+    $scope.makeMainImage = function(image) {
+      var index = $scope.entry.apparel_images.indexOf(image);
+      // verifica se achou e se ja não é a primeira
+      if (index > 0) {
+        $scope.entry.apparel_images[0].sort_order = 2;
+        $scope.entry.apparel_images.splice(index, 1);
+        $scope.entry.apparel_images.unshift(image);
+        image.sort_order = 1;
+        $ionicSlideBoxDelegate.update();
+      }
+    };
+
     $scope.submit = function() {
       $scope.entry.save().then(function(data) {
         ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
@@ -83,7 +110,7 @@ angular.module('app.controllers')
     //   });
 
     function setCurrentApparel() {
-      $scope.entry = new Apparel({apparel_images: [], apparel_tags: []});
+      $scope.entry = new Apparel({apparel_images: [ {id:1, file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}], apparel_tags: []});
       
       $ionicSlideBoxDelegate.update();
     }

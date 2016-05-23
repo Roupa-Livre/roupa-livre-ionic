@@ -1,4 +1,8 @@
-<ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 0}}"><ion-slide ng-repeat="image in entry.apparel_images"><img class="main" ng-src="{{image | imageSrc }}" /></ion-slide><ion-slide class="full-width"><a href="" ng-click="newImage()"><img class="main" src="img/bg-new-image.png" /></a></ion-slide></ion-slide-box>
+<ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 0}}"><ion-slide ng-repeat="image in entry.apparel_images | filter:filterOnlyNotDestroyed"><img class="main" ng-src="{{image | imageSrc }}" />
+    <div class="actions">
+      <a class="image-button" href="" ng-click="removeImage(image)">Remove</a><a class="image-button" href="" ng-click="makeMainImage(image)" ng-if="!$first">Tornar Principal</a>
+    </div>
+  </ion-slide><ion-slide class="full-width"><a href="" ng-click="newImage()"><img class="main" src="img/bg-new-image.png" /></a></ion-slide></ion-slide-box>
 <div class="form list">
   <div class="form-group">
     <label class="item item-input item-stacked-label"><span class="input-label">título</span><input ng-model="entry.title" placeholder="dê um nome diferentão para sua peça" type="text" /></label>
