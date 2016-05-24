@@ -100,11 +100,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       });
   })
 
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, $ionicLoading) {
-    $scope.show = function() {
-      $ionicLoading.show({
-        template: 'Carregando roupas ...'
-      });
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
+    $scope.show = function(message) {
+      $ionicLoading.show({ template: message });
     };
     $scope.hide = function(){
       $ionicLoading.hide();
@@ -117,6 +115,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
 
         // sets dummy data
         entry.user = {
+          id: entry.user_id,
           nickname: 'giovana camargo',
           distance: '3km',
           social_image:null,
@@ -140,7 +139,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
     }
 
     function checkNextApparel(onHasData, onLoadRequired) {
-      $scope.show();
+      $scope.show('Carregando roupas ...');
       if ($rootScope.apparels && $rootScope.apparels.length > 0) {
         onHasData();
         $scope.hide();
@@ -149,23 +148,38 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       }
     }
 
+    function nextAfterRating() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      // $state.go($state.current, {}, {reload: true});
+      $state.transitionTo($state.current, { last_id: $scope.entry.id }, {
+        reload: true,
+        inherit: false,
+        notify: true
+      });
+    };
+
+    function failAfterRating(error) {
+      $log.debug(error);
+    };
+
     $scope.like = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
       rating.save().then(function(data) {
-        alert('MATCH!')
+        $scope.show('Opa, será que deu match?');
+        Chat.active_by_user($scope.entry.user_id).then(function(chatData) { 
+          $scope.hide();
+          if (chatData) {
+            alert('MATCH!');
+          } else {  
+            nextAfterRating();
+          }
+        }, failAfterRating);
       });
     };
+
     $scope.dislike = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: false})
-      rating.save().then(function(data) {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        // $state.go($state.current, {}, {reload: true});
-        $state.transitionTo($state.current, { last_id: $scope.entry.id }, {
-          reload: true,
-          inherit: false,
-          notify: true
-        });
-      });
+      rating.save().then(nextAfterRating, failAfterRating);
     }
 
     checkNextApparel(setCurrentApparel, loadMore);

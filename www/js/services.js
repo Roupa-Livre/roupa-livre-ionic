@@ -21,13 +21,13 @@ angular.module('app.services', ['ngResource', 'rails'])
       });
 
       resource.search = function (params) {
-        return resource.$get(resource.$url('search'), params);
+        return resource.query(params);
       };
 
       resource.owned = function() {
         return $q(function(resolve, reject) {
           if (!resource.hasOwnProperty('_owned_apparels')) {
-            resource.$get(resource.$url('owned'), params).then(function(data) {
+            resource.$get(resource.$url('owned')).then(function(data) {
               if (data != null) {
                 // TODO: Salvar em local storage
                 resource._owned_apparels = data;
@@ -49,6 +49,20 @@ angular.module('app.services', ['ngResource', 'rails'])
         url: $auth.apiUrl() + '/apparel_ratings', 
         name: 'apparel_rating'
       });
+
+      return resource;
+  }])
+
+  .factory('Chat', ['$resource', '$auth', 'railsResourceFactory', 
+    function($resource, $auth, railsResourceFactory) {
+      var resource = railsResourceFactory({
+        url: $auth.apiUrl() + '/chats', 
+        name: 'chat'
+      });
+
+      resource.active_by_user = function(user_id) {
+        return resource.$get(resource.$url('active_by_user'), { user_id: user_id });
+      };
 
       return resource;
   }])
