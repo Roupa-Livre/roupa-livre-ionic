@@ -48,12 +48,22 @@ angular.module('app.routes', [])
       }
     })
 
+    .state('menu.match_warning', {
+      url: '/match_warning',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/match-warning.html',
+          controller: 'matchWarningCtrl'
+        }
+      }
+    })
+
     .state('menu.apparel', {
       url: '/apparel/:last_id',
       views: {
         'side-menu21': {
           templateUrl: 'templates/apparel.html',
-          controller: 'apparelCtrl' // TODO Mudar pra 
+          controller: 'apparelCtrl'
         }
       }
     })

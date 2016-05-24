@@ -100,6 +100,27 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       });
   })
 
+  .controller('matchWarningCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Apparel) {
+    function successUpdatedGeo() {
+      
+    };
+
+    $scoe.cancel = function() {
+      alert('não começar chat agora');
+    };
+
+    $scoe.submit = function() {
+      alert('começando chat');
+    };
+
+    updateLatLng($cordovaGeolocation, $auth, $q)
+      .then(function(resp) {
+        successUpdatedGeo();
+      }, function(resp) {
+        successUpdatedGeo();
+      });
+  })
+
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
     $scope.show = function(message) {
       $ionicLoading.show({ template: message });
@@ -148,6 +169,14 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       }
     }
 
+    function nextAfterMatch(chat_data) {
+      Chat.new_chat_created(chat_data);
+
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      // $state.go($state.current, {}, {reload: true});
+      $state.go('match_warning', { chat_id: chat_data.id });
+    };
+
     function nextAfterRating() {
       $ionicHistory.nextViewOptions({ disableBack: true });
       // $state.go($state.current, {}, {reload: true});
@@ -169,7 +198,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
         Chat.active_by_user($scope.entry.user_id).then(function(chatData) { 
           $scope.hide();
           if (chatData) {
-            alert('MATCH!');
+            nextAfterMatch(chatData);
           } else {  
             nextAfterRating();
           }
