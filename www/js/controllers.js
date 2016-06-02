@@ -14,8 +14,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
         console.log(provider);
       } catch(ex) {
         if (!window.cordova) {
-          uuid = "IN-APP12341";
-          provider = "IN-APP";
+          uuid = "in-app12341";
+          provider = "email";
         }
       }
 
@@ -77,11 +77,15 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
   })
 
   .controller('startCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Apparel) {
+    function onUserHasOwnApparels() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel');
+    };
+
     function successUpdatedGeo() {
       Apparel.owned().then(function(data) {
         if (data && data != null && data.length > 0) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('menu.apparel');
+          onUserHasOwnApparels();
         } else {
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('menu.new');
@@ -193,16 +197,13 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
 
     $scope.like = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
+      $scope.show('Opa, será que deu match?');
       rating.save().then(function(data) {
-        $scope.show('Opa, será que deu match?');
-        Chat.active_by_user($scope.entry.user_id).then(function(chatData) { 
-          $scope.hide();
-          if (chatData) {
-            nextAfterMatch(chatData);
-          } else {  
-            nextAfterRating();
-          }
-        }, failAfterRating);
+        $scope.hide();
+        if (data.hasOwnProperty('chat') && data.chat != null)
+          nextAfterMatch(data.chat);
+        else
+          nextAfterRating();
       });
     };
 

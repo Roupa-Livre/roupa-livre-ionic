@@ -53,12 +53,24 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('Chat', ['$resource', '$auth', 'railsResourceFactory', 
-    function($resource, $auth, railsResourceFactory) {
+  .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 
+    function($resource, $auth, $q, $rootScope, railsResourceFactory) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/chats', 
         name: 'chat'
       });
+
+      function countAllChatsNotifications(data) {
+        var totalCount=0;
+        for (var i = data.length - 1; i >= 0; i--) {
+          var chat = data[i];
+          if (chat.last_read_at == null || chat.unread_messages_count > 0)
+            totalCount = totalCount + 1;
+        }
+        return totalCount;
+      };
+
+      resource.GlobalNotifications = 0;
 
       resource.new_chat_created = function(chat) {
         if (resource.hasOwnProperty('_active_chats')) {
@@ -133,14 +145,16 @@ angular.module('app.services', ['ngResource', 'rails'])
       };
 
       function reloadActive(resolve, reject) {
-        resource.query().then(function(data) {
+        resource.query({}).then(function(data) {
           if (data != null) {
             // TODO: Salvar em local storage
             resource._active_chats = data;
+            resource.GlobalNotifications = countAllChatsNotifications(data);
+            resource.LastRefreshedChatsAt = new Date();
           }
           resolve(data);
         }, reject);
-      }
+      };
 
       resource.force_reload_active = function() {      
         return $q(function(resolve, reject) {

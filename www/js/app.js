@@ -9,8 +9,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 .config(function($authProvider) {
   var isMob = window.cordova !== undefined;
   $authProvider.configure({
-    //apiUrl: isMob ? 'http://roupa-livre-api-staging.herokuapp.com' : 'http://localhost:3000',
-    apiUrl: 'http://localhost:3000',
+    apiUrl: isMob ? 'http://roupa-livre-api-staging.herokuapp.com' : 'http://localhost:3000',
+    // apiUrl: 'http://localhost:3000',
     storage: isMob ? 'localStorage' : 'localStorage',
     validateOnPageLoad: false
   });      
@@ -18,8 +18,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|data):/);
 })
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function($ionicPlatform, $rootScope, Chat) {
+  $ionicPlatform.ready(function(readyEventData) {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -29,6 +29,20 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
+    console.log('READY')
+    Chat.force_reload_active().then(function() {
+      $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
+    });
+  });
+
+  $ionicPlatform.on('resume', function(){
+    //rock on
+    console.log('RESUME')
+
+    Chat.force_reload_active().then(function() {
+      $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
+    });
   });
 })
 
