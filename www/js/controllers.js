@@ -109,12 +109,16 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       
     };
 
-    $scoe.cancel = function() {
-      alert('não começar chat agora');
+    $scope.cancel = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel');
     };
 
-    $scoe.submit = function() {
+    $scope.submit = function() {
       alert('começando chat');
+
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.chat');
     };
 
     updateLatLng($cordovaGeolocation, $auth, $q)
@@ -123,6 +127,16 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       }, function(resp) {
         successUpdatedGeo();
       });
+  })
+
+  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
+    Chat.active().then(function(data) {
+      $scope.chats = data;
+    });
+
+    $scope.open = function(chat) {
+      
+    };
   })
 
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
@@ -178,7 +192,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
 
       $ionicHistory.nextViewOptions({ disableBack: true });
       // $state.go($state.current, {}, {reload: true});
-      $state.go('match_warning', { chat_id: chat_data.id });
+      $state.go('menu.match_warning', { chat_id: chat_data.id });
     };
 
     function nextAfterRating() {

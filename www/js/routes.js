@@ -76,8 +76,18 @@ angular.module('app.routes', [])
           controller: 'newApparelCtrl' // TODO Mudar pra 
         }
       }
-    });
+    })
 
+    .state('menu.chats', {
+      url: '/chats',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/chats.html',
+          controller: 'chatsCtrl' // TODO Mudar pra 
+        }
+      }
+    });
+    
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
   // $urlRouterProvider.otherwise('/menu/start');
