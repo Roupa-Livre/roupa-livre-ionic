@@ -11308,6 +11308,9 @@ a.button {
   color: #fff;
   background-color: #0062F2; }
 
+.has-header {
+  top: 60px; }
+
 ion-nav-bar {
   background-color: none;
   border: none; }
@@ -11318,8 +11321,10 @@ ion-nav-bar {
     height: 60px !important;
     padding: 12px 20px !important; }
 
-ion-nav-view ion-view.pane {
-  background-color: transparent; }
+ion-nav-view {
+  color: #acacac; }
+  ion-nav-view ion-view.pane {
+    background-color: transparent; }
 
 .scroll {
   height: 100%; }

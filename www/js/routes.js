@@ -86,6 +86,16 @@ angular.module('app.routes', [])
           controller: 'chatsCtrl' // TODO Mudar pra 
         }
       }
+    })
+
+    .state('menu.chat', {
+      url: '/chat/:id',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/chat.html',
+          controller: 'chatCtrl'
+        }
+      }
     });
     
   // if none of the above states are matched, use this as the fallback

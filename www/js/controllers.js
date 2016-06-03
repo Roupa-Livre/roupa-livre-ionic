@@ -129,16 +129,6 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       });
   })
 
-  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
-    Chat.active().then(function(data) {
-      $scope.chats = data;
-    });
-
-    $scope.open = function(chat) {
-      
-    };
-  })
-
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
     $scope.show = function(message) {
       $ionicLoading.show({ template: message });
@@ -239,4 +229,40 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
       });
     // $scope.show();
 
+  })
+
+  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
+    Chat.active().then(function(data) {
+      $scope.chats = data;
+    });
+
+    $scope.open = function(chat) {
+      $state.go('menu.chat', { id: chat.id });
+    };
+  })
+
+  .controller('chatCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, Chat, ChatMessage) {
+    $scope.chat = Chat.local_active_by_id($stateParams["id"]);
+    $scope.chat_messages = null;
+
+    function checkInitialMessages() {
+      $scope.chat_messages = [];
+    };
+
+    if ($scope.chat != null)
+      checkInitialMessages();
+    else {
+      Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
+        $scope.chat = chat;
+        checkInitialMessages();
+      });
+    }
+
+    $scope.getIncludeFile = function(chat_message) {
+      if (chat_message.hasOwnProperty('type')) {
+        return chat_message.type + '.html';
+      } else {
+        return 'ChatMessage.html';
+      }
+    };
   });

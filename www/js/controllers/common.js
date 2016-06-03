@@ -96,3 +96,19 @@ function addCroppingModal(controller, $scope, $ionicModal, $q, $timeout) {
     });
   }
 };
+
+function addOrReplaceValues(list, entry) {
+  var foundList = [];
+  angular.forEach(list, function(value, key) {
+    if (value.id == entry.id)
+      foundList.push(value);
+  });
+  
+  if (foundList.length > 0) {
+    var index = list.indexOf(foundList[0]);
+    var current = list[index];
+    angular.extend(current, entry);
+  }
+  else if (foundList[0] != entry)
+    list.push(entry);
+}

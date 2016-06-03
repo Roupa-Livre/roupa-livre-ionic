@@ -78,6 +78,10 @@ $main-highlight-color: #6bf5e0;
   background-color: $base-color;
 }
 
+.has-header {
+  top: 60px;
+}
+
 ion-nav-bar {
   background-color: none;
   border: none;
@@ -92,6 +96,7 @@ ion-nav-bar {
 }
 
 ion-nav-view {
+  color: $text-color;
   // .has-header {
   //   top:0px !important;
   // }
