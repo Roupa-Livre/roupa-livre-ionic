@@ -75,6 +75,30 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       resource.GlobalNotifications = 0;
 
+      resource.prototype.setLatestChatMessages = function(chat_messages) {
+        function reorder(messages) {
+          new_list = [];
+          for (var i = messages.length - 1; i >= 0; i--) {
+            new_list.push(messages[i]);
+          }
+          return new_list;
+        };
+
+        if (!this.hasOwnProperty('chat_messages') || this.chat_messages == null) {
+          this.chat_messages = reorder(chat_messages);
+        } else {
+          for (var i = chat_messages.length - 1; i >= 0; i--) {
+            this.chat_messages.push(chat_messages[i]);
+          }
+        }
+      };
+
+      resource.prototype.setPreviousChatMessages = function(chat_messages) {
+        for (var i = chat_messages.length - 1; i >= 0; i--) {
+          this.chat_messages.unshift(chat_messages[i]);
+        }
+      };
+
       resource.new_chat_created = function(chat) {
         addOrReplaceValues(resource._active_chats, chat);
       };
@@ -172,6 +196,24 @@ angular.module('app.services', ['ngResource', 'rails'])
         url: $auth.apiUrl() + '/chat_messages', 
         name: 'chat_message'
       });
+
+      resource.latest = function(chat) {
+        return $q(function(resolve, reject) {
+          resource.query({ chat_id: chat.id }).then(resolve, reject);
+        });
+      };
+
+      resource.latestAfterRead = function(chat) {
+        return $q(function(resolve, reject) {
+          resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(resolve, reject);
+        });
+      };
+
+      resource.previousMessages = function(chat, base_message) {
+        return $q(function(resolve, reject) {
+          resource.query({ chat_id: chat.id, base_message_id: base_message.id }).then(resolve, reject);
+        });
+      };
 
       return resource;
   }])

@@ -246,7 +246,20 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
     $scope.chat_messages = null;
 
     function checkInitialMessages() {
-      $scope.chat_messages = [];
+      var newLastRead = new Date();
+      if ($scope.chat.hasOwnProperty('chat_messages') && $scope.chat.chat_messages != null) {
+        $scope.chat_messages = $scope.chat.chat_messages;
+        ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at).then(function(new_messages) {
+          $scope.chat.setLatestChatMessages(new_messages);
+          $scope.chat.last_read_at = newLastRead;
+        });
+      } else {
+        ChatMessage.latest($scope.chat).then(function(new_messages) {
+          $scope.chat.setLatestChatMessages(new_messages);
+          $scope.chat_messages = $scope.chat.chat_messages;
+          $scope.chat.last_read_at = newLastRead;
+        });
+      }
     };
 
     if ($scope.chat != null)
@@ -257,6 +270,23 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
         checkInitialMessages();
       });
     }
+
+    $scope.loadPrevious = function() {
+      if ($scope.chat_messages == null || $scope.chat_messages.length == 0)
+        checkInitialMessages();
+      else {
+        ChatMessage.previousMessages($scope.chat, $scope.chat_messages[0]).then(function(new_messages) {
+          $scope.chat.setPreviousChatMessages(new_messages);
+        });
+      }
+    }
+
+    $scope.send = function() {
+      var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: $scope.chat.last_sent_message})
+      chat_message.save().then(function(saved_message) {
+        $scope.chat.chat_messages.push(saved_message);
+      });
+    };
 
     $scope.getIncludeFile = function(chat_message) {
       if (chat_message.hasOwnProperty('type')) {
