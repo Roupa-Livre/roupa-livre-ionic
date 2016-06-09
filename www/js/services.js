@@ -229,11 +229,11 @@ angular.module('app.services', ['ngResource', 'rails'])
     };
   }])
 
-  .factory('ChatSub', ['SocketService', function (SocketService) {
+  .factory('ChatSub', ['SocketService', '$auth', function (SocketService, $auth) {
     var container =  [];
     return {
         getSubscriptionName: function(chat) {
-          return 'chat:' + chat.id + ':messages';
+          return 'user:' + $auth.user.id + ':chat:' + chat.id + ':messages';
         },
 
         subscribe: function(chat, callback){
@@ -242,7 +242,7 @@ angular.module('app.services', ['ngResource', 'rails'])
 
           var name = this.getSubscriptionName(chat);
           if (container.indexOf(name) == -1) {
-            SocketService.on(name, callback);
+            SocketService.socket.on(name, callback);
             this.pushContainer(name);
           }
         },
@@ -254,7 +254,7 @@ angular.module('app.services', ['ngResource', 'rails'])
         //Unsubscribe all containers..
         unsubscribeAll: function(){
           for(var i=0; i<container.length; i++){
-              SocketService.removeAllListeners(container[i]);   
+              SocketService.socket.removeAllListeners(container[i]);   
           }
           //Now reset the container..
           container = [];
@@ -265,7 +265,7 @@ angular.module('app.services', ['ngResource', 'rails'])
           var name = this.getSubscriptionName(chat);
           var index = container.indexOf(name);
           if (index > -1) {
-            SocketService.removeAllListeners(name);
+            SocketService.socket.removeAllListeners(name);
             container.splice(index, 1);
           }
         }
