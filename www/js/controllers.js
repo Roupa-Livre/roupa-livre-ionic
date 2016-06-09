@@ -251,6 +251,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     });
 
     function onNewMessages(data) {
+      $scope.chat_messages.push(data);
       console.log(data);
     };
 
