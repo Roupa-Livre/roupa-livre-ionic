@@ -218,6 +218,61 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
+  .factory('SocketService', ['$auth', 'config', 'socketFactory', function ($auth, config, socketFactory) {
+    return { socket: null,
+      connect: function() {
+        var opts =  $auth.retrieveData('auth_headers');
+        this.socket =  socketFactory({
+          ioSocket: io.connect(config.REALTIME_URL, { query: opts })
+        });
+      }
+    };
+  }])
+
+  .factory('ChatSub', ['SocketService', function (SocketService) {
+    var container =  [];
+    return {
+        getSubscriptionName: function(chat) {
+          return 'chat:' + chat.id + ':messages';
+        },
+
+        subscribe: function(chat, callback){
+          if (SocketService.socket == null)
+            SocketService.connect();
+
+          var name = this.getSubscriptionName(chat);
+          if (container.indexOf(name) == -1) {
+            SocketService.on(name, callback);
+            this.pushContainer(name);
+          }
+        },
+ 
+        pushContainer : function(subscriptionName){
+          container.push(subscriptionName);
+        },
+ 
+        //Unsubscribe all containers..
+        unsubscribeAll: function(){
+          for(var i=0; i<container.length; i++){
+              SocketService.removeAllListeners(container[i]);   
+          }
+          //Now reset the container..
+          container = [];
+        },
+ 
+        //Unsubscribe all containers..
+        unsubscribe: function(chat){
+          var name = this.getSubscriptionName(chat);
+          var index = container.indexOf(name);
+          if (index > -1) {
+            SocketService.removeAllListeners(name);
+            container.splice(index, 1);
+          }
+        }
+ 
+    };
+  }])
+
   .factory('BlankFactory', [function(){
     return {
       teste: function() {

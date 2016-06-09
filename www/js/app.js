@@ -5,15 +5,19 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast'])
-.config(function($authProvider) {
+angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io'])
+.constant('config', {
+    REALTIME_URL: 'http://localhost:5001',
+    API_URL: 'http://localhost:3000'
+})
+.config(function($authProvider, config) {
   var isMob = window.cordova !== undefined;
   $authProvider.configure({
-    apiUrl: isMob ? 'http://roupa-livre-api-staging.herokuapp.com' : 'http://localhost:3000',
+    apiUrl: config.API_URL,
     // apiUrl: 'http://localhost:3000',
     storage: isMob ? 'localStorage' : 'localStorage',
     validateOnPageLoad: false
-  });      
+  });
 })
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|data):/);

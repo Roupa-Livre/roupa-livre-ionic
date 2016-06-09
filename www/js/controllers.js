@@ -1,4 +1,4 @@
-angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
+angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io'])
   .controller('loginCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     function successLogged(data) {
       $ionicHistory.nextViewOptions({ disableBack: true });
@@ -241,9 +241,23 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
     };
   })
 
-  .controller('chatCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, Chat, ChatMessage) {
+  .controller('chatCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, Chat, ChatMessage, ChatSub) {
     $scope.chat = Chat.local_active_by_id($stateParams["id"]);
     $scope.chat_messages = null;
+
+    $scope.$on("$destroy", function(){
+      if ($scope.chat && $scope.chat != null)
+        ChatSub.unsubscribe($scope.chat);
+    });
+
+    function onNewMessages(data) {
+      console.log(data);
+    };
+
+    function subscribe() {
+      ChatSub.subscribe($scope.chat, onNewMessages);
+      console.log('subscribed');
+    };
 
     function checkInitialMessages() {
       var newLastRead = new Date();
@@ -252,12 +266,18 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop'])
         ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at).then(function(new_messages) {
           $scope.chat.setLatestChatMessages(new_messages);
           $scope.chat.last_read_at = newLastRead;
+          subscribe();
+        },function() {
+          subscribe();
         });
       } else {
         ChatMessage.latest($scope.chat).then(function(new_messages) {
           $scope.chat.setLatestChatMessages(new_messages);
           $scope.chat_messages = $scope.chat.chat_messages;
           $scope.chat.last_read_at = newLastRead;
+          subscribe();
+        }, function() {
+          subscribe();
         });
       }
     };
