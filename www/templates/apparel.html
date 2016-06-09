@@ -1,50 +1,28 @@
-<ion-view id="apparel-result" title="">
+<ion-view class="has-header" id="apparel-result" title="">
   <div class="content with-lower-bar">
-    <ion-content overflow-scroll="true"><img class="main" src="./img/sample/apparel.png" />
+    <ion-content overflow-scroll="true"><ion-slide-box class="main" does-continue="true" height-as-width="" show-pager="{{entry.apparel_images.length &gt; 1}}"><ion-slide ng-repeat="image in entry.apparel_images"><img class="main" ng-src="{{image | imageSrc}}" /></ion-slide></ion-slide-box>
       <div class="info">
-        <h1 class="title">
-          vestidinho florido
-        </h1>
+        <h1 class="title" ng-bind="entry.title"></h1>
         <ul class="extra-info">
-          <li class="size-info">
-            tamanho M
-          </li>
-          <li class="gender">
-            fem
-          </li>
-          <li class="age-info">
-            adulto
-          </li>
+          <li class="size-info" ng-bind="&#39;tamanho &#39; + entry.size_info"></li>
+          <li class="gender" ng-bind="entry.gender"></li>
+          <li class="age-info" ng-bind="entry.age_info"></li>
         </ul>
-        <ul class="tags">
-          <li>
-            #vestido
-          </li>
-          <li>
-            #florido
-          </li>
-          <li>
-            #vermelho
-          </li>
+        <ul class="tags" ng-if="entry.apparel_tags.length &gt; 0">
+          <li ng-bind="&#39;#&#39; + tag.name" ng-repeat="tag in entry.apparel_tags"></li>
         </ul>
-        <p class="description">
-          <vestido>coringa! forever 21, usado apenas uma vez!</vestido>
-        </p>
+        <p class="description" ng-bind="entry.description"></p>
         <div class="kind-hearted">
-          <img class="profile" src="./img/sample/kind-hearted.png" />
-          <div class="name">
-            giovana camargo
-          </div>
-          <div class="distance">
-            < 3km
-          </div>
+          <img class="profile" ng-src="{{entry.user.social_image || entry.user.image || &#39;img/sample/kind-hearted.png&#39; }}" />
+          <div class="name" ng-bind="entry.user.nickname"></div>
+          <div class="distance" ng-bind="&#39;&lt; &#39; + entry.user.distance"></div>
         </div>
       </div>
     </ion-content>
   </div>
   <div class="lower-bar" style="">
     <div class="button-bar text-center" id="rate">
-      <a class="dislike" href=""><span class="fa-stack fa-3x"><i class="fa fa-circle-thin fa-stack-2x back"></i><i class="fa fa-times fa-stack-1x front"></i></span></a><a class="like" href=""><span class="fa-stack fa-3x"><i class="fa fa-circle-thin fa-stack-2x back"></i><i class="fa fa-heart fa-stack-1x front"></i></span></a>
+      <a class="dislike" href="" ng-click="dislike()"><span class="fa-stack fa-3x"><i class="fa fa-circle-thin fa-stack-2x back"></i><i class="fa fa-times fa-stack-1x front"></i></span></a><a class="like" href="" ng-click="like()"><span class="fa-stack fa-3x"><i class="fa fa-circle-thin fa-stack-2x back"></i><i class="fa fa-heart fa-stack-1x front"></i></span></a>
     </div>
   </div>
 </ion-view>

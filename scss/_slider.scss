@@ -1,0 +1,15 @@
+.slider-pager {
+  
+  .slider-pager-page {
+    color: #fff;
+    text-decoration: none;
+
+    opacity: 0.8;
+
+    &.active {
+      color: $main-highlight-color;
+      @include transition(opacity 0.4s ease-in);
+      opacity: 1;
+    }
+  }
+}

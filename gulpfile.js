@@ -7,6 +7,7 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var slim = require("gulp-slim");
+$ = require('gulp-load-plugins')();
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -30,8 +31,9 @@ gulp.task('sass', function(done) {
 
 gulp.task('slim', function(){
   gulp.src("./slim/**/*.slim")
+    .pipe($.changed('www', {extension: '.html'}))
     .pipe(slim({ pretty: true }))
-    .pipe(gulp.dest("./www/"));
+    .pipe(gulp.dest('www'));
 });
 
 gulp.task('watch', function() {

@@ -1,0 +1,14 @@
+<div class="modal">
+  <ion-header-bar class="bar-primary">
+    <h1 class="title" translate="">
+      Recortar Imagem
+    </h1>
+    <div class="buttons">
+      <button class="button button-clear ion-android-close" ng-click="closeImageCropModal()"></button>
+    </div>
+  </ion-header-bar><ion-content scroll="false"><ion-list><ion-item class="item-text-wrap note" translate="">Precisamos acertar o tamanho da imagem</ion-item><ion-item class="image-crop-row">
+        <div class="image-crop">
+          <img-crop area-type="square" change-on-fly="true" class="cropArea" height-as-width="" image="image.originalImage" result-image="image.croppedImage" result-image-aspect="{{image.aspectRatio}}" result-image-quality="1.0"></img-crop>
+        </div>
+      </ion-item></ion-list></ion-content><ion-footer-bar><button class="button button-block dialog-footer bar-assertive" ng-click="saveImageCropModal()" translate="">Salvar</button></ion-footer-bar>
+</div>

@@ -1,0 +1,16 @@
+.modal
+  ion-header-bar.bar-primary
+    h1.title translate="" Recortar Imagem
+    .buttons
+      button.button.button-clear.ion-android-close ng-click="closeImageCropModal()" 
+  ion-content scroll="false" 
+    ion-list
+      ion-item.item-text-wrap.note translate="" Precisamos acertar o tamanho da imagem
+      ion-item.image-crop-row
+        .image-crop
+          img-crop area-type="square" class="cropArea" change-on-fly="true" image="image.originalImage" result-image="image.croppedImage" result-image-aspect="{{image.aspectRatio}}" result-image-quality="1.0" height-as-width=""
+        / .ion-play.centering-vertically
+        / .image-crop-result
+        /   img height="120" ng-src="{{image.croppedImage}}" width=("{{120 * widthHeightRatio}}") /
+  ion-footer-bar
+    button.button.button-block.dialog-footer.bar-assertive ng-click="saveImageCropModal()" translate="" Salvar

@@ -1,0 +1,24 @@
+<ion-view class="has-header" title="">
+  <div class="content with-lower-bar">
+    <ion-content overflow-scroll="true">
+      <h3 ng-if="chat_messages == null">
+        Carregando
+      </h3>
+      <h3 ng-if="chat_messages.length == 0">
+        Nenhuma Mensagem enviada
+      </h3>
+      <ion-list><ion-item class="item-thumbnail-left" ng-include="getIncludeFile(chat_message)" ng-repeat="chat_message in chat_messages"></ion-item></ion-list></ion-content>
+  </div>
+  <ion-footer-bar><input ng-model="chat.last_sent_message" placeholder="nova mensagem" type="text" />
+    <div class="buttons">
+      <button class="button" ng-click="send()">enviar</button>
+    </div>
+  </ion-footer-bar></ion-view>
+<script id="ChatMessage.html" type="text/ng-template">
+  <h2 ng-bind="chat_message.message"></h2>
+</script>
+<script id="LoadMore.html" type="text/ng-template">
+  <a href="" ng-click="loadMore()">
+    <h3 ng-bind="chat_message.message"></h3>
+  </a>
+</script>
