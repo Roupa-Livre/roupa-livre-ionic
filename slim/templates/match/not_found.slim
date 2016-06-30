@@ -1,0 +1,9 @@
+ion-view.alert has-header="false"
+  /! CONTENT
+  ion-content scroll="false" has-header="false"
+    .title
+      h1 ng-bind="title || 'Oops!'"
+    p.subtitle ng-bind="subtitle || 'Você já viu todas as peças.'"
+    p.info ng-bind="subtitle || 'hora de mudar de lugar pra mais opções'"
+
+    button.button.button-click ng-if="hasAction" ng-click="advance()" ng-bind="action_text || 'buscar novamente'"

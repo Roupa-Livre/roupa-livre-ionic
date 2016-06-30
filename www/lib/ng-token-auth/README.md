@@ -17,7 +17,7 @@ This module provides the following features:
 * Seamless integration with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) Rails gem
 * Extensive [event notifications](#events)
 * Allows for extensive [configuration](#configuration) to work with any API
-* Session support using cookies or localStorage
+* Session support using cookies, localStorage, or sessionStorage
 * Tested with Chrome, Safari, Firefox and [IE8+](#internet-explorer)
 
 # [Live Demo](http://ng-token-auth-demo.herokuapp.com/)
@@ -76,6 +76,7 @@ This project comes bundled with a test app. You can run the demo locally by foll
 * [Notes on Token Management](#about-token-management)
 * [Notes on Batch Requests](#about-batch-requests)
 * [Notes on Token Formatting](#identifying-users-on-the-server)
+* [iOS Caveats](#ios)
 * [Internet Explorer Caveats](#internet-explorer)
 * [FAQ](#faq)
 * [Development](#development)
@@ -87,7 +88,7 @@ This project comes bundled with a test app. You can run the demo locally by foll
 
 This module relies on [token based authentication](http://stackoverflow.com/questions/1592534/what-is-token-based-authentication). This requires coordination between the client and the server. [Diagrams](#conceptual) are included to illustrate this relationship.
 
-This module was designed to work out of the box with the outstanding [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem, but it's seen use in other environments as well ([go](http://golang.org/), [gorm](https://github.com/jinzhu/gorm) and [gomniauth](https://github.com/stretchr/gomniauth) for example).
+This module was designed to work out of the box with the outstanding [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem, but it's seen use in other environments as well ([go](https://golang.org/), [gorm](https://github.com/jinzhu/gorm) and [gomniauth](https://github.com/stretchr/gomniauth) for example).
 
 Not using AngularJS? Use [jToker](https://github.com/lynndylanhurley/j-toker) instead!
 
@@ -157,6 +158,8 @@ angular.module('myApp', ['ng-token-auth'])
       passwordResetSuccessUrl: window.location.href,
       emailSignInPath:         '/auth/sign_in',
       storage:                 'cookies',
+      forceValidateToken:      false,
+      validateOnPageLoad:      true,
       proxyIf:                 function() { return false; },
       proxyUrl:                '/proxy',
       omniauthWindowType:      'sameWindow',
@@ -172,6 +175,16 @@ angular.module('myApp', ['ng-token-auth'])
         "expiry":       "{{ expiry }}",
         "uid":          "{{ uid }}"
       },
+      cookieOps: {
+        path: "/",
+        expires: 9999,
+        expirationUnit: 'days',
+        secure: false,
+        domain: 'domain.com'
+      },
+      createPopup: function(url) {
+        return window.open(url, '_blank', 'closebuttoncaption=Cancel');
+      },
       parseExpiry: function(headers) {
         // convert from UTC ruby (seconds) to UTC js (milliseconds)
         return (parseInt(headers['expiry']) * 1000) || null;
@@ -179,7 +192,7 @@ angular.module('myApp', ['ng-token-auth'])
       handleLoginResponse: function(response) {
         return response.data;
       },
-      handleAccountResponse: function(response) {
+      handleAccountUpdateResponse: function(response) {
         return response.data;
       },
       handleTokenValidationResponse: function(response) {
@@ -204,10 +217,12 @@ angular.module('myApp', ['ng-token-auth'])
 | **passwordResetPath** | path for requesting password reset emails. [Read more](#password-reset-flow). |
 | **passwordUpdatePath** | path for submitting new passwords for authenticated users. [Read more](#password-reset-flow) |
 | **passwordResetSuccessUrl** | the URL to which the API should redirect after users visit the links contained in password-reset emails. [Read more](#password-reset-flow). |
-| **storage** | the method used to persist tokens between sessions. cookies are used by default, but `window.localStorage` can be used as well. A custom object can also be used. Allowed strings are `cookies` and `localStorage`, otherwise an object implementing the interface defined below|
+| **storage** | the method used to persist tokens between sessions. cookies are used by default, but `window.localStorage` and `window.sessionStorage` can be used as well. A custom object can also be used. Allowed strings are `cookies`, `localStorage`, and `sessionStorage`, otherwise an object implementing the interface defined below|
+| **forceValidateToken** | if this flag is set, the API's token validation will be called even if the auth token is not saved in `storage`. This can be useful for implementing a single sign-on (SSO) system.|
 | **proxyIf** | older browsers have trouble with CORS ([read more](#internet-explorer)). pass a method here to determine whether or not a proxy should be used. example: `function() { return !Modernizr.cors }` |
 | **proxyUrl** | proxy url if proxy is to be used |
 | **tokenFormat** | a template for authentication tokens. the template will be provided a context with the following params:<br><ul><li>token</li><li>clientId</li><li>uid</li><li>expiry</li></ul>Defaults to the [RFC 6750 Bearer Token](http://tools.ietf.org/html/rfc6750) format. [Read more](#using-alternate-header-formats). |
+| **createPopup** | a function that will open OmniAuth window by `url`. [Read more](#example-newwindow-redirect_uri-destination). |
 | **parseExpiry** | a function that will return the token's expiry from the current headers. Returns null if no headers or expiry are found. [Read more](#using-alternate-header-formats). |
 | **handleLoginResponse** | a function that will identify and return the current user's info (id, username, etc.) in the response of a successful login request. [Read more](#using-alternate-response-formats). |
 | **handleAccountUpdateResponse** | a function that will identify and return the current user's info (id, username, etc.) in the response of a successful account update request. [Read more](#using-alternate-response-formats). |
@@ -243,7 +258,7 @@ Initiate an OAuth2 authentication. This method accepts 2 arguments:
   *  **params**: additional params to be passed to the OAuth provider. For example, to pass the user's favorite color on sign up:
 
      ~~~javascript
-     $auth.authenticate('github', {params: {favorite_color: 'green'})
+     $auth.authenticate('github', {params: {favorite_color: 'green'}})
      ~~~
 
 This method is also added to the `$rootScope` for use in templates. [Read more](#oauth2-authentication-flow).
@@ -281,6 +296,8 @@ angular.module('ngTokenAuthTestApp')
 This method returns a promise that will resolve if a user's auth token exists and is valid. This method does not accept any arguments. [Read more](#token-validation-flow)
 
 This method automatically is called on page load during the app's run phase so that returning users will not need to manually re-authenticate themselves.
+
+You can disable this automatic check by setting `validateOnPageLoad: false` in the configuration phase.
 
 This method will broadcast the following events:
 
@@ -1053,7 +1070,7 @@ $auth.requestPasswordReset({
 
 Some file upload libraries interfere with the authentication headers set by this module. Workarounds are documented below:
 
-### [angular-file-upload](https://github.com/danialfarid/angular-file-upload)#
+### [angular-file-upload](https://github.com/danialfarid/ng-file-upload)#
 
 The `upload` method accepts a `headers` option. Manually pass the current auth headers to the `upload` method as follows:
 
@@ -1091,7 +1108,7 @@ When authenticating with a 3rd party provider, the following steps will take pla
   3. The API will send the user's info back to the client via `postMessage` event, and then close the external window.
 
 - `inAppBrowser` Mode
-  - This mode is virtually identical to the `newWindow` flow, except the flow varies slightly to account for limitations with the [Cordova inAppBrowser Plugin](https://github.com/apache/cordova-plugin-inappbrowser) and the `postMessage` API.
+  - This mode is virtually identical to the `newWindow` flow, except the flow varies slightly to account for limitations with the [Cordova inAppBrowser Plugin](https://github.com/apache/cordova-plugin-inappbrowser) and the `postMessage` API. Note: In order for this mode to work out of the box, inAppBrowser is assumed to be registered with any external window.open calls. eg - `window.open = window.cordova.InAppBrowser.open;`
 
 The `postMessage` event (utilized for both `newWindow` and `inAppBrowser` modes) must include the following a parameters:
 * **message** - this must contain the value `"deliverCredentials"`
@@ -1227,6 +1244,10 @@ This will all happen automatically when using this module.
 
 **Note**: You can customize the auth headers however you like. [Read more](#using-alternate-header-formats).
 
+# iOS
+
+ * localStoage may not writable in Private Browsing mode. You may wish to configure `storage` to use a generic object store or temporary cookie store. See also: [Frustration](https://spin.atomicobject.com/2013/01/23/ios-private-browsing-localstorage/)
+
 # Internet Explorer
 
 Internet Explorer (8, 9, 10, & 11) present the following obstacles:
@@ -1285,18 +1306,11 @@ app.all('/proxy/*', function(req, res, next) {
 });
 ~~~
 
-The above example assumes that you're using [express](http://expressjs.com/), [request](https://github.com/mikeal/request), and [http-proxy](https://github.com/nodejitsu/node-http-proxy), and that you have set the API_URL value using [node-config](https://github.com/lorenwest/node-config).
+The above example assumes that you're using [express](http://expressjs.com/), [request](https://github.com/request/request), and [http-proxy](https://github.com/nodejitsu/node-http-proxy), and that you have set the API_URL value using [node-config](https://github.com/lorenwest/node-config).
 
 #### IE8-11 / iOS 8.2 must use `sameWindow` for provider authentication
 
-Most modern browsers can communicate across tabs and windows using [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage). This doesn't work for certain flawed browsers. In these cases the client must take the following steps when performing provider authentication (facebook, github, etc.):
-
-1. navigate from the client site to the API
-1. navigate from the API to the provider
-1. navigate from the provider to the API
-1. navigate from the API back to the client
-
-If you prefer to use the `newWindow` mode, be sure to handle this in the configuration. Eg:
+Most modern browsers can communicate across tabs and windows using [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). This doesn't work for certain flawed browsers. In these instances, it's recommended to always use `sameWindow` mode. If you are configured to use `newWindow` mode, you will most likely wish to handle this in the configuration. Eg:
 
 ```javascript
       $authProvider.configure({
@@ -1388,4 +1402,3 @@ This module has been featured by [http://angular-js.in](http://angular-js.in/).
 # License
 
 This project uses the WTFPL
-

@@ -1,0 +1,35 @@
+<ion-view class="chat"><!--SUBHEADER-->
+  <div class="bar bar-subheader">
+    <div class="changes">
+      <div class="left">
+        <img src="img/picDress1.jpg" /><img src="img/picDress1.jpg" />
+      </div>
+      <div class="right">
+        <img src="img/picDress1.jpg" />
+      </div>
+    </div>
+    <div class="chatHeader">
+      <div class="left">
+        <img class="avatar" src="{{ (otherUser | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+      </div>
+      <div class="right">
+        <img class="avatar" src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+      </div>
+    </div>
+    <h2 ng-bind="otherUser | shortName"></h2>
+  </div>
+  <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
+    <div class="padding">
+      <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
+        <div class="col" ng-bind="chat_message.message"></div>
+      </div>
+    </div>
+  </ion-content><!--FOOTER--><ion-footer-bar>
+    <form ng-submit="send()">
+      <div class="list sendMessageBox">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper"><input ng-model="chat.last_sent_message" placeholder="mensagem" type="text" /></label><a class="input button-icon icon ion-ios-paperplane" type="submit"></a>
+        </div>
+      </div>
+    </form>
+  </ion-footer-bar></ion-view>

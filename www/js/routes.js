@@ -7,17 +7,34 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+    .state('initial', {
+      url: '/initial',
+      templateUrl: 'templates/loading.html',
+      controller: 'initialCtrl'
+    })
 
     .state('login', {
       url: '/login',
-      templateUrl: 'templates/start.html',
+      templateUrl: 'templates/login.html',
       controller: 'loginCtrl'
     })
 
     .state('logout', {
       url: '/logout',
-      templateUrl: 'templates/start.html',
+      templateUrl: 'templates/loading.html',
       controller: 'logoutCtrl'
+    })
+
+    .state('starting', {
+      url: '/start',
+      templateUrl: 'templates/loading.html',
+      controller: 'startCtrl'
+    })
+    
+    .state('not_found', {
+      url: '/notfound',
+      templateUrl: 'templates/match/not_found.html',
+      controller: 'matchNotFoundCtrl'
     })
     
     .state('menu', {
@@ -38,22 +55,12 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('menu.start', {
-      url: '/start',
+    .state('menu.new', {
+      url: '/new_apparel',
       views: {
-        'side-menu21': {
-          templateUrl: 'templates/start.html',
-          controller: 'startCtrl' // TODO Mudar pra 
-        }
-      }
-    })
-
-    .state('menu.match_warning', {
-      url: '/match_warning',
-      views: {
-        'side-menu21': {
-          templateUrl: 'templates/match-warning.html',
-          controller: 'matchWarningCtrl'
+        'side-menu-content': {
+          templateUrl: 'templates/apparels/new.html',
+          controller: 'newApparelCtrl'
         }
       }
     })
@@ -61,19 +68,19 @@ angular.module('app.routes', [])
     .state('menu.apparel', {
       url: '/apparel/:last_id',
       views: {
-        'side-menu21': {
-          templateUrl: 'templates/apparel.html',
+        'side-menu-content': {
+          templateUrl: 'templates/match/apparel.html',
           controller: 'apparelCtrl'
         }
       }
     })
 
-    .state('menu.new', {
-      url: '/new_apparel',
+    .state('menu.match_warning', {
+      url: '/match_warning/:chat_id',
       views: {
-        'side-menu21': {
-          templateUrl: 'templates/new-apparel.html',
-          controller: 'newApparelCtrl' // TODO Mudar pra 
+        'side-menu-content': {
+          templateUrl: 'templates/match/matched.html',
+          controller: 'matchWarningCtrl'
         }
       }
     })
@@ -81,8 +88,8 @@ angular.module('app.routes', [])
     .state('menu.chats', {
       url: '/chats',
       views: {
-        'side-menu21': {
-          templateUrl: 'templates/chats.html',
+        'side-menu-content': {
+          templateUrl: 'templates/chats/index.html',
           controller: 'chatsCtrl' // TODO Mudar pra 
         }
       }
@@ -91,15 +98,15 @@ angular.module('app.routes', [])
     .state('menu.chat', {
       url: '/chat/:id',
       views: {
-        'side-menu21': {
-          templateUrl: 'templates/chat.html',
+        'side-menu-content': {
+          templateUrl: 'templates/chats/show.html',
           controller: 'chatCtrl'
         }
       }
     });
     
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/initial');
   // $urlRouterProvider.otherwise('/menu/start');
 
 });

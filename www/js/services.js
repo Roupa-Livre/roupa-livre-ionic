@@ -99,6 +99,13 @@ angular.module('app.services', ['ngResource', 'rails'])
         }
       };
 
+      resource.prototype.getLastMessage = function() {
+        if (this.chat_messages && this.chat_messages.length > 0)
+          return this.chat_messages[this.chat_messages.length];
+        else
+          return null;
+      };
+
       resource.new_chat_created = function(chat) {
         addOrReplaceValues(resource._active_chats, chat);
       };

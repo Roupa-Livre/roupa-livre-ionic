@@ -1,0 +1,18 @@
+ion-view.matched
+  /! CONTENT
+  ion-content scroll="false" 
+    .title
+      h1 Combinou!
+    .row.images
+      .col
+        img ng-src="img/picDress1.jpg" width="100%" /
+      .col
+        img ng-src="img/picDress3.jpg" width="100%" /
+    p ng-if="chat" {{ chat.otherUser | shortName }} e você têm peças para trocar.
+    .row.buttonBar
+      .col
+        button.button.button-continue ng-click="cancel()" 
+          | continuar trocando
+      .col
+        button.button.button-change ng-click="submit()" 
+          | combinar a troca
