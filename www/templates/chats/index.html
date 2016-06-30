@@ -1,0 +1,8 @@
+<ion-view class="users"><ion-content>
+    <div class="list">
+      <a class="item item-avatar" href="" ng-click="open(chat)" ng-init="last_message=chat.getLastMessage();" ng-repeat="chat in chats"><img class="thumb" src="{{ (chat.user | userImageSrc) || &#39;img/avatar.png&#39; }}" />
+        <h2 ng-bind="chat | shortName"></h2>
+        <p class="active" ng-bind="last_message.message" ng-if="last_message"></p>
+        <span class="item-note active" ng-bind="last_message.created_at" ng-if="last_message">20:36</span><span class="badge badge-positive" ng-bind="chat.unread_messages_count" ng-if="chat.unread_messages_count &amp;&amp; chat.unread_messages_count &gt; 0"></span></a>
+    </div>
+  </ion-content></ion-view>

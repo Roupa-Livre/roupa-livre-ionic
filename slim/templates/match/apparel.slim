@@ -1,0 +1,35 @@
+ion-view.searchMatch
+  /! CONTENT
+  ion-content
+    .list
+      .item.item-image.clothesImage
+        ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" 
+          ks-swiper-slide.swiper-slide ng-repeat="image in entry.apparel_images"
+            img ng-src="{{image | imageSrc}}" width="100%" /
+      .item
+        p.title ng-bind="entry.title"
+        p.details
+          span ng-bind="'tamanho ' + entry.size_info"
+          |  | 
+          span ng-bind="entry.gender"
+          |  | 
+          span ng-bind="entry.age_info"
+        p.hashtags ng-if="entry.apparel_tags.length > 0"
+          span ng-repeat="tag in entry.apparel_tags" ng-bind="' #' + tag.name"
+        p
+      .item.item-text-wrap
+        p.description ng-bind="entry.description"
+      .item
+        img.avatar src="{{(entry.user | userImageSrc) || 'img/avatar.png'}}" /
+        p.ownerName ng-bind="entry.user | shortName"
+        p.ownerDistance ng-bind="'há ' + entry.user.distance"
+  
+  /! FOOTER
+  ion-footer-bar
+    .row.buttonBar
+      .col
+        button.button.button-block.button-dislike ng-click="dislike()" 
+          img src="img/btnDislike.png" /
+      .col
+        button.button.button-block.button-like ng-click="like()" 
+          img src="img/btnLike.png" /

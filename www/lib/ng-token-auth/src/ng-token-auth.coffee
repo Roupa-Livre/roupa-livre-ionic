@@ -21,6 +21,7 @@ angular.module('ng-token-auth', ['ipCookie'])
         validateOnPageLoad:      true
         omniauthWindowType:      'sameWindow'
         storage:                 'cookies'
+        forceValidateToken:      false
 
         tokenFormat:
           "access-token": "{{ token }}"
@@ -28,6 +29,16 @@ angular.module('ng-token-auth', ['ipCookie'])
           client:         "{{ clientId }}"
           expiry:         "{{ expiry }}"
           uid:            "{{ uid }}"
+
+        cookieOps:
+          path: "/"
+          expires: 9999
+          expirationUnit: 'days'
+          secure: false
+
+        # popups are difficult to test. mock this method in testing.
+        createPopup: (url) ->
+          window.open(url, '_blank', 'closebuttoncaption=Cancel')
 
         parseExpiry: (headers) ->
           # convert from ruby time (seconds) to js time (millis)
@@ -93,7 +104,8 @@ angular.module('ng-token-auth', ['ipCookie'])
         '$timeout'
         '$rootScope'
         '$interpolate'
-        ($http, $q, $location, ipCookie, $window, $timeout, $rootScope, $interpolate) =>
+        '$interval'
+        ($http, $q, $location, ipCookie, $window, $timeout, $rootScope, $interpolate, $interval) =>
           header:            null
           dfd:               null
           user:              {}
@@ -200,9 +212,9 @@ angular.module('ng-token-auth', ['ipCookie'])
 
 
           # capture input from user, authenticate serverside
-          submitLogin: (params, opts={}) ->
+          submitLogin: (params, opts={}, httpopts={}) ->
             @initDfd()
-            $http.post(@apiUrl(opts.config) + @getConfig(opts.config).emailSignInPath, params)
+            $http.post(@apiUrl(opts.config) + @getConfig(opts.config).emailSignInPath, params, httpopts)
               .success((resp) =>
                 @setConfigName(opts.config)
                 authData = @getConfig(opts.config).handleLoginResponse(resp, @)
@@ -315,9 +327,9 @@ angular.module('ng-token-auth', ['ipCookie'])
             authUrl = @buildAuthUrl(omniauthWindowType, provider, opts)
 
             if omniauthWindowType is 'newWindow'
-              @requestCredentialsViaPostMessage(@createPopup(authUrl))
+              @requestCredentialsViaPostMessage(@getConfig().createPopup(authUrl))
             else if omniauthWindowType is 'inAppBrowser'
-              @requestCredentialsViaExecuteScript(@createPopup(authUrl))
+              @requestCredentialsViaExecuteScript(@getConfig().createPopup(authUrl))
             else if omniauthWindowType is 'sameWindow'
               @visitUrl(authUrl)
             else
@@ -404,12 +416,6 @@ angular.module('ng-token-auth', ['ipCookie'])
             @cancelOmniauthInAppBrowserListeners
             $rootScope.$broadcast('auth:window-closed')
 
-
-          # popups are difficult to test. mock this method in testing.
-          createPopup: (url) ->
-            $window.open(url, '_blank')
-
-
           # this needs to happen after a reflow so that the promise
           # can be rejected properly before it is destroyed.
           resolveDfd: ->
@@ -433,16 +439,18 @@ angular.module('ng-token-auth', ['ipCookie'])
           # parses raw URL for querystring parameters to account for issues
           # with querystring / fragment ordering in angular < 1.4.x
           parseLocation: (location) ->
-            pairs = location.substring(1).split('&')
+            locationSubstring = location.substring(1)
             obj = {}
-            pair = undefined
-            i = undefined
-            for i of pairs
-              `i = i`
-              if pairs[i] == ''
-                continue
-              pair = pairs[i].split('=')
-              obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
+            if locationSubstring
+              pairs = locationSubstring.split('&')
+              pair = undefined
+              i = undefined
+              for i of pairs
+                `i = i`
+                if (pairs[i] == '') || (typeof pairs[i] is 'function')
+                  continue
+                pair = pairs[i].split('=')
+                obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
             obj
 
 
@@ -468,7 +476,7 @@ angular.module('ng-token-auth', ['ipCookie'])
                 # determine querystring params accounting for possible angular parsing issues
                 location_parse = @parseLocation(window.location.search)
                 params = if Object.keys(search).length==0 then location_parse else search
-                
+
                 # auth_token matches what is sent with postMessage, but supporting token for
                 # backwards compatability
                 token = params.auth_token || params.token
@@ -505,7 +513,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
                   # strip token-related qs from url to prevent re-use of these params
                   # on page refresh
-                  ['token', 'client_id', 'uid', 'expiry', 'config', 'reset_password', 'account_confirmation_success', 'oauth_registration'].forEach (prop) ->
+                  ['auth_token', 'token', 'client_id', 'uid', 'expiry', 'config', 'reset_password', 'account_confirmation_success', 'oauth_registration'].forEach (prop) ->
                     delete params[prop];
 
                   # append any remaining params, if any
@@ -520,7 +528,12 @@ angular.module('ng-token-auth', ['ipCookie'])
                 else if @retrieveData('currentConfigName')
                   configName = @retrieveData('currentConfigName')
 
-                unless isEmpty(@retrieveData('auth_headers'))
+                # cookie might not be set, but forcing token validation has
+                # been enabled
+                if @getConfig().forceValidateToken
+                  @validateToken({config: configName})
+
+                else if !isEmpty(@retrieveData('auth_headers'))
                   # if token has expired, do not verify token with API
                   if @tokenHasExpired()
                     $rootScope.$broadcast('auth:session-expired')
@@ -578,7 +591,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
                   @rejectDfd({
                     reason: 'unauthorized'
-                    errors: data.errors
+                    errors: if data? then data.errors else ['Unspecified error']
                   })
                 )
             else
@@ -614,7 +627,7 @@ angular.module('ng-token-auth', ['ipCookie'])
             # remove any assumptions about current configuration
             @deleteData('currentConfigName')
 
-            $timeout.cancel @timer if @timer?
+            $interval.cancel @timer if @timer?
 
             # kill cookies, otherwise session will resume on page reload
             # setting this value to null will force the validateToken method
@@ -681,18 +694,29 @@ angular.module('ng-token-auth', ['ipCookie'])
               switch @getConfig(configName).storage
                 when 'localStorage'
                   $window.localStorage.setItem(key, JSON.stringify(val))
+                when 'sessionStorage'
+                  $window.sessionStorage.setItem(key, JSON.stringify(val))
                 else
-                  ipCookie(key, val, {path: '/', expires: 9999, expirationUnit: 'days'})
+                  ipCookie(key, val, @getConfig().cookieOps)
 
           # abstract persistent data retrieval
           retrieveData: (key) ->
-            if @getConfig().storage instanceof Object
-              @getConfig().storage.retrieveData(key)
-            else
-              switch @getConfig().storage
-                when 'localStorage'
-                  JSON.parse($window.localStorage.getItem(key))
-                else ipCookie(key)
+            try
+              if @getConfig().storage instanceof Object
+                @getConfig().storage.retrieveData(key)
+              else
+                switch @getConfig().storage
+                  when 'localStorage'
+                    JSON.parse($window.localStorage.getItem(key))
+                  when 'sessionStorage'
+                    JSON.parse($window.sessionStorage.getItem(key))
+                  else ipCookie(key)
+            catch e
+              # gracefully handle if JSON parsing
+              if e instanceof SyntaxError
+                undefined
+              else
+                throw e
 
           # abstract persistent data removal
           deleteData: (key) ->
@@ -701,8 +725,10 @@ angular.module('ng-token-auth', ['ipCookie'])
             switch @getConfig().storage
               when 'localStorage'
                 $window.localStorage.removeItem(key)
+              when 'sessionStorage'
+                $window.sessionStorage.removeItem(key)
               else
-                ipCookie.remove(key, {path: '/'})
+                ipCookie.remove(key, {path: @getConfig().cookieOps.path})
 
           # persist authentication token, client id, uid
           setAuthHeaders: (h) ->
@@ -713,11 +739,11 @@ angular.module('ng-token-auth', ['ipCookie'])
             now    = new Date().getTime()
 
             if expiry > now
-              $timeout.cancel @timer if @timer?
+              $interval.cancel @timer if @timer?
 
-              @timer = $timeout (=>
+              @timer = $interval (=>
                 @validateUser {config: @getSavedConfig()}
-              ), parseInt (expiry - now)
+              ), (parseInt (expiry - now)), 1
 
             result
 
@@ -774,25 +800,49 @@ angular.module('ng-token-auth', ['ipCookie'])
           # value of 'defaultConfigName'. searches the following places in
           # this priority:
           # 1. localStorage
-          # 2. cookies
-          # 3. default (first available config)
+          # 2. sessionStorage
+          # 3. cookies
+          # 4. default (first available config)
           getSavedConfig: ->
             c   = undefined
             key = 'currentConfigName'
 
-            # accessing $window.localStorage will
-            # throw an error if localStorage is disabled
-            hasLocalStorage = false
-            try
-              hasLocalStorage = !!$window.localStorage
-            catch error
-
-            if hasLocalStorage
+            if @hasLocalStorage()
               c ?= JSON.parse($window.localStorage.getItem(key))
+            else if @hasSessionStorage()
+              c ?= JSON.parse($window.sessionStorage.getItem(key))
 
             c ?= ipCookie(key)
 
             return c || defaultConfigName
+
+          hasSessionStorage: ->
+            if !@_hasSessionStorage?
+
+              @_hasSessionStorage = false
+              # trying to call setItem will
+              # throw an error if sessionStorage is disabled
+              try
+                $window.sessionStorage.setItem('ng-token-auth-test', 'ng-token-auth-test');
+                $window.sessionStorage.removeItem('ng-token-auth-test');
+                @_hasSessionStorage = true
+              catch error
+
+            return @_hasSessionStorage
+
+          hasLocalStorage: ->
+            if !@_hasLocalStorage?
+
+              @_hasLocalStorage = false
+              # trying to call setItem will
+              # throw an error if localStorage is disabled
+              try
+                $window.localStorage.setItem('ng-token-auth-test', 'ng-token-auth-test');
+                $window.localStorage.removeItem('ng-token-auth-test');
+                @_hasLocalStorage = true
+              catch error
+
+            return @_hasLocalStorage
 
       ]
     }

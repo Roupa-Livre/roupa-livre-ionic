@@ -1,0 +1,28 @@
+ion-view.chat
+  /! SUBHEADER
+  .bar.bar-subheader
+    .changes
+      .left
+        img src="img/picDress1.jpg" /
+        img src="img/picDress1.jpg" /
+      .right
+        img src="img/picDress1.jpg" /
+    .chatHeader
+      .left
+        img.avatar src="{{ (otherUser | userImageSrc ) || 'img/avatar.png' }}" /
+      .right
+        img.avatar src="{{ (user | userImageSrc ) || 'img/avatar.png' }}" /
+    h2 ng-bind="otherUser | shortName"
+  /! CONTENT
+  ion-content.has-header.has-subheader.has-footer
+    .padding
+      .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id == user.id)}" 
+        .col ng-bind="chat_message.message" 
+  /! FOOTER
+  ion-footer-bar
+    form ng-submit="send()"
+      .list.sendMessageBox
+        .item.item-input-inset
+          label.item-input-wrapper
+            input ng-model="chat.last_sent_message" placeholder="mensagem" type="text" /
+          a.input.button-icon.icon.ion-ios-paperplane type="submit"

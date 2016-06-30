@@ -1,0 +1,7 @@
+<ion-view class="alert" has-header="false"><!--CONTENT--><ion-content has-header="false" scroll="false">
+    <div class="title">
+      <h1 ng-bind="title || &#39;Oops!&#39;"></h1>
+    </div>
+    <p class="subtitle" ng-bind="subtitle || &#39;Você já viu todas as peças.&#39;"></p>
+    <p class="info" ng-bind="subtitle || &#39;hora de mudar de lugar pra mais opções&#39;"></p>
+    <button class="button button-click" ng-bind="action_text || &#39;buscar novamente&#39;" ng-click="advance()" ng-if="hasAction"></button></ion-content></ion-view>

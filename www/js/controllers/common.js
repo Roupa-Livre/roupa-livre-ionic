@@ -112,3 +112,11 @@ function addOrReplaceValues(list, entry) {
   else if (foundList[0] != entry)
     list.push(entry);
 }
+
+function cloneArray(list) {
+  var newList = [];
+  for (var i = 0; i < list.length; i++) {
+    newList.push(list[i]);
+  }
+  return newList;
+}

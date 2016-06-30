@@ -1,0 +1,34 @@
+<ion-view class="searchMatch"><!--CONTENT--><ion-content>
+    <div class="list">
+      <div class="item item-image clothesImage">
+        <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="entry.apparel_images.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="image in entry.apparel_images"><img ng-src="{{image | imageSrc}}" width="100%" /></ks-swiper-slide></ks-swiper-container>
+      </div>
+      <div class="item">
+        <p class="title" ng-bind="entry.title"></p>
+        <p class="details">
+          <span ng-bind="&#39;tamanho &#39; + entry.size_info"></span> | <span ng-bind="entry.gender"></span> | <span ng-bind="entry.age_info"></span>
+        </p>
+        <p class="hashtags" ng-if="entry.apparel_tags.length &gt; 0">
+          <span ng-bind="&#39; #&#39; + tag.name" ng-repeat="tag in entry.apparel_tags"></span>
+        </p>
+        <p></p>
+      </div>
+      <div class="item item-text-wrap">
+        <p class="description" ng-bind="entry.description"></p>
+      </div>
+      <div class="item">
+        <img class="avatar" src="{{(entry.user | userImageSrc) || &#39;img/avatar.png&#39;}}" />
+        <p class="ownerName" ng-bind="entry.user | shortName"></p>
+        <p class="ownerDistance" ng-bind="&#39;há &#39; + entry.user.distance"></p>
+      </div>
+    </div>
+  </ion-content><!--FOOTER--><ion-footer-bar>
+    <div class="row buttonBar">
+      <div class="col">
+        <button class="button button-block button-dislike" ng-click="dislike()"><img src="img/btnDislike.png" /></button>
+      </div>
+      <div class="col">
+        <button class="button button-block button-like" ng-click="like()"><img src="img/btnLike.png" /></button>
+      </div>
+    </div>
+  </ion-footer-bar></ion-view>

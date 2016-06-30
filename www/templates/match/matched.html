@@ -1,0 +1,26 @@
+<ion-view class="matched"><!--CONTENT--><ion-content scroll="false">
+    <div class="title">
+      <h1>
+        Combinou!
+      </h1>
+    </div>
+    <div class="row images">
+      <div class="col">
+        <img ng-src="img/picDress1.jpg" width="100%" />
+      </div>
+      <div class="col">
+        <img ng-src="img/picDress3.jpg" width="100%" />
+      </div>
+    </div>
+    <p ng-if="chat">
+      {{ chat.otherUser | shortName }} e você têm peças para trocar.
+    </p>
+    <div class="row buttonBar">
+      <div class="col">
+        <button class="button button-continue" ng-click="cancel()">continuar trocando</button>
+      </div>
+      <div class="col">
+        <button class="button button-change" ng-click="submit()">combinar a troca</button>
+      </div>
+    </div>
+  </ion-content></ion-view>
