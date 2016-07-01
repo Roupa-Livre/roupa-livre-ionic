@@ -107,10 +107,10 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth) {
     $auth.signOut()
       .then(function(resp) {
-        // handle success response
+        $state.go('login');
       })
       .catch(function(resp) {
-        // handle error response
+        $state.go('starting');
       });
   })
 
@@ -215,7 +215,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
         $ionicSlideBoxDelegate.update();
       } else {
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('not_found');
+        $state.go('menu.not_found');
       }
     }
 

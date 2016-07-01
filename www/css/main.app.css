@@ -310,15 +310,15 @@ ion-footer-bar form {
   background: linear-gradient(to bottom, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
   /* W3C */
   display: block;
-  height: 250px;
-  min-height: 250px; }
+  height: 206px;
+  min-height: 206px; }
 
 .alert .title h1 {
   color: #fff;
   font-family: 'Kaushan Script', Sans-Serif;
   font-size: 70px;
   text-align: center;
-  padding-top: 80px; }
+  padding-top: 58px; }
 
 .alert p {
   text-align: center; }

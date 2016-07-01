@@ -17,7 +17,7 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/**/*.app.scss')
+  gulp.src('./scss/**/*.scss')
     .pipe($.changed('www/css', {extension: '.css'}))
     .pipe(sass())
     .on('error', sass.logError)
@@ -26,7 +26,8 @@ gulp.task('sass', function(done) {
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'));
+    .pipe(gulp.dest('./www/css/'))
+    .on('end', done);
 });
 
 gulp.task('slim', function(){
