@@ -29,7 +29,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
   .config(function($compileProvider){
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|data):/);
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, Chat) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, Chat) {
     $ionicPlatform.ready(function(readyEventData) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -47,7 +47,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       });
 
       $rootScope.goMain = function() {
-
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('menu.apparel');
       };
 
       $rootScope.showLoading = function(message) {

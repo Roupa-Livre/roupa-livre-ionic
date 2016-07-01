@@ -31,12 +31,6 @@ angular.module('app.routes', [])
       controller: 'startCtrl'
     })
     
-    .state('not_found', {
-      url: '/notfound',
-      templateUrl: 'templates/match/not_found.html',
-      controller: 'matchNotFoundCtrl'
-    })
-    
     .state('menu', {
       url: '/menu',
       abstract:true,
@@ -84,13 +78,23 @@ angular.module('app.routes', [])
         }
       }
     })
+    
+    .state('menu.not_found', {
+      url: '/notfound',
+      views: {
+        'side-menu-content': {
+          templateUrl: 'templates/match/not_found.html',
+          controller: 'matchNotFoundCtrl'
+        }
+      }
+    })
 
     .state('menu.chats', {
       url: '/chats',
       views: {
         'side-menu-content': {
           templateUrl: 'templates/chats/index.html',
-          controller: 'chatsCtrl' // TODO Mudar pra 
+          controller: 'chatsCtrl'
         }
       }
     })
