@@ -17,7 +17,7 @@
         <p class="description" ng-bind="entry.description"></p>
       </div>
       <div class="item">
-        <img class="avatar" src="{{(entry.user | userImageSrc) || &#39;img/avatar.png&#39;}}" />
+        <img class="avatar" ng-src="{{(entry.user | userImageSrc) || &#39;img/avatar.png&#39;}}" />
         <p class="ownerName" ng-bind="entry.user | shortName"></p>
         <p class="ownerDistance" ng-bind="&#39;há &#39; + entry.user.distance"></p>
       </div>

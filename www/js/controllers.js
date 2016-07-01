@@ -314,12 +314,10 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     function onNewMessages(data) {
       $scope.chat_messages.push(data);
-      console.log(data);
     };
 
     function subscribe() {
       ChatSub.subscribe($scope.chat, onNewMessages);
-      console.log('subscribed');
     };
 
     function checkInitialMessages() {

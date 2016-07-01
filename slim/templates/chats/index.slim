@@ -1,9 +1,9 @@
 ion-view.users
   ion-content
-    .list
+    .list ng-if="chats"
       a.item.item-avatar ng-repeat=("chat in chats") href="" ng-click="open(chat)" ng-init="last_message=chat.getLastMessage();"
-        img.thumb src="{{ (chat.user | userImageSrc) || 'img/avatar.png' }}" /
-        h2 ng-bind="chat | shortName"
+        img.thumb ng-src="{{(chat.other_user | userImageSrc) || 'img/avatar.png'}}" /
+        h2 ng-bind="chat.other_user | shortName"
         p.active ng-if="last_message" ng-bind="last_message.message"
         span.item-note.active ng-if="last_message" ng-bind="last_message.created_at" 20:36
         span.badge.badge-positive ng-if="chat.unread_messages_count && chat.unread_messages_count > 0" ng-bind="chat.unread_messages_count"

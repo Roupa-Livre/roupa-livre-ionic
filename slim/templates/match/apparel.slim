@@ -20,7 +20,7 @@ ion-view.searchMatch
       .item.item-text-wrap
         p.description ng-bind="entry.description"
       .item
-        img.avatar src="{{(entry.user | userImageSrc) || 'img/avatar.png'}}" /
+        img.avatar ng-src="{{(entry.user | userImageSrc) || 'img/avatar.png'}}" /
         p.ownerName ng-bind="entry.user | shortName"
         p.ownerDistance ng-bind="'há ' + entry.user.distance"
   

@@ -101,7 +101,7 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       resource.prototype.getLastMessage = function() {
         if (this.chat_messages && this.chat_messages.length > 0)
-          return this.chat_messages[this.chat_messages.length];
+          return this.chat_messages[this.chat_messages.length - 1];
         else
           return null;
       };

@@ -3,15 +3,14 @@ ion-view.chat
   .bar.bar-subheader
     .changes
       .left
-        img src="img/picDress1.jpg" /
-        img src="img/picDress1.jpg" /
+        img ng-repeat="image in chat.other_user_apparel_images" ng-src="{{ (image.file | imageSrc ) || 'img/picDress1.jpg' }}" /
       .right
-        img src="img/picDress1.jpg" /
+        img ng-repeat="image in chat.owned_apparel_images" ng-src="{{ (image.file | imageSrc ) || 'img/picDress1.jpg' }}" /
     .chatHeader
       .left
-        img.avatar src="{{ (otherUser | userImageSrc ) || 'img/avatar.png' }}" /
+        img.avatar ng-src="{{ (otherUser | userImageSrc ) || 'img/avatar.png' }}" /
       .right
-        img.avatar src="{{ (user | userImageSrc ) || 'img/avatar.png' }}" /
+        img.avatar ng-src="{{ (user | userImageSrc ) || 'img/avatar.png' }}" /
     h2 ng-bind="otherUser | shortName"
   /! CONTENT
   ion-content.has-header.has-subheader.has-footer
