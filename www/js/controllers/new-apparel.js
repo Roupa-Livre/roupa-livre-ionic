@@ -33,7 +33,7 @@ angular.module('app.controllers')
             getPicture = CurrentCamera.getPictureFromLibrary;
 
           if (getPicture)
-            getPicture().then(
+            getPicture({targetWidth: 400, targetHeight: 400, allowEdit: true}).then(
               function(res) {
                 deferred.resolve(res);
               }, function(err) {
@@ -57,9 +57,9 @@ angular.module('app.controllers')
       var isMob = window.cordova !== undefined;
       if (isMob) {
         $scope.getNewPhoto()
-          .then(function(result) {
-            return currentController.cropImage(result, 1);
-          })
+          // .then(function(result) {
+          //   return currentController.cropImage(result, 1);
+          // })
           .then(function(result) {
             $scope.entry.apparel_images.push({ data: result });
             console.log(result);
