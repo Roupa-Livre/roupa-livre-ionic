@@ -32,13 +32,20 @@ angular.module('app.controllers')
           else if (btnIndex == 2)
             getPicture = CurrentCamera.getPictureFromLibrary;
 
-          if (getPicture)
-            getPicture({targetWidth: 400, targetHeight: 400, allowEdit: true}).then(
+          if (getPicture) {
+            var options = { destinationType: Camera.DestinationType.DATA_URL,
+              targetWidth: 400, 
+              targetHeight: 400, 
+              allowEdit: true
+            };
+
+            getPicture(options).then(
               function(res) {
                 deferred.resolve(res);
               }, function(err) {
                 deferred.reject(err);
               });
+          }
           else {
             deferred.reject('Cancelled');
           }
@@ -50,7 +57,7 @@ angular.module('app.controllers')
     };
 
     $scope.editImage = function(url) {
-      currentController.cropImage(url, 1);
+      
     };
 
     $scope.newImage = function() {
@@ -61,6 +68,7 @@ angular.module('app.controllers')
           //   return currentController.cropImage(result, 1);
           // })
           .then(function(result) {
+            result = 'data:image/jpg;base64,' + result;
             $scope.entry.apparel_images.push({ data: result });
             console.log(result);
             $ionicSlideBoxDelegate.update();
