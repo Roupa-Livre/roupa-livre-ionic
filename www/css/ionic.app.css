@@ -11180,3 +11180,16 @@ a.button {
       content: "#"; }
     .host .tags .tag-item span {
       color: #111; }
+
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  height: auto; }
+
+.modal .bar-footer .button.button-block, .modal .bar-footer .button.button-full {
+  margin-top: 3px;
+  margin-bottom: 3px; }

@@ -32,7 +32,7 @@
     "cordova-plugin-wkwebview"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }

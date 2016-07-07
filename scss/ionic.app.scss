@@ -23,3 +23,27 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/font-awesome/scss/font-awesome";
 
 @import "apparel_form";
+
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  display:block;
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  height: auto;
+  canvas{
+    // margin: 0!important;
+    // top: 0%;
+    // left: 0%;
+  }
+}
+
+.modal {
+  .bar-footer {
+    .button.button-block, .button.button-full {
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
+  }
+}

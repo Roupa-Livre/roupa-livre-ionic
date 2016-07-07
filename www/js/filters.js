@@ -36,7 +36,7 @@ angular.module('app.filters', [])
         if (user.image)
           result =  getImageAsSource($auth, user.image);  
         if (!result)
-          result = user.social_image;
+          result = getProbableApiUrl($auth, user.social_image);
       }
       return result;
     };

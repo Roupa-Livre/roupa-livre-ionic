@@ -7,18 +7,19 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper'])
   .constant('config', {
-      REALTIME_URL: 'http://localhost:5001',
-      API_URL: 'http://localhost:3000',
+      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com',
+      API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      // REALTIME_URL: 'http://localhost:5001',
+      // API_URL: 'http://localhost:3000',
   })
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;
     $authProvider.configure({
       apiUrl: config.API_URL,
       // apiUrl: 'http://localhost:3000',
-      storage: isMob ? 'localStorage' : 'localStorage',
+      storage: isMob ? 'localStorage' : 'cookies',
       validateOnPageLoad: false,
-      // omniauthWindowType: (window.cordova !== undefined) ?  'inAppBrowser' : 'sameWindow',
-      omniauthWindowType: 'sameWindow',
+      omniauthWindowType: isMob ? 'inAppBrowser' : 'newWindow',
       authProviderPaths: {
         facebook: '/auth/facebook'
       }
@@ -26,8 +27,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
     $ionicConfigProvider.views.maxCache(0);
   })
-  .config(function($compileProvider){
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|data):/);
+  .config(function($compileProvider, $sceDelegateProvider, config){
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
+    // $sceDelegateProvider.resourceUrlWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
   })
   .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, Chat) {
     $ionicPlatform.ready(function(readyEventData) {
