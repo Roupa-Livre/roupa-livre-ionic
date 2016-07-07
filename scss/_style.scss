@@ -66,37 +66,68 @@ ion-footer-bar {
   background-size:      cover;
 }
 
-.splash div.logo {
+.splash {
+  .logo {
+    height: 30%;
+    white-space: nowrap;
+    text-align: center;
 
-}
+    &:before {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    img {
+      vertical-align:   bottom;
+      margin:           0 auto 0 auto;
+      width:            118px;
+      height:           auto;
+    }
+  }
+  .slogan {
+    height: 40%;
+    text-align: center;
+    vertical-align:   middle;
+    display:          table;
+    
+    p {
+      color:            #fff;
+      display:          block;
+      font-size:          20px;
+      font-weight:        700;
+      margin:           0 auto 0 auto;
+      text-align:         center;
+      vertical-align:   middle;
+      display:          table-cell;
+      padding-right:          20%;
+      padding-left:          20%;
+    }
+  }
+  .action {
+    height: 30%;
+    white-space: nowrap;
+    text-align: center;
 
-.splash div.logo img {
-  display:          block;
-  margin:           40% auto 0 auto;
-  width:            118px;
-  height:           auto;
-}
-
-.splash p.slogan {
-  color:            #fff;
-  display:          block;
-  font-size:          20px;
-  font-weight:        700;
-  margin:           30% auto 0 auto;
-  text-align:         center;
-  width:            188px;
-}
-
-.splash .button-facebook {
-  background-color:     #0062f2;
-  color:            #fff;
-  margin:           35% 10% 0 10%;
-  padding:          3% 0;
-  border-radius:        40px;
-  font-weight:        700;
-  width:            80%;
-
-  box-shadow:         0px 5px #004AB5;
+    &:before {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    .button-facebook {
+      background-color:     #0062f2;
+      color:            #fff;
+      margin:           0 10% 0 10%;
+      padding:          3% 0;
+      border-radius:        40px;
+      font-weight:        700;
+      width:            80%;
+      text-align: center;
+      vertical-align: middle;
+      box-shadow:         0px 5px #004AB5;
+    }
+  }
 }
 
 /* REGISTER CLOTHES ************************************************ */
