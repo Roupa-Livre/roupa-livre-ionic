@@ -6,10 +6,10 @@
       <div class="item">
         <p class="title" ng-bind="entry.title"></p>
         <p class="details">
-          <span ng-bind="&#39;tamanho &#39; + entry.size_info"></span> | <span ng-bind="entry.gender"></span> | <span ng-bind="entry.age_info"></span>
+          <span ng-bind="&#39;tamanho &#39; + entry.size_info"></span><span ng-if="entry.gender">| </span><span ng-bind="entry.gender"></span><span ng-if="entry.age_info">| </span><span ng-bind="entry.age_info"></span>
         </p>
         <p class="hashtags" ng-if="entry.apparel_tags.length &gt; 0">
-          <span ng-bind="&#39; #&#39; + tag.name" ng-repeat="tag in entry.apparel_tags"></span>
+          <span ng-bind="&#39; #&#39; + (tag.name | trimStartChar:&#39;#&#39;)" ng-repeat="tag in entry.apparel_tags"></span>
         </p>
         <p></p>
       </div>
@@ -19,7 +19,7 @@
       <div class="item">
         <img class="avatar" ng-src="{{(entry.user | userImageSrc) || &#39;img/avatar.png&#39;}}" />
         <p class="ownerName" ng-bind="entry.user | shortName"></p>
-        <p class="ownerDistance" ng-bind="&#39;há &#39; + entry.user.distance"></p>
+        <p class="ownerDistance" ng-bind="entry.distance | distanceToString"></p>
       </div>
     </div>
   </ion-content><!--FOOTER--><ion-footer-bar>

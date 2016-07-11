@@ -10,13 +10,13 @@
     </div>
     <div class="chatHeader">
       <div class="left">
-        <img class="avatar" ng-src="{{ (otherUser | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+        <img class="avatar" ng-src="{{ (chat.other_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       </div>
       <div class="right">
         <img class="avatar" ng-src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       </div>
     </div>
-    <h2 ng-bind="otherUser | shortName"></h2>
+    <h2 ng-bind="chat.other_user | shortName"></h2>
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
     <div class="padding">

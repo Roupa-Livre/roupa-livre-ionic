@@ -5,6 +5,13 @@ function getProbableApiUrl($auth, url) {
     return url;
 };
 
+function trimStartChar(value, charValue) {
+  while (value.length > 0 && value[0] == charValue) {
+    value = value.substring(1);
+  }
+  return value;
+};
+
 function getImageAsSource($auth, image) {
   if (image.hasOwnProperty('image'))
     image = image.image;
@@ -24,6 +31,22 @@ function getImageAsSource($auth, image) {
 };
 
 angular.module('app.filters', [])
+  .filter('distanceToString', function () {
+    return function (distance) {
+      var rounded = Math.round(distance * 10) / 10;
+      if (rounded < 1) {
+        if (rounded < 0.5)
+          return 'pertinho';
+        else
+          return 'há menos de 1km';
+      }
+      else
+        return 'há ' + rounded + 'km';
+    };
+  })
+  .filter('trimStartChar', function () {
+    return trimStartChar;
+  })
   .filter('imageSrc', function ($auth) {
     return function (image) {
       return getImageAsSource($auth, image);
@@ -35,7 +58,7 @@ angular.module('app.filters', [])
       if (user) {
         if (user.image)
           result =  getImageAsSource($auth, user.image);  
-        if (!result)
+        if (!result && user.social_image)
           result = getProbableApiUrl($auth, user.social_image);
       }
       return result;

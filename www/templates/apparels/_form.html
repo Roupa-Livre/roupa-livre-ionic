@@ -16,22 +16,22 @@
   <span class="input-label">titulo</span><input ng-model="entry.title" placeholder="dê um nome diferentão para sua peça" type="text" />
 </div>
 <div class="item item-input item-stacked-label">
-  <span class="input-label">tamanho</span><input ng-model="entry.size_info" placeholder="p, m, g ou 48?" type="text" />
+  <span class="input-label">tamanho</span><input name="size_info" ng-model="entry.size_info" placeholder="p, m, g ou 48?" type="text" />
 </div>
 <div class="item item-input item-stacked-label">
   <span class="input-label">gênero</span>
   <div class="row">
     <div class="col col-25">
-      <ion-radio ng-model="entry.gender" ng-value="FEM"> feminino</ion-radio>
+      <ion-radio name="gender" ng-model="entry.gender" ng-value="FEM"> feminino</ion-radio>
     </div>
     <div class="col col-25">
-      <ion-radio ng-model="entry.gender" ng-value="MASC">masculino</ion-radio>
+      <ion-radio name="gender" ng-model="entry.gender" ng-value="MASC">masculino</ion-radio>
     </div>
     <div class="col col-25">
-      <ion-radio ng-model="entry.gender" ng-value="NO">sem gênero</ion-radio>
+      <ion-radio name="gender" ng-model="entry.gender" ng-value="NO">sem gênero</ion-radio>
     </div>
     <div class="col col-25">
-      <ion-radio ng-model="entry.gender" ng-value="SKIP">não informar</ion-radio>
+      <ion-radio name="gender" ng-model="entry.gender" ng-value="SKIP">não informar</ion-radio>
     </div>
   </div>
 </div>
@@ -39,13 +39,13 @@
   <span class="input-label">adulta ou infantil</span>
   <div class="row">
     <div class="col col-33">
-      <ion-radio ng-model="entry.age_info" ng-value="ADU">adulta</ion-radio>
+      <ion-radio name="age_info" ng-model="entry.age_info" ng-value="ADU">adulta</ion-radio>
     </div>
     <div class="col col-33">
-      <ion-radio ng-model="entry.age_info" ng-value="INF">infantil</ion-radio>
+      <ion-radio name="age_info" ng-model="entry.age_info" ng-value="INF">infantil</ion-radio>
     </div>
     <div class="col col-33">
-      <ion-radio ng-model="entry.age_info" ng-value="ANY">tanto faz</ion-radio>
+      <ion-radio name="age_info" ng-model="entry.age_info" ng-value="ANY">tanto faz</ion-radio>
     </div>
   </div>
 </div>

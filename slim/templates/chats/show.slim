@@ -8,10 +8,10 @@ ion-view.chat
         img ng-repeat="image in chat.owned_apparel_images" ng-src="{{ (image.file | imageSrc ) || 'img/picDress1.jpg' }}" /
     .chatHeader
       .left
-        img.avatar ng-src="{{ (otherUser | userImageSrc ) || 'img/avatar.png' }}" /
+        img.avatar ng-src="{{ (chat.other_user | userImageSrc ) || 'img/avatar.png' }}" /
       .right
         img.avatar ng-src="{{ (user | userImageSrc ) || 'img/avatar.png' }}" /
-    h2 ng-bind="otherUser | shortName"
+    h2 ng-bind="chat.other_user | shortName"
   /! CONTENT
   ion-content.has-header.has-subheader.has-footer
     .padding

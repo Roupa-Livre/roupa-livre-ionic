@@ -24,29 +24,29 @@
 
 .item.item-input.item-stacked-label
   span.input-label tamanho
-  input type="text" ng-model="entry.size_info" placeholder="p, m, g ou 48?" /
+  input type="text" ng-model="entry.size_info" name="size_info" placeholder="p, m, g ou 48?" /
 
 .item.item-input.item-stacked-label
   span.input-label gênero
   .row
     .col.col-25
-      ion-radio ng-model="entry.gender" ng-value="FEM"  feminino
+      ion-radio ng-model="entry.gender" name="gender" ng-value="FEM"  feminino
     .col.col-25
-      ion-radio ng-model="entry.gender" ng-value="MASC" masculino
+      ion-radio ng-model="entry.gender" name="gender" ng-value="MASC" masculino
     .col.col-25
-      ion-radio ng-model="entry.gender" ng-value="NO" sem gênero
+      ion-radio ng-model="entry.gender" name="gender" ng-value="NO" sem gênero
     .col.col-25
-      ion-radio ng-model="entry.gender" ng-value="SKIP" não informar
+      ion-radio ng-model="entry.gender" name="gender" ng-value="SKIP" não informar
 
 .item.item-input.item-stacked-label
   span.input-label adulta ou infantil
   .row
     .col.col-33
-      ion-radio ng-model="entry.age_info" ng-value="ADU" adulta
+      ion-radio ng-model="entry.age_info" name="age_info" ng-value="ADU" adulta
     .col.col-33
-      ion-radio ng-model="entry.age_info" ng-value="INF" infantil
+      ion-radio ng-model="entry.age_info" name="age_info" ng-value="INF" infantil
     .col.col-33
-      ion-radio ng-model="entry.age_info" ng-value="ANY" tanto faz
+      ion-radio ng-model="entry.age_info" name="age_info" ng-value="ANY" tanto faz
 
 .item.item-input.item-stacked-label
   span.input-label #hashtag

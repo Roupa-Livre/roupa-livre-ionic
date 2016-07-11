@@ -10,19 +10,19 @@ ion-view.searchMatch
         p.title ng-bind="entry.title"
         p.details
           span ng-bind="'tamanho ' + entry.size_info"
-          |  | 
+          span ng-if="entry.gender" | 
           span ng-bind="entry.gender"
-          |  | 
+          span ng-if="entry.age_info" | 
           span ng-bind="entry.age_info"
         p.hashtags ng-if="entry.apparel_tags.length > 0"
-          span ng-repeat="tag in entry.apparel_tags" ng-bind="' #' + tag.name"
+          span ng-repeat="tag in entry.apparel_tags" ng-bind="' #' + (tag.name | trimStartChar:'#')"
         p
       .item.item-text-wrap
         p.description ng-bind="entry.description"
       .item
         img.avatar ng-src="{{(entry.user | userImageSrc) || 'img/avatar.png'}}" /
         p.ownerName ng-bind="entry.user | shortName"
-        p.ownerDistance ng-bind="'há ' + entry.user.distance"
+        p.ownerDistance ng-bind="entry.distance | distanceToString"
   
   /! FOOTER
   ion-footer-bar

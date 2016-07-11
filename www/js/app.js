@@ -58,6 +58,11 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $state.go('menu.chats');
       };
 
+      $rootScope.goApparels = function() {
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('menu.new');
+      };
+
       $rootScope.showLoading = function(message) {
         $rootScope.loadingMessage = message;
         $ionicLoading.show({ 
