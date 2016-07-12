@@ -128,7 +128,7 @@ angular.module('app.services', ['ngResource', 'rails'])
             .then(function(data) {
               addOrReplaceValues(resource._active_chats, data);
 
-              resolve(data);
+              resolve(data[0]);
             }, reject);
         });
       };

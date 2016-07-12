@@ -1,3 +1,5 @@
+/* MIXINS ********************************************************* */
+/* ***************************************************************** */
 /* GENERAL ********************************************************* */
 /* ***************************************************************** */
 * {
@@ -120,8 +122,17 @@ ion-footer-bar form {
   font-size: 12px; }
 
 .registerClothes input {
-  color: #ccc;
   font-size: 13px; }
+  .registerClothes input::-webkit-input-placeholder {
+    color: #ccc; }
+  .registerClothes input:-moz-placeholder {
+    color: #ccc; }
+  .registerClothes input::-moz-placeholder {
+    color: #ccc; }
+  .registerClothes input:-ms-input-placeholder {
+    color: #ccc; }
+  .registerClothes input.placeholder {
+    color: #ccc; }
 
 .registerClothes ::-webkit-input-placeholder {
   color: #333; }
@@ -279,46 +290,74 @@ ion-footer-bar form {
   background-image: url("../img/bgMatched.jpg");
   background-size: cover; }
 
-.matched .title h1 {
-  color: #fff;
-  font-family: 'Kaushan Script', Sans-Serif;
-  font-size: 70px;
-  padding-top: 80px;
-  padding-bottom: 70px;
-  text-align: center; }
+.matched .title {
+  vertical-align: middle;
+  text-align: center;
+  display: table;
+  height: 25%;
+  width: 100%; }
+  .matched .title h1 {
+    color: #fff;
+    font-family: 'Kaushan Script', Sans-Serif;
+    font-size: 70px;
+    text-align: center;
+    vertical-align: middle;
+    margin: auto 0;
+    height: auto;
+    display: block;
+    padding-top: 0.3em;
+    margin-left: -15px; }
 
-.matched .images .col {
-  margin: 0;
-  padding: 0;
-  border-bottom: 8px solid #3df2d6;
-  overflow: hidden;
-  height: 230px; }
+.matched .images {
+  height: 40%;
+  max-height: 40%;
+  width: 100%; }
+  .matched .images .col {
+    margin: 0;
+    padding: 0;
+    border-bottom: 8px solid #3df2d6;
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%; }
+    .matched .images .col img {
+      max-height: 100%; }
 
 .matched p {
+  height: 5%;
+  max-height: 5%;
   color: #fff;
   display: block;
   font-weight: 700;
+  text-align: center;
+  margin: 0;
+  padding: 5px 0; }
+
+.matched .buttonBar {
+  height: 30%;
+  max-height: 30%;
+  display: table;
+  vertical-align: middle;
   text-align: center; }
-
-.matched .buttonBar .button-continue {
-  background-color: #f46554;
-  color: #fff;
-  margin: 10% 5%;
-  padding: 3% 0;
-  border-radius: 40px;
-  font-weight: 700;
-  width: 90%;
-  box-shadow: 0px 5px #b74c3f; }
-
-.matched .buttonBar .button-change {
-  background-color: #0062f2;
-  color: #fff;
-  margin: 10% 5%;
-  padding: 3% 0;
-  border-radius: 40px;
-  font-weight: 700;
-  width: 90%;
-  box-shadow: 0px 5px #004ab5; }
+  .matched .buttonBar .col {
+    width: 50%;
+    height: auto;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle; }
+    .matched .buttonBar .col button {
+      color: #fff;
+      margin: 10% 5%;
+      padding: 3% 0;
+      border-radius: 40px;
+      font-weight: 700;
+      width: 90%;
+      font-size: 0.9em; }
+  .matched .buttonBar .button-continue {
+    background-color: #f46554;
+    box-shadow: 0px 5px #b74c3f; }
+  .matched .buttonBar .button-change {
+    background-color: #0062f2;
+    box-shadow: 0px 5px #004ab5; }
 
 /* ALERT *********************************************************** */
 /* ***************************************************************** */
@@ -518,7 +557,8 @@ ion-footer-bar form {
   background-color: #fff; }
 
 .chat .sendMessageBox .item input {
-  background-color: #fff; }
+  background-color: #fff;
+  width: 100%; }
 
 .chat .sendMessageBox .item a {
   color: #0062f2; }
