@@ -314,6 +314,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     function onNewMessages(data) {
       $scope.chat_messages.push(data);
+      $ionicScrollDelegate.scrollBottom(true);
     };
 
     function subscribe() {
@@ -346,7 +347,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       }
     };
 
-    if ($scope.chat != null) {
+    if ($scope.chat && $scope.chat != null) {
       checkInitialMessages();
     }
     else {
@@ -372,7 +373,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: $scope.chat.last_sent_message})
       chat_message.save().then(function(saved_message) {
         $scope.chat.chat_messages.push(saved_message);
-        $scope.chat_messages.push(saved_message);
+        // $scope.chat_messages.push(saved_message);
         $scope.chat.last_sent_message = null;
         $ionicScrollDelegate.scrollBottom(true);
       });

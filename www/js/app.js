@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper'])
   .constant('config', {
-      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com',
+      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
       API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
@@ -31,7 +31,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
     // $sceDelegateProvider.resourceUrlWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, Chat) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat) {
     $ionicPlatform.ready(function(readyEventData) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -42,11 +42,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-      
-      console.log('READY')
-      Chat.force_reload_active().then(function() {
-        $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
-      });
 
       $rootScope.goMain = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
@@ -75,15 +70,24 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       $rootScope.hideLoading = function() {
         $ionicLoading.hide();
       };
+      
+      console.log('READY')
+      if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
+        Chat.force_reload_active().then(function() {
+          $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
+        });
+      }
     });
 
     $ionicPlatform.on('resume', function(){
       //rock on
       console.log('RESUME')
 
-      Chat.force_reload_active().then(function() {
-        $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
-      });
+      if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
+        Chat.force_reload_active().then(function() {
+          $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
+        });
+      }
     });
   })
 
