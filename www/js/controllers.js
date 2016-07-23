@@ -386,4 +386,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
         return 'ChatMessage.html';
       }
     };
-  });
+  })
+
+  .controller('blankCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+    
+  })

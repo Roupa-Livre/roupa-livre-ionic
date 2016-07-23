@@ -7,6 +7,11 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+    .state('to_test', {
+      url: '/to_test',
+      templateUrl: 'templates/loading.html',
+      controller: 'blankCtrl'
+    })
     .state('initial', {
       url: '/initial',
       templateUrl: 'templates/loading.html',
@@ -111,6 +116,7 @@ angular.module('app.routes', [])
     
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/initial');
+  $urlRouterProvider.otherwise('/to_test');
   // $urlRouterProvider.otherwise('/menu/start');
 
 });
