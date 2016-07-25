@@ -9,13 +9,6 @@
 .row {
   padding: 0; }
 
-.item-radio {
-  border: 0; }
-
-.item-radio input:checked + .radio-content .item-content {
-  background: #fff;
-}
-
 /* HEADER ********************************************************** */
 /* ***************************************************************** */
 .title .button {
