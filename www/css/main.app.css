@@ -3,7 +3,7 @@
 /* GENERAL ********************************************************* */
 /* ***************************************************************** */
 * {
-  font-family: 'Nunito', Sans-Serif;
+  font-family: 'Nunito', Sans-Serif !important;
   font-weight: 300; }
 
 .row {
@@ -70,7 +70,8 @@ ion-footer-bar form {
   height: 40%;
   text-align: center;
   vertical-align: middle;
-  display: table; }
+  display: table;
+  width: 100%; }
   .splash .slogan p {
     color: #fff;
     display: block;
@@ -81,7 +82,8 @@ ion-footer-bar form {
     vertical-align: middle;
     display: table-cell;
     padding-right: 20%;
-    padding-left: 20%; }
+    padding-left: 20%;
+    width: 50%; }
 
 .splash .action {
   height: 30%;
@@ -304,7 +306,7 @@ ion-footer-bar form {
 
   .matched .title h1 {
     color: #fff;
-    font-family: 'Kaushan Script', Sans-Serif;
+    font-family: 'Kaushan Script', Sans-Serif !important;
     font-size: 70px;
     text-align: center;
     vertical-align: middle;
@@ -393,7 +395,7 @@ ion-footer-bar form {
 
 .alert .title h1 {
   color: #fff;
-  font-family: 'Kaushan Script', Sans-Serif;
+  font-family: 'Kaushan Script', Sans-Serif !important;
   font-size: 70px;
   text-align: center;
   padding-top: 58px; }
