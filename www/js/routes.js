@@ -10,7 +10,7 @@ angular.module('app.routes', [])
     .state('to_test', {
       url: '/to_test',
       templateUrl: 'templates/match/matched.html',
-      controller: 'blankCtrl'
+      controller: 'matchWarningCtrl'
     })
     .state('initial', {
       url: '/initial',

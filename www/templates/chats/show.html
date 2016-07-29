@@ -1,30 +1,33 @@
-<ion-view class="chat"><!--SUBHEADER-->
+<ion-view class="chat">
+  <!--SUBHEADER-->
   <div class="bar bar-subheader">
-    <div class="changes">
-      <div class="left">
-        <img ng-repeat="image in chat.other_user_apparel_images" ng-src="{{ (image.file | imageSrc ) || &#39;img/picDress1.jpg&#39; }}" />
-      </div>
-      <div class="right">
-        <img ng-repeat="image in chat.owned_apparel_images" ng-src="{{ (image.file | imageSrc ) || &#39;img/picDress1.jpg&#39; }}" />
-      </div>
-    </div>
+    
     <div class="chatHeader">
       <div class="left">
         <img class="avatar" ng-src="{{ (chat.other_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       </div>
       <div class="right">
-        <img class="avatar" ng-src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+        <a href="" class="seeChanges">
+          <img ng-src="img/btnLikeChat.png">
+          <div>ver peças que combinaram</div>
+        </a>
       </div>
     </div>
+
     <h2 ng-bind="chat.other_user | shortName"></h2>
   </div>
-  <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
+  
+  <!--CONTENT-->
+  <ion-content class="has-header has-subheader has-footer">
     <div class="padding">
       <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
         <div class="col" ng-bind="chat_message.message"></div>
       </div>
     </div>
-  </ion-content><!--FOOTER--><ion-footer-bar>
+  </ion-content>
+
+  <!--FOOTER-->
+  <ion-footer-bar>
     <form ng-submit="send()">
       <div class="list sendMessageBox">
         <div class="item item-input-inset">

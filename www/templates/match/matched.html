@@ -1,20 +1,59 @@
-<ion-view class="matched"><!--CONTENT--><ion-content scroll="false">
+<ion-view class="matched">
+  <!--CONTENT-->
+  <ion-content scroll="false">
     <div class="title">
       <h1>
         Combinou!
       </h1>
     </div>
-    <div class="row images">
+
+    <div class="row">
       <div class="col">
-        <img ng-src="img/picDress1.jpg" width="100%" />
+        <img class="avatar" src="img/avatar.png">
       </div>
+
       <div class="col">
-        <img ng-src="img/picDress3.jpg" width="100%" />
+        <img class="avatar" src="img/avatar.png">
       </div>
     </div>
-    <p ng-if="chat">
-      {{ chat.other_user | shortName }} e você têm peças para trocar.
-    </p>
+
+    <div class="row users">
+      <div class="col">
+        <p>giovana</p>
+        <p>curtiu</p>
+      </div>
+
+      <div class="col">
+        <p>{{ chat.other_user | shortName }}</p>
+        <p>curtiu</p>
+      </div>
+    </div>
+
+    <div class="row matchCards">
+      <div class="col">
+        <div class="list">
+          <ion-item>
+            <img ng-src="img/picDress1.jpg" width="100%">
+
+            <p>vestidinho florido</p>
+            <p>tamanho M | fem | adulta</p>
+          </ion-item>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="list">
+          <ion-item>
+            <img ng-src="img/picDress3.jpg" width="100%">
+
+            <p>bolsa novinha</p>
+            <p>pequena | fem | adulta</p>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+    <!--
     <div class="row buttonBar">
       <div class="col">
         <button class="button button-continue" ng-click="cancel()">continuar trocando</button>
@@ -23,4 +62,12 @@
         <button class="button button-change" ng-click="submit()">combinar a troca</button>
       </div>
     </div>
-  </ion-content></ion-view>
+    -->
+
+    <!-- IMPLEMENTAR ESSA OPÇÃO TAMBEM -->
+    <button class="button button-change">
+      voltar pra conversa
+    </button>
+
+  </ion-content>
+</ion-view>

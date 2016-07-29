@@ -3,16 +3,49 @@ ion-view.matched
   ion-content scroll="false" 
     .title
       h1 Combinou!
-    .row.images
+
+    .row
       .col
-        img ng-src="img/picDress1.jpg" width="100%" /
+        img.avatar src="img/avatar.png
+
       .col
-        img ng-src="img/picDress3.jpg" width="100%" /
-    p ng-if="chat" {{ chat.other_user | shortName }} e você têm peças para trocar.
-    .row.buttonBar
+        img.avatar src="img/avatar.png
+
+    .row users
       .col
-        button.button.button-continue ng-click="cancel()" 
-          | continuar trocando
+        p giovana
+        p curtiu
+
       .col
-        button.button.button-change ng-click="submit()" 
-          | combinar a troca
+        p {{ chat.other_user | shortName }}
+        p curtiu
+
+    .row matchCards
+      .col
+        .list
+          ion-item
+            img ng-src="img/picDress1.jpg" width="100%
+
+            p vestidinho florido
+            p tamanho M | fem | adulta
+
+      .col
+        .list
+          ion-item
+            img ng-src="img/picDress3.jpg" width="100%
+
+            p bolsa novinha
+            p pequena | fem | adulta
+
+/!    .row.buttonBar
+/!      .col
+/!        button.button.button-continue ng-click="cancel()" 
+/!          | continuar trocando
+/!      .col
+/!        button.button.button-change ng-click="submit()" 
+/!          | combinar a troca
+
+    /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
+    button.button.button-change
+      | voltar pra conversa
+    
