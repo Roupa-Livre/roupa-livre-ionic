@@ -1,0 +1,56 @@
+<ion-view class="search"><!--SUBHEADER-->
+  <div class="bar bar-subheader">
+    <div class="sheader">
+      <img class="icon" src="img/iconSearch.png" />
+      <p class="title">
+        filtrar
+      </p>
+    </div>
+  </div>
+  <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
+    <div class="list">
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">#hashtag</span><input placeholder="#camisa #usada #linda" type="text" />
+      </div>
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">tamanho</span><input placeholder="p, m, g, ou 48?" type="text" />
+      </div>
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">gênero</span>
+        <div class="row">
+          <div class="col col-33">
+            <ion-radio ng-model="gender" ng-value="female" value="gender"> fem</ion-radio>
+          </div>
+          <div class="col col-33">
+            <ion-radio ng-model="gender" ng-value="male" value="gender"> mas</ion-radio>
+          </div>
+          <div class="col col-33">
+            <ion-radio ng-model="gender" ng-value="nogender" value="gender"> sem gênero</ion-radio>
+          </div>
+        </div>
+      </div>
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">adulta ou infantil</span>
+        <div class="row">
+          <div class="col col-33">
+            <ion-radio ng-model="clothestype" ng-value="adult" value="clothestype"> adulta</ion-radio>
+          </div>
+          <div class="col col-33">
+            <ion-radio ng-model="clothestype" ng-value="adult" value="clothestype"> infantil</ion-radio>
+          </div>
+          <div class="col col-33">
+            <ion-radio ng-model="clothestype" ng-value="nomatter" value="clothestype"> tanto faz</ion-radio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content><!--FOOTER--><ion-footer-bar>
+    <div class="row buttonBar">
+      <div class="col">
+        <button class="button button-cancel" ng-click="cancel()">limpar filtros</button>
+      </div>
+      <div class="col">
+        <button class="button button-filter" ng-click="filter()">filtrar</button>
+      </div>
+    </div>
+  </ion-footer-bar></ion-view>

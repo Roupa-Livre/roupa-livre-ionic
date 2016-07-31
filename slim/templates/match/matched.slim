@@ -6,21 +6,21 @@ ion-view.matched
 
     .row
       .col
-        img.avatar src="img/avatar.png
+        img.avatar src="img/avatar.png"
 
       .col
-        img.avatar src="img/avatar.png
+        img.avatar src="img/avatar.png"
 
-    .row users
+    .row.users
       .col
-        p giovana
+        p Você
         p curtiu
 
       .col
-        p {{ chat.other_user | shortName }}
+        p ng-bind="chat.other_user | shortName"
         p curtiu
 
-    .row matchCards
+    .row.matchCards
       .col
         .list
           ion-item
@@ -48,4 +48,3 @@ ion-view.matched
     /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
     button.button.button-change
       | voltar pra conversa
-    
