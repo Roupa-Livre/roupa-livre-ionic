@@ -57,8 +57,6 @@ angular.module('app.filters', [])
       var days = 24 * 3600 * 1000;
       var diff = nowMoment.diff(timeMoment);
       var diffInDays = diff / days;
-      console.log(diff)
-      console.log(diffInDays)
       // var diffInHours = diffInDays / 24;
       if (diffInDays > 1) {
         if (diffInDays < 2 && nowMoment.date() == (timeMoment.date() - 1))
