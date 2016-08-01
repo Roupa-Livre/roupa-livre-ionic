@@ -5,6 +5,108 @@ angular.module('app.services', ['ngResource', 'rails'])
       railsSerializerProvider.underscore(angular.identity).camelize(angular.identity);
   }])
 
+  .factory('DBA', function($cordovaSQLite, $q, $ionicPlatform) {
+    var self = this;
+    var db;
+
+    function dbsafe(value) {
+      if (!value || value == null)
+        return null;
+      else
+        return value;
+    }
+
+    self.init = function() {
+      var q = $q.defer();
+
+      self.get_db().then(function (db) {         
+        var CHATS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chats (id integer primary key, user_1_id integer, user_2_id integer, name text, last_read_at date, other_user blob, others_last_read_at date, other_user_apparel_images blob, owned_apparel_images blob, unread_messages_count integer, total_messages_count integer, last_message_sent blob, last_message_sent_at date)";
+        $cordovaSQLite.execute(db, CHATS_TABLE_QUERY); 
+
+        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
+        var MESSAGES_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chat_messages (id integer primary key, chat_id integer, user_id integer, message text, created_at date)";
+        $cordovaSQLite.execute(db, MESSAGES_TABLE_QUERY); 
+
+        self.query = do_query;
+
+        q.resolve(db);
+      });
+
+      return q.promise;
+    }
+
+    self.get_db = function() {
+      var q = $q.defer();
+
+      $ionicPlatform.ready(function () {         
+        if (window.cordova) {
+          db = $cordovaSQLite.openDB("roupalivre_v1.db"); //device
+        } else {
+          db = window.openDatabase('roupalivre_v1.db', '1.0', 'roupa_livre', -1);
+        }
+
+        q.resolve(db);
+      });
+
+      return q.promise;
+    }
+
+    var do_query = function (query, parameters) {
+      parameters = parameters || [];
+      var q = $q.defer();
+
+      $cordovaSQLite.execute(db, query, parameters)
+        .then(function (result) {
+          q.resolve(result);
+        }, function (error) {
+          console.warn('Erro na execução da query');
+          console.warn(error);
+          q.reject(error);
+        });
+      
+      return q.promise;
+    }
+      
+    var check_and_query = function (query, parameters) {
+      parameters = parameters || [];
+      var q = $q.defer();
+
+      self.init().then(function(db) {
+        do_query(query, parameters).then(q.resolve, q.reject);
+      });
+      
+      return q.promise;
+    }
+
+    self.query = check_and_query;
+      
+    // Processa result set
+    self.getAll = function(result) {
+      return processAll(result, function(item) { return item; });
+    }
+
+    self.processAll = function(result, processFunction) {
+      var output = [];
+
+      for (var i = 0; i < result.rows.length; i++) {
+        output.push(processFunction(result.rows.item(i)));
+      }
+      return output;
+    }
+
+    self.getFirstOrNull = function(result) {
+      return processFirstOrNull(result, function(item) { return item; });
+    }
+
+    self.processFirstOrNull = function(result, processFunction) {
+      if (result.rows.length > 0)
+        return processFunction(result.rows.item(0));
+      return null;
+    }
+
+    return self;
+  })
+
   .factory('ApparelSerializer', function (railsSerializer) {
     return railsSerializer(function () {
       this.nestedAttribute('apparel_images');
@@ -53,15 +155,29 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 
-    function($resource, $auth, $q, $rootScope, railsResourceFactory) {
+  .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 'DBA',
+    function($resource, $auth, $q, $rootScope, railsResourceFactory, DBA) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/chats', 
         name: 'chat'
       });
 
-      if (!resource.hasOwnProperty('_active_chats'))
-        resource._active_chats = [];
+      function readFromDB(dbData) {
+        var chat = new resource(dbData);
+        chat.other_user = JSON.parse(chat.other_user);
+        chat.other_user_apparel_images = JSON.parse(chat.other_user_apparel_images);
+        chat.owned_apparel_images = JSON.parse(chat.owned_apparel_images);
+        chat.last_message_sent = JSON.parse(chat.last_message_sent);
+        delete chat['last_message_sent_at'];
+        return chat;
+      };
+
+      function saveToDB(chat) {
+        var values = [chat.id, chat.user_1_id, chat.user_2_id, name, chat.last_read_at, JSON.stringify(chat.other_user), chat.others_last_read_at, JSON.stringify(chat.other_user_apparel_images), JSON.stringify(chat.owned_apparel_images), chat.unread_messages_count, chat.total_messages_count, JSON.stringify(chat.last_message_sent), (chat.last_message_sent != null ? chat.last_message_sent.created_at : null)];
+        DBA.query("INSERT OR REPLACE INTO chats (id, user_1_id, user_2_id, name, last_read_at, other_user, others_last_read_at, other_user_apparel_images, owned_apparel_images, unread_messages_count, total_messages_count, last_message_sent, last_message_sent_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", values);
+      };
+
+      // _active_chats
 
       function countAllChatsNotifications(data) {
         var totalCount=0;
@@ -75,101 +191,40 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       resource.GlobalNotifications = 0;
 
-      resource.prototype.setLatestChatMessages = function(chat_messages) {
-        function reorder(messages) {
-          new_list = [];
-          for (var i = messages.length - 1; i >= 0; i--) {
-            new_list.push(messages[i]);
-          }
-          return new_list;
-        };
-
-        if (!this.hasOwnProperty('chat_messages') || this.chat_messages == null) {
-          this.chat_messages = reorder(chat_messages);
-        } else {
-          for (var i = chat_messages.length - 1; i >= 0; i--) {
-            this.chat_messages.push(chat_messages[i]);
-          }
-        }
-      };
-
-      resource.prototype.setPreviousChatMessages = function(chat_messages) {
-        for (var i = chat_messages.length - 1; i >= 0; i--) {
-          this.chat_messages.unshift(chat_messages[i]);
-        }
+      resource.prototype.saveLocally = function() {
+        saveToDB(this);
       };
 
       resource.prototype.getLastMessage = function() {
-        if (this.chat_messages && this.chat_messages.length > 0)
-          return this.chat_messages[this.chat_messages.length - 1];
-        else
-          return null;
+        return this.last_message_sent;
       };
 
       resource.new_chat_created = function(chat) {
-        addOrReplaceValues(resource._active_chats, chat);
+        saveToDB(chat);
       };
 
       resource.local_active_by_id = function(id) {      
-        var found = null;
-        for (var i = resource._active_chats.length - 1; i >= 0; i--) {
-          var chat = resource._active_chats[i];
-          if (chat.id == id) {
-            found = chat;
-            break;
-          }
-        }
-        return found;
+        return DBA.query("SELECT * FROM chats where id = ?", [ id ]).then(function(chatRows){ 
+          return DBA.processFirstOrNull(chatRows, readFromDB); 
+        });
       };
 
       resource.online_active_by_id = function(id) {
         return $q(function(resolve, reject) {
           resource.get(id)
             .then(function(data) {
-              addOrReplaceValues(resource._active_chats, data);
-
+              saveToDB(data);
               resolve(data);
             }, reject);
-        });
-      };
-
-      resource.active_by_user = function(user_id) {
-        return $q(function(resolve, reject) {
-          var found = null;
-          for (var i = resource._active_chats.length - 1; i >= 0; i--) {
-            var chat = resource._active_chats[i];
-            if (chat.user_1_id == user.id || chat.user_2_id == user.id) {
-              found = chat;
-              break;
-            }
-          }
-
-          if (found != null) {
-            resolve(found);
-          } else {
-            resource.$get(resource.$url('active_by_user'), { user_id: user_id })
-              .then(function(data) {
-                addOrReplaceValues(resource._active_chats, data);
-
-                resolve(data);
-              }, reject);
-          }
         });
       };
 
       function reloadActive(resolve, reject) {
         resource.query({}).then(function(data) {
           if (data != null) {
-            if (resource._active_chats.length == 0) {
-              resource._active_chats = data;
-            } else {
-              for (var i = data.length - 1; i >= 0; i--) {
-                var newChatInfo = data[i];
-                addOrReplaceValues(resource._active_chats, newChatInfo);
-              }
+            for (var i = data.length - 1; i >= 0; i--) {
+              saveToDB(data[i]);
             }
-            
-            // TODO: Salvar em local storage
 
             resource.GlobalNotifications = countAllChatsNotifications(data);
             resource.LastRefreshedChatsAt = new Date();
@@ -186,39 +241,75 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       resource.active = function() {
         return $q(function(resolve, reject) {
-          if (resource._active_chats.length == 0) {
-            reloadActive(resolve, reject);
-          } else {
-            resolve(resource._active_chats);
-          }
+          DBA.query("SELECT * FROM chats order by last_message_sent_at desc").then(function(chatRows){ 
+            var chats = DBA.processAll(chatRows, readFromDB); 
+            if (chats.length == 0) {
+              reloadActive(resolve, reject);
+            } else {
+              resolve(chats);
+            }
+          }, reject);
         });
       };
 
       return resource;
   }])
 
-  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 
-    function($resource, $auth, $q, $rootScope, railsResourceFactory) {
+  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 'DBA', 
+    function($resource, $auth, $q, $rootScope, railsResourceFactory, DBA) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/chat_messages', 
         name: 'chat_message'
       });
 
+      function readFromDB(dbData) {
+        return new resource(dbData);
+      };
+
+      function saveToDB(chat_message) {
+        var values = [chat_message.id, chat_message.user_id, chat_message.chat_id, chat_message.message, chat_message.created_at];
+        DBA.query("INSERT OR REPLACE INTO chat_messages (id, user_id, chat_id, message, created_at) VALUES (?, ?, ?, ?, ?)", values);
+      };
+
+      function saveAllToDB(chat_messages) {
+        for (var i = chat_messages.length - 1; i >= 0; i--) {
+          saveToDB(chat_messages[i]);
+        }
+      }
+
+      resource.current = function(chat) {
+        return $q(function(resolve, reject) {
+          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT 20", [chat.id]).then(function(messageRows){ 
+            var messages = DBA.processAll(messageRows, readFromDB); 
+            resolve(reverse(messages));
+          }, reject);
+        });
+      };
+
       resource.latest = function(chat) {
         return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id }).then(resolve, reject);
+          resource.query({ chat_id: chat.id }).then(function(data) {
+            saveAllToDB(data);
+            resolve(data);
+          }, reject);
         });
       };
 
       resource.latestAfterRead = function(chat) {
         return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(resolve, reject);
+          resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(function(data) {
+            saveAllToDB(data);
+            resolve(data);
+          }, reject);
         });
       };
 
       resource.previousMessages = function(chat, base_message) {
         return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id, base_message_id: base_message.id }).then(resolve, reject);
+          resource.query({ chat_id: chat.id, base_message_id: base_message.id }).then(function(data) {
+            saveAllToDB(data);
+            resolve(data);
+          }, reject);
         });
       };
 
@@ -278,17 +369,5 @@ angular.module('app.services', ['ngResource', 'rails'])
         }
  
     };
-  }])
-
-  .factory('BlankFactory', [function(){
-    return {
-      teste: function() {
-        
-      }
-    }
-  }])
-
-  .service('BlankService', [function(){
-
   }]);
 

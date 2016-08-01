@@ -20,6 +20,14 @@ function updateLatLng($cordovaGeolocation, $auth, $q) {
   return deferred.promise;
 }
 
+function reverse(items) {
+  new_list = [];
+  for (var i = items.length - 1; i >= 0; i--) {
+    new_list.push(items[i]);
+  }
+  return items;
+};
+
 // ---- IMAGE CROP MODAL ----
 function addCroppingModal(controller, $scope, $ionicModal, $q, $timeout) {
   if (!(typeof controller.cropImage === 'function'))

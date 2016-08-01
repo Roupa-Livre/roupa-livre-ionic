@@ -296,6 +296,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
     Chat.active().then(function(data) {
       $scope.chats = data;
+    }, function(data) {
+      console.log(data);
     });
 
     $scope.open = function(chat) {
@@ -304,67 +306,116 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   })
 
   .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub) {
-    $scope.chat = Chat.local_active_by_id($stateParams["id"]);
-    $scope.chat_messages = null;
-
     $scope.$on("$destroy", function(){
       if ($scope.chat && $scope.chat != null)
         ChatSub.unsubscribe($scope.chat);
     });
 
-    function onNewMessages(data) {
-      $scope.chat_messages.push(data);
+    function onSubscribedNewMessage(messageData) {
+      $scope.last_message_sent = messageData;
+      $scope.saveLocally();
+
+      onNewMessages([ messageData ]);
       $ionicScrollDelegate.scrollBottom(true);
     };
 
+    function onNewMessages(messagesData) {
+      for (var i = 0; i < messagesData.length; i++) {
+        $scope.chat_messages.push(messagesData[i]);
+      }
+    }
+
+    function addPreviousMessages(messagesData) {
+      for (var i = messagesData.length - 1; i >= 0; i--) {
+        $scope.chat_messages.unshift(messagesData[i]);
+      }
+    }
+
     function subscribe() {
-      ChatSub.subscribe($scope.chat, onNewMessages);
+      ChatSub.subscribe($scope.chat, onSubscribedNewMessage);
+    };
+
+    $scope.getLatestMessages = function() {
+      var newLastRead = new Date();
+      return ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at).then(function(new_messages) {
+        onNewMessages(new_messages);
+        $scope.chat.last_read_at = newLastRead;
+        $scope.chat.saveLocally();
+
+        return new_messages;
+      },function(error) {
+        console.log(error);
+        return error;
+      });
+    };
+
+    function loadFirstTimeMessages() {
+      var newLastRead = new Date();
+      return ChatMessage.latest($scope.chat).then(function(new_messages) {
+        $scope.chat_messages = new_messages;
+        $scope.chat.last_read_at = newLastRead;
+        $scope.chat.saveLocally();
+
+        return new_messages;
+      }, function(error) {
+        console.log(error);
+        return error;
+      });
     };
 
     function checkInitialMessages() {
-      var newLastRead = new Date();
-      if ($scope.chat.hasOwnProperty('chat_messages') && $scope.chat.chat_messages != null) {
-        $scope.chat_messages = cloneArray($scope.chat.chat_messages);
+      ChatMessage.current($scope.chat).then(function(currentMessages) {
+        $scope.chat_messages = currentMessages;
         $ionicScrollDelegate.scrollBottom(true);
-        ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at).then(function(new_messages) {
-          $scope.chat.setLatestChatMessages(new_messages);
-          $scope.chat.last_read_at = newLastRead;
-          $ionicScrollDelegate.scrollBottom(true);
-          subscribe();
-        },function() {
-          subscribe();
-        });
-      } else {
-        ChatMessage.latest($scope.chat).then(function(new_messages) {
-          $scope.chat.setLatestChatMessages(new_messages);
-          $scope.chat_messages = cloneArray($scope.chat.chat_messages);
-          $scope.chat.last_read_at = newLastRead;
-          $ionicScrollDelegate.scrollBottom(true);
-          subscribe();
-        }, function() {
-          subscribe();
-        });
-      }
+
+        if (currentMessages.length > 0) {
+          $scope.getLatestMessages().then(function() {
+            subscribe();
+            $ionicScrollDelegate.scrollBottom(true);
+          }, subscribe);
+        } else { 
+          loadFirstTimeMessages().then(function() {
+            subscribe();
+            $ionicScrollDelegate.scrollBottom(true);
+          }, subscribe);
+        }
+        
+      }, function(error) {
+        console.log(error);
+        subscribe();
+      });
     };
 
-    if ($scope.chat && $scope.chat != null) {
-      checkInitialMessages();
-    }
-    else {
-      $rootScope.showLoading('Carregando mensagens ...');
-      Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
-        $scope.chat = chat;
+    function checkChat() {
+      if ($scope.chat && $scope.chat != null) {
         checkInitialMessages();
-        $rootScope.hideLoading();
-      });
+      }
+      else {
+        $rootScope.showLoading('Carregando mensagens ...');
+        Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
+          $scope.chat = chat;
+          checkInitialMessages();
+          $rootScope.hideLoading();
+        });
+      }
     }
+
+    $scope.chat = null;
+    $scope.chat_messages = null;
+    Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
+      $scope.chat = chat;
+      checkChat();
+    }, function(error) {
+      console.log(error);
+      checkChat();
+    })
 
     $scope.loadPrevious = function() {
       if ($scope.chat_messages == null || $scope.chat_messages.length == 0)
         checkInitialMessages();
       else {
         ChatMessage.previousMessages($scope.chat, $scope.chat_messages[0]).then(function(new_messages) {
-          $scope.chat.setPreviousChatMessages(new_messages);
+          addPreviousMessages(new_messages);
         });
       }
     }
