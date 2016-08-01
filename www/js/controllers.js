@@ -296,6 +296,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
     Chat.active().then(function(data) {
       $scope.chats = data;
+      Chat.force_reload_active().then(function(data) {
+        $scope.chats = data;
+      });
     }, function(data) {
       console.log(data);
     });

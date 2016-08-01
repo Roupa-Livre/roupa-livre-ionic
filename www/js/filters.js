@@ -30,6 +30,10 @@ function getImageAsSource($auth, image) {
     return image;
 };
 
+function timeToDate(time) {
+  return new Date(time.getFullYear(), time.getMonth(), time.getDate(), 0,0,0);
+}
+
 angular.module('app.filters', [])
   .filter('distanceToString', function () {
     return function (distance) {
@@ -42,6 +46,32 @@ angular.module('app.filters', [])
       }
       else
         return 'há ' + rounded + 'km';
+    };
+  })
+  .filter('timeToString', function () {
+    return function (time) {
+      var timeMoment = moment(time);
+      var nowMoment = moment();
+      // var nowDate = timeToDate(now);
+      // var timeDate = timeToDate(time);
+      var days = 24 * 3600 * 1000;
+      var diff = nowMoment.diff(timeMoment);
+      var diffInDays = diff / days;
+      console.log(diff)
+      console.log(diffInDays)
+      // var diffInHours = diffInDays / 24;
+      if (diffInDays > 1) {
+        if (diffInDays < 2 && nowMoment.date() == (timeMoment.date() - 1))
+          return 'ontem';
+        else {
+          return Math.floor(diffInDays) + ' dias atrás';
+        }
+      } else {
+        if (nowMoment.date() == timeMoment.date())
+          return timeMoment.format('h:mm')
+        else
+          return 'ontem';
+      }
     };
   })
   .filter('trimStartChar', function () {
