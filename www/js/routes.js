@@ -54,12 +54,12 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('menu.me', {
-      url: '/me',
+    .state('menu.menu', {
+      url: '/menu',
       views: {
         'view-content': {
-          templateUrl: 'templates/me.html',
-          controller: 'myselfCtrl'
+          templateUrl: 'templates/menu.html',
+          controller: 'menuCtrl'
         }
       }
     })
@@ -80,6 +80,16 @@ angular.module('app.routes', [])
         'view-content': {
           templateUrl: 'templates/match/apparel.html',
           controller: 'apparelCtrl'
+        }
+      }
+    })
+
+    .state('menu.apparel_list', {
+      url: '/apparels/:user_id',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/apparels/index.html',
+          controller: 'apparelListCtrl'
         }
       }
     })

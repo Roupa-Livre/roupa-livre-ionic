@@ -6,11 +6,11 @@ ion-view.has-header.has-subheader.mainMenu
       p.title oiê, giovana camargo!
       p.subtitle tire sua roupa esquecida do armário
 
-      button.button.button-offer oferecer peça
+      button.button.button-offer ng-click="goNew()" oferecer peça
 
   ion-content.has-header.has-subheader
     ion-list
-      ion-item href="#" menu-close=""
+      ion-item href="" ng-click="goSearch()" menu-close=""
         img.icon src="img/iconSearch.png"
         span filtrar
       ion-item href="" ng-click="goApparels()" menu-close="" 

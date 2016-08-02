@@ -55,7 +55,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
       $rootScope.goMenu = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.me');
+        $state.go('menu.menu');
       };
 
       $rootScope.showLoading = function(message) {

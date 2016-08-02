@@ -22,8 +22,18 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       validate();
   })
 
-  .controller('myselfCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+  .controller('menuCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     $scope.goApparels = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel_list');
+    };
+
+    $scope.goSearch = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.search');
+    };
+
+    $scope.goNew = function() {
       $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go('menu.new');
     };
@@ -193,6 +203,10 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     };
 
     updateLatLng($cordovaGeolocation, $auth, $q);
+  })
+
+  .controller('apparelListCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, Apparel) {
+    
   })
 
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
