@@ -202,9 +202,25 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       });
   })
 
-  .controller('matchNotFoundCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q) {
+  .controller('matchNotFoundCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, $cordovaSocialSharing, Apparel) {
     // TODO tem action deve ir pra filtros caso esteja com filtros
-    $scope.hasAction = true;
+    $scope.hasAction = Apparel.hasFilters();
+
+    $scope.shareApp = function() {
+      $cordovaSocialSharing.share('Vem também trocar umas peças', 'Roupa Livre', null, 'http://www.roupalivre.com.br/') // Share via native share sheet
+        .then(function(result) {
+          // Success!
+        }, function(err) {
+          // An error occured. Show a message to the user
+        });
+    }
+
+    $scope.advance = function() {
+      // TODO Limpa Filtros
+
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel', {}, {reload: true});
+    };
 
     $scope.advance = function() {
       // TODO Limpa Filtros
@@ -282,7 +298,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     function nextAfterRating() {
       $ionicHistory.nextViewOptions({ disableBack: true });
       // $state.go($state.current, {}, {reload: true});
-      $state.transitionTo($state.current, { last_id: $scope.entry.id }, {
+      $state.go($state.current, { last_id: $scope.entry.id }, {
         reload: true,
         inherit: false,
         notify: true

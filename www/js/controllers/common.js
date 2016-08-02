@@ -1,3 +1,12 @@
+function isEmptyObject(obj) {
+  for(var prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function updateLatLng($cordovaGeolocation, $auth, $q) {
   var deferred = $q.defer();
   var posOptions = {timeout: 10000, enableHighAccuracy: true};

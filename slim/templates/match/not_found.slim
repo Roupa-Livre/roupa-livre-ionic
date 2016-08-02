@@ -7,3 +7,5 @@ ion-view.alert has-header="false"
     p.info ng-bind="subtitle || 'hora de mudar de lugar pra mais opções'"
 
     button.button.button-click ng-if="hasAction" ng-click="advance()" ng-bind="action_text || 'buscar novamente'"
+    button.button.button-click ng-if="!hasAction" ng-click="shareApp()" ng-bind="'compartilhar com amigos'"
+shareApp

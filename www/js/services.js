@@ -122,8 +122,25 @@ angular.module('app.services', ['ngResource', 'rails'])
         serializer: 'ApparelSerializer'
       });
 
+      var filters = {};
+
+      resource.hasFilters = function() {
+        return !isEmptyObject(filters);
+      };
+
+      resource.applyFilters = function(newFilters) {
+        filters = filters;
+      };
+
+      resource.clearFilters = function() {
+        filters = {};
+      };
+
       resource.search = function (params) {
-        return resource.query(params);
+        params = params || {};
+        filters = filters || {};
+        var mergedParams = angular.extend({}, params, filters)
+        return resource.query(mergedParams);
       };
 
       resource.owned = function() {
