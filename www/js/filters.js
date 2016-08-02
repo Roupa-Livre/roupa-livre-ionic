@@ -111,4 +111,25 @@ angular.module('app.filters', [])
       } else
         return '-';
     };
+  })
+  .filter('genderName', function ($auth) {
+    return function (gender) {
+      if (gender == "FEM" || gender == "MASC")
+        return gender;
+      else if (gender == "NO")
+        return 'sem gênero';
+      else
+        return null;
+    };
+  }).filter('ageInfoName', function ($auth) {
+    return function (gender) {
+      if (gender == "ADU")
+        return 'adulto';
+      else if (gender == "NO")
+        return 'infantil';
+      else if (gender != "NO")
+        return 'tanto faz';
+      else
+        return null;
+    };
   });

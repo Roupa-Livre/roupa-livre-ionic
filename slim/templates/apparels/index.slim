@@ -3,56 +3,27 @@ ion-view.myClothes
   /! SUBHEADER
   .bar.bar-subheader
     .sheader
-      img.avatar src="img/avatar.png" /
-      p.title minhas peças
+      img.avatar src="{{ (owner_user | userImageSrc ) || 'img/avatar.png' }}" /
+      p.title ng-bind="is_mine ? 'minhas peças' : (owner_user | shortName)"
 
   /! CONTENT
   ion-content.has-header.has-subheader
-    .row
-      .col.col-50
+    .row ng-repeat="apparel_chunk in apparels | chunkBy:2"
+      .col.col-50 ng-repeat="apparel in apparel_chunk"
         ion-item
-          img ng-src="img/picDress1.jpg" width="100%" /
-          p.title vestidinho florido
-          p tamanho M | fem | adulta
-          .row.options
+          img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" /
+          p.title ng-bind="apparel.title"
+          p
+            span ng-bind="apparel.size_info"
+            span ng-if="apparel.hasGender()"  | 
+            span ng-if="apparel.hasGender()" ng-bind="apparel.gender | genderName"
+            span ng-if="apparel.hasAgeInfo()"  | 
+            span ng-if="apparel.hasAgeInfo()" ng-bind="apparel.age_info | ageInfoName"
+          .row.options ng-if="is_mine"
             .col
-              img ng-src="img/btnDelete.png" /
-            .col
-              img ng-src="img/btnEdit.png" /
-      .col.col-50
-        ion-item
-          img ng-src="img/picDress3.jpg" width="100%" /
-          p.title bolsa novinha
-          p pequena | fem | adulta
-          .row.options
-            .col
-              a href="#" 
+              a href="" ng-click="delete(apparel)"
                 img ng-src="img/btnDelete.png" /
             .col
-              a href="#" 
+              a href="" ng-click="edit(apparel)"
                 img ng-src="img/btnEdit.png" /
-    .row
-      .col.col-50
-        ion-item
-          img ng-src="img/picDress1.jpg" width="100%" /
-          p.title vestidinho florido
-          p tamanho M | fem | adulta
-          .row.options
-            .col
-              a href="#" 
-                img ng-src="img/btnDelete.png" /
-            .col
-              a href="#" 
-                img ng-src="img/btnEdit.png" /
-      .col.col-50
-        ion-item
-          img ng-src="img/picDress3.jpg" width="100%" /
-          p.title bolsa novinha
-          p pequena | fem | adulta
-          .row.options
-            .col
-              a href="#" 
-                img ng-src="img/btnDelete.png" /
-            .col
-              a href="#" 
-                img ng-src="img/btnEdit.png" /
+      

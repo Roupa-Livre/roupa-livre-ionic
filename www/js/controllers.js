@@ -226,8 +226,42 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     updateLatLng($cordovaGeolocation, $auth, $q);
   })
 
-  .controller('apparelListCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, Apparel) {
-    
+  .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel) {
+    var user_id = $stateParams.hasOwnProperty("user_id") && $stateParams.user_id > 0 ? $stateParams.user_id : null;
+    $scope.is_mine = user_id == null;
+    if ($scope.is_mine) {
+      $scope.owner_user = $rootScope.user;
+      Apparel.owned().then(function(apparels) {
+        $scope.apparels = apparels;
+      });
+    } else {
+      // TODO Carrega apparels de outro user
+    }
+
+    $scope.edit = function(apparel) {
+      if ($scope.is_mine) {
+        $ionicHistory.nextViewOptions({ disableBack: false });
+        $state.go('menu.edit_apparel', { id: apparel.id });
+      }
+    }
+
+    $scope.delete = function(apparel) {
+      if ($scope.is_mine) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Tirando?',
+          template: 'Já trocou a roupa?<br />Ou só não quer mais trocar?<br />Tem certeza que quer tirar ela do roupa livre?'
+        });
+
+        confirmPopup.then(function(res) {
+          if(res) {
+            Apparel.delete(apparel);
+            console.log('You are sure');
+          } else {
+            console.log('You are not sure');
+          }
+        });
+      }
+    }
   })
 
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {

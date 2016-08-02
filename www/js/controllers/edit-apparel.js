@@ -108,7 +108,7 @@ angular.module('app.controllers')
     };
 
     $scope.submit = function() {
-      var isNew = $scope.entry.hasOwnProperty('id') && $scope.entry.id > 0;
+      var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
       $scope.entry.save().then(function(data) {
         $ionicHistory.nextViewOptions({ disableBack: true });
         if (isNew) {
@@ -118,6 +118,13 @@ angular.module('app.controllers')
           $state.go('menu.apparel_list');
         }
       });
+    };
+
+    $scope.cancel = function() {
+      var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
+      if (!isNew) {
+        $ionicHistory.goBack();
+      }
     };
 
     // Upload.fileTo($auth.apiUrl() + '/apparels').then(

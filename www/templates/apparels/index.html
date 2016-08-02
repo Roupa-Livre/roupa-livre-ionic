@@ -1,84 +1,24 @@
 <ion-view class="myClothes"><!--SUBHEADER-->
   <div class="bar bar-subheader">
     <div class="sheader">
-      <img class="avatar" src="img/avatar.png" />
-      <p class="title">
-        minhas peças
-      </p>
+      <img class="avatar" src="{{ (owner_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+      <p class="title" ng-bind="is_mine ? &#39;minhas peças&#39; : (owner_user | shortName)"></p>
     </div>
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader">
-    <div class="row">
-      <div class="col col-50">
-        <ion-item><img ng-src="img/picDress1.jpg" width="100%" />
-          <p class="title">
-            vestidinho florido
-          </p>
+    <div class="row" ng-repeat="apparel_chunk in apparels | chunkBy:2">
+      <div class="col col-50" ng-repeat="apparel in apparel_chunk">
+        <ion-item><img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" />
+          <p class="title" ng-bind="apparel.title"></p>
           <p>
-            tamanho M | fem | adulta
+            <span ng-bind="apparel.size_info"></span><span ng-if="apparel.hasGender()"> | </span><span ng-bind="apparel.gender | genderName" ng-if="apparel.hasGender()"></span><span ng-if="apparel.hasAgeInfo()"> | </span><span ng-bind="apparel.age_info | ageInfoName" ng-if="apparel.hasAgeInfo()"></span>
           </p>
-          <div class="row options">
+          <div class="row options" ng-if="is_mine">
             <div class="col">
-              <img ng-src="img/btnDelete.png" />
+              <a href="" ng-click="delete(apparel)"><img ng-src="img/btnDelete.png" /></a>
             </div>
             <div class="col">
-              <img ng-src="img/btnEdit.png" />
-            </div>
-          </div>
-        </ion-item>
-      </div>
-      <div class="col col-50">
-        <ion-item><img ng-src="img/picDress3.jpg" width="100%" />
-          <p class="title">
-            bolsa novinha
-          </p>
-          <p>
-            pequena | fem | adulta
-          </p>
-          <div class="row options">
-            <div class="col">
-              <a href="#"><img ng-src="img/btnDelete.png" /></a>
-            </div>
-            <div class="col">
-              <a href="#"><img ng-src="img/btnEdit.png" /></a>
-            </div>
-          </div>
-        </ion-item>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-50">
-        <ion-item><img ng-src="img/picDress1.jpg" width="100%" />
-          <p class="title">
-            vestidinho florido
-          </p>
-          <p>
-            tamanho M | fem | adulta
-          </p>
-          <div class="row options">
-            <div class="col">
-              <a href="#"><img ng-src="img/btnDelete.png" /></a>
-            </div>
-            <div class="col">
-              <a href="#"><img ng-src="img/btnEdit.png" /></a>
-            </div>
-          </div>
-        </ion-item>
-      </div>
-      <div class="col col-50">
-        <ion-item><img ng-src="img/picDress3.jpg" width="100%" />
-          <p class="title">
-            bolsa novinha
-          </p>
-          <p>
-            pequena | fem | adulta
-          </p>
-          <div class="row options">
-            <div class="col">
-              <a href="#"><img ng-src="img/btnDelete.png" /></a>
-            </div>
-            <div class="col">
-              <a href="#"><img ng-src="img/btnEdit.png" /></a>
+              <a href="" ng-click="edit(apparel)"><img ng-src="img/btnEdit.png" /></a>
             </div>
           </div>
         </ion-item>
