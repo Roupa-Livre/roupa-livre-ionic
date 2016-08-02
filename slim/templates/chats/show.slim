@@ -1,14 +1,13 @@
 ion-view.chat
   /! SUBHEADER
   .bar.bar-subheader
-
     .chatHeader
       .left
         img.avatar ng-src="{{ (chat.other_user | userImageSrc ) || 'img/avatar.png' }}" /
       .right
-        a.seeChanges href=""
+        a.matchLink href=""
           img ng-src="img/btnLikeChat.png" /
-          div ver peças que combinaram
+          .matchLinkText ver peças que combinaram
 
     h2 ng-bind="chat.other_user | shortName"
 

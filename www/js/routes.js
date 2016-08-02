@@ -9,7 +9,7 @@ angular.module('app.routes', [])
   $stateProvider
     .state('to_test', {
       url: '/to_test',
-      templateUrl: 'templates/apparels/new.html',
+      templateUrl: 'templates/match/matched.html',
       controller: 'blankCtrl'
     })
     .state('initial', {
