@@ -603,16 +603,17 @@ ion-footer-bar {
     background:-o-linear-gradient(top,#0772ef 0%,#1fabe4 50%,#37e4d9 100%);
     background:-ms-linear-gradient(top,#0772ef 0%,#1fabe4 50%,#37e4d9 100%);
     background:linear-gradient(to bottom,#0772ef 0%,#1fabe4 50%,#37e4d9 100%);
-    display:block;
-    height:206px;
-    min-height:206px;
-
+    display: block;
+    height: 40%;
+    min-height: 40%;
     h1 {
       color:#fff;
       font-family:'Kaushan Script',Sans-Serif !important;
       font-size:70px;
       text-align:center;
-      padding-top:58px;
+      vertical-align: middle;
+      top: 27%;
+      position: relative;
     }
   }
 
@@ -624,13 +625,13 @@ ion-footer-bar {
     font-size:16px;
     font-weight:500;
     display:block;
-    margin:30% auto 0 auto;
-    width:60%;
+    margin: 16% auto 0 auto;
+    width: 60%;
   }
 
   p.info {
     display:block;
-    margin:0 auto 30% auto;
+    margin: 0 auto 16% auto;
     width:60%;
   }
 

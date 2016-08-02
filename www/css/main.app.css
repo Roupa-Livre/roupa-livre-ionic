@@ -1,3 +1,5 @@
+/* GENERAL ********************************************************* */
+/* ***************************************************************** */
 * {
   font-family: 'Nunito',Sans-Serif !important;
   font-weight: 300; }
@@ -5,6 +7,8 @@
 .row {
   padding: 0; }
 
+/* HEADER ********************************************************** */
+/* ***************************************************************** */
 .title .button {
   display: block;
   margin: 5px auto 0 auto; }
@@ -14,18 +18,18 @@
     width: auto; }
 
 .button {
-  border: none;
-}
-
-.button .iconButton {
-  display: block;
-  height: 25px;
-  width: auto; }
+  border: none; }
+  .button .iconButton {
+    display: block;
+    height: 25px;
+    width: auto; }
 
 a.button .iconButton {
   display: inline-block;
   vertical-align: middle; }
 
+/* FOOTER ********************************************************** */
+/* ***************************************************************** */
 .bar.bar-footer {
   margin: 0;
   padding: 0; }
@@ -39,6 +43,8 @@ a.button .iconButton {
 ion-footer-bar form {
   width: 100%; }
 
+/* SPLASH ********************************************************** */
+/* ***************************************************************** */
 .splash {
   background-color: #37b2c3;
   background-image: url("../img/bgSplash.jpg");
@@ -97,6 +103,8 @@ ion-footer-bar form {
       box-shadow: 0px 5px #004AB5;
       border: 0; }
 
+/* MAIN MENU ******************************************************* */
+/* ***************************************************************** */
 .mainMenu .user {
   background: #0772ef;
   background: -moz-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
@@ -154,6 +162,8 @@ ion-footer-bar form {
   margin: 0 0 0 30px;
   float: left; }
 
+/* REGISTER CLOTHES ************************************************ */
+/* ***************************************************************** */
 .registerClothes .user-header {
   background: #0772ef;
   background: -moz-linear-gradient(right, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
@@ -244,6 +254,8 @@ ion-footer-bar form {
     box-shadow: 0px 5px #004ab5;
     border: 0; }
 
+/* SEARCH MATCH **************************************************** */
+/* ***************************************************************** */
 .searchMatch .list {
   margin-bottom: 0; }
 
@@ -318,6 +330,8 @@ ion-footer-bar form {
     width: 60%;
     margin-top: 20%; }
 
+/* LOADING ********************************************************* */
+/* ***************************************************************** */
 .loading {
   background-color: #0062f2; }
   .loading div.logo img {
@@ -336,6 +350,8 @@ ion-footer-bar form {
 .loading-container .loading {
   background-color: rgba(0, 98, 242, 0.7); }
 
+/* MATCHED ********************************************************* */
+/* ***************************************************************** */
 .matched {
   background-color: #37b2c3;
   background-image: url("../img/bgMatched.jpg");
@@ -416,6 +432,8 @@ ion-footer-bar form {
       box-shadow: 0px 5px #004ab5;
       border: 0; }
 
+/* ALERT *********************************************************** */
+/* ***************************************************************** */
 .alert .title {
   background: #0772ef;
   background: -moz-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
@@ -425,14 +443,16 @@ ion-footer-bar form {
   background: -ms-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
   background: linear-gradient(to bottom, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
   display: block;
-  height: 206px;
-  min-height: 206px; }
+  height: 40%;
+  min-height: 40%; }
   .alert .title h1 {
     color: #fff;
     font-family: 'Kaushan Script',Sans-Serif !important;
     font-size: 70px;
     text-align: center;
-    padding-top: 58px; }
+    vertical-align: middle;
+    top: 27%;
+    position: relative; }
 
 .alert p {
   text-align: center; }
@@ -441,12 +461,12 @@ ion-footer-bar form {
   font-size: 16px;
   font-weight: 500;
   display: block;
-  margin: 30% auto 0 auto;
+  margin: 16% auto 0 auto;
   width: 60%; }
 
 .alert p.info {
   display: block;
-  margin: 0 auto 30% auto;
+  margin: 0 auto 16% auto;
   width: 60%; }
 
 .alert .button-click {
@@ -460,8 +480,9 @@ ion-footer-bar form {
   box-shadow: 0px 5px #004ab5;
   border: 0; }
 
+/* MY CLOTHES ****************************************************** */
+/* ***************************************************************** */
 .myClothes {
-  background-color: #f0fcfb;
   background-color: #f0fcfb; }
   .myClothes .bar-subheader {
     background: #0772ef;
@@ -508,6 +529,8 @@ ion-footer-bar form {
         width: 20px;
         height: 20px; }
 
+/* USERS *********************************************************** */
+/* ***************************************************************** */
 .users .thumb {
   border: 2px solid #3df2d6; }
 
@@ -532,6 +555,8 @@ ion-footer-bar form {
   right: 32px;
   font-weight: 300; }
 
+/* CHAT ************************************************************ */
+/* ***************************************************************** */
 .chat .bar-subheader {
   background: #0772ef;
   background: -moz-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
@@ -547,6 +572,9 @@ ion-footer-bar form {
 .chat .has-subheader {
   top: 114px; }
 
+.chat .has-footer {
+  bottom: 54px !important; }
+
 .chat .chatHeader {
   display: block; }
   .chat .chatHeader .left img {
@@ -560,73 +588,83 @@ ion-footer-bar form {
     margin-top: 10px; }
   .chat .chatHeader .right {
     float: right; }
-    .chat .chatheader .right img {
-      display: block;
-      max-width: 30px;
-      max-height: 30px;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      margin: 10px auto 5px auto; }
-      .chat .chatheader .right .matchMessage {
+    .chat .chatHeader .right a.matchLink {
+      text-decoration: none; }
+      .chat .chatHeader .right a.matchLink img {
+        display: block;
+        max-width: 30px;
+        max-height: 30px;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        margin: 10px auto 5px auto; }
+      .chat .chatHeader .right a.matchLink .matchLinkText {
         color: #fff;
         max-width: 75px;
         font-size: 10px;
         font-weight: 700;
         text-align: center;
-        line-height: 130%; }
-  .chat .chatHeader img.avatar {
-    border: 2px solid #3df2d6; }
-  .chat h2 {
-    color: #fff !important;
-    font-size: 16px;
-    font-weight: 500;
-    margin: 25px 0 0 70px; }
-  .chat .message {
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding-bottom: 2px; }
-    .chat .message:first-child {
-      margin-top: 10px; }
-    .chat .message:first-child.meSpeak {
-      border-top-left-radius: 0; }
-    .chat .message:first-child.youSpeak {
-      border-top-right-radius: 0; }
-    .chat .message:not(:first-child).meSpeak + .message.youSpeak {
-      margin-top: 10px;
-      border-top-left-radius: 0; }
-    .chat .message:not(:first-child).youSpeak + .message.meSpeak {
-      margin-top: 10px;
-      border-top-right-radius: 0; }
-  .chat .message.meSpeak {
-    background: #ededed;
-    text-align: left;
-    padding-left: 4px; }
-  .chat .message.youSpeak {
-    background: #3df2d6;
-    padding-right: 4px;
-    text-align: right; }
-  .chat .bar-footer {
-    height: 54px; }
-  .chat .has-footer {
-    bottom: 54px; }
-  .chat .sendMessageBox {
-    min-width: 100%; }
-    .chat .sendMessageBox .item {
-      background-color: #f0fcfb;
-      border: 0; }
-      .chat .sendMessageBox .item label {
-        background-color: #fff; }
-      .chat .sendMessageBox .item input {
-        background-color: #fff;
-        width: 100%; }
-      .chat .sendMessageBox .item a {
-        color: #0062f2; }
+        line-height: 130%;
+        text-decoration: none; }
+
+.chat img.avatar {
+  border: 2px solid #3df2d6; }
+
+.chat h2 {
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 25px 0 0 70px; }
+
+.chat .message {
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding-bottom: 2px; }
+  .chat .message:first-child {
+    margin-top: 10px; }
+  .chat .message:first-child.meSpeak {
+    border-top-left-radius: 0; }
+  .chat .message:first-child.youSpeak {
+    border-top-right-radius: 0; }
+  .chat .message:not(:first-child).meSpeak + .message.youSpeak {
+    margin-top: 10px;
+    border-top-left-radius: 0; }
+  .chat .message:not(:first-child).youSpeak + .message.meSpeak {
+    margin-top: 10px;
+    border-top-right-radius: 0; }
+
+.chat .message.meSpeak {
+  background: #ededed;
+  text-align: left;
+  padding-left: 4px; }
+
+.chat .message.youSpeak {
+  background: #3df2d6;
+  padding-right: 4px;
+  text-align: right; }
+
+.chat .bar-footer {
+  height: 54px !important; }
+
+.chat .sendMessageBox {
+  min-width: 100%; }
+  .chat .sendMessageBox .item {
+    background-color: #f0fcfb;
+    border: 0; }
+    .chat .sendMessageBox .item label {
+      background-color: #fff; }
+    .chat .sendMessageBox .item input {
+      background-color: #fff;
+      width: 100%; }
+    .chat .sendMessageBox .item a {
+      color: #0062f2; }
 
 .bar-stable .button.button-clear {
   color: #0066ff;
   font-size: 36px; }
 
+/* SEARCH ********************************************************** */
+/* ***************************************************************** */
 .search .bar-subheader {
   background: #0772ef;
   background: -moz-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);
