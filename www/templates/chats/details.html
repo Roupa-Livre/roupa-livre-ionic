@@ -1,0 +1,56 @@
+<ion-view class="matched"><!--CONTENT--><ion-content scroll="false">
+    <div class="title">
+      <h1>
+        Combinou!
+      </h1>
+    </div>
+    <div class="row">
+      <div class="col col-50">
+        <img class="avatar" ng-src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+      </div>
+      <div class="col col-50">
+        <img class="avatar" ng-src="{{ (chat.other_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
+      </div>
+    </div>
+    <div class="row users">
+      <div class="col col-50">
+        <p>
+          Você
+        </p>
+        <p>
+          curtiu
+        </p>
+      </div>
+      <div class="col col-50">
+        <p ng-bind="chat.other_user | shortName"></p>
+        <p>
+          curtiu
+        </p>
+      </div>
+    </div>
+    <div class="row matchCards" ng-if="chat.owned_apparels.length &gt; 0 &amp;&amp; chat.other_user_apparels.length &gt; 0">
+      <div class="col col-50">
+        <div class="list">
+          <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="chat.other_user_apparels.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="apparel in chat.other_user_apparels"><ion-item><img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%" />
+                <p ng-bind="apparel.title"></p>
+                <p>
+                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.gender">| </span><span ng-bind="apparel.gender"></span><span ng-if="apparel.age_info">| </span><span ng-bind="apparel.age_info"></span>
+                </p>
+              </ion-item></ks-swiper-slide></ks-swiper-container>
+        </div>
+      </div>
+      <div class="col col-50">
+        <div class="list">
+          <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="chat.owned_apparels.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="apparel in chat.owned_apparels"><ion-item><img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%" />
+                <p ng-bind="apparel.title"></p>
+                <p>
+                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.gender">| </span><span ng-bind="apparel.gender"></span><span ng-if="apparel.age_info">| </span><span ng-bind="apparel.age_info"></span>
+                </p>
+              </ion-item></ks-swiper-slide></ks-swiper-container>
+        </div>
+      </div>
+    </div>
+    <div class="row buttonBar">
+      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="close()">voltar pra conversa</button>
+    </div>
+  </ion-content></ion-view>

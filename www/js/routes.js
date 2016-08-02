@@ -132,6 +132,16 @@ angular.module('app.routes', [])
           controller: 'chatCtrl'
         }
       }
+    })
+
+    .state('menu.chat_details', {
+      url: '/chat-details/:id',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/chats/details.html',
+          controller: 'chatDetailsCtrl'
+        }
+      }
     });
     
   // if none of the above states are matched, use this as the fallback

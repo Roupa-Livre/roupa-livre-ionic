@@ -163,21 +163,15 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
   .controller('matchWarningCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, Apparel, Chat) {
     $scope.single_option = false;
-    // Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
-    //   $scope.chat = chat;
-    //   if (!$scope.chat) {
-    //     Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
-    //       $scope.chat = chat;
-    //     }, function(error) {
-    //       console.log(error);
-    //     });
-    //   }
-    // });
-
-    Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+    Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
       $scope.chat = chat;
-    }, function(error) {
-      console.log(error);
+      if (!$scope.chat) {
+        Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+          $scope.chat = chat;
+        }, function(error) {
+          console.log(error);
+        });
+      }
     });
 
     function successUpdatedGeo() {
@@ -461,6 +455,12 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       checkChat();
     })
 
+    $scope.showChatDetails = function() {
+      $ionicHistory.nextViewOptions({ disableBack: false });
+      // $state.go($state.current, {}, {reload: true});
+      $state.go('menu.chat_details', { id: $scope.chat.id });
+    };
+
     $scope.loadPrevious = function() {
       if ($scope.chat_messages == null || $scope.chat_messages.length == 0)
         checkInitialMessages();
@@ -487,6 +487,20 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       } else {
         return 'ChatMessage.html';
       }
+    };
+  })
+
+  .controller('chatDetailsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub) {
+    Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
+      $scope.chat = chat;
+      Chat.online_active_by_id($stateParams["id"]).then(function(newChatInfo) {
+        if (newChatInfo)
+          $scope.chat = newChatInfo;
+      });
+    });
+
+    $scope.close = function() {
+      $ionicHistory.goBack();
     };
   })
 
