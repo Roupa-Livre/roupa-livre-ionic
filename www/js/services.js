@@ -129,11 +129,15 @@ angular.module('app.services', ['ngResource', 'rails'])
       };
 
       resource.applyFilters = function(newFilters) {
-        filters = filters;
+        filters = newFilters;
       };
 
       resource.clearFilters = function() {
         filters = {};
+      };
+
+      resource.getFilters = function() {
+        return filters;
       };
 
       resource.search = function (params) {
