@@ -53,9 +53,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $state.go('menu.chats');
       };
 
-      $rootScope.goApparels = function() {
+      $rootScope.goMenu = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.new');
+        $state.go('menu.menu');
       };
 
       $rootScope.showLoading = function(message) {

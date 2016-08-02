@@ -1,36 +1,21 @@
-ion-side-menus enable-menu-with-back-views="false" 
-  ion-side-menu-content
-    ion-nav-bar.bar-stable
-      ion-nav-buttons side="left"
-        button.button.button-clear.ion-navicon menu-toggle="left" 
-      ion-nav-title
-        h1.title
-          button.button.button-clear ng-click="goMain()" 
-            img.logoButton src="img/logoHeader.png" /
-      ion-nav-buttons side="right"
-          button.button.button-clear ng-click="goChats()" 
-            img.iconButton src="img/iconChat.png" /
+ion-view.has-header.has-subheader.mainMenu
+  .bar.bar-subheader
+    .user
+      img.avatar src="img/avatar.png"
 
-    ion-nav-view name="side-menu-content" 
+      p.title oiê, giovana camargo!
+      p.subtitle tire sua roupa esquecida do armário
 
-  /! MENU CONTENT
-  ion-side-menu.mainMenu side="left" 
-    ion-header-bar.bar-stable
-      .user
-        img.avatar src="img/avatar.png"
+      button.button.button-offer ng-click="goNew()" oferecer peça
 
-        p.title oiê, giovana camargo!
-        p.subtitle tire sua roupa esquecida do armário
-
-        button.button.button-offer oferecer peça
-    ion-content
-      ion-list
-        ion-item href="#" menu-close=""
-          img.icon src="img/iconSearch.png"
-          span filtrar
-        ion-item href="" ng-click="goApparels()" menu-close="" 
-          img.icon src="img/iconPencil.png"
-          span minhas peças
-        ion-item href="#" menu-close="" 
-          img.icon src="img/iconInfo.png"
-          span sobre
+  ion-content.has-header.has-subheader
+    ion-list
+      ion-item href="" ng-click="goSearch()" menu-close=""
+        img.icon src="img/iconSearch.png"
+        span filtrar
+      ion-item href="" ng-click="goApparels()" menu-close="" 
+        img.icon src="img/iconPencil.png"
+        span minhas peças
+      ion-item href="#" menu-close="" 
+        img.icon src="img/iconInfo.png"
+        span sobre
