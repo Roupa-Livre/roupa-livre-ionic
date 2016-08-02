@@ -13,6 +13,10 @@
     height: 27px;
     width: auto; }
 
+.button {
+  border: none;
+}
+
 .button .iconButton {
   display: block;
   height: 25px;
@@ -553,7 +557,7 @@ ion-footer-bar form {
     margin-top: 10px; }
   .chat .chatHeader .right {
     float: right; }
-    .chat .chatHeader .right .chat .chatheader .right img {
+    .chat .chatheader .right img {
       display: block;
       max-width: 30px;
       max-height: 30px;
@@ -561,7 +565,7 @@ ion-footer-bar form {
       height: 100%;
       border-radius: 50%;
       margin: 10px auto 5px auto; }
-      .chat .chatHeader .right .chat .chatheader .right img div {
+      .chat .chatheader .right .matchMessage {
         color: #fff;
         max-width: 75px;
         font-size: 10px;
@@ -570,50 +574,50 @@ ion-footer-bar form {
         line-height: 130%; }
   .chat .chatHeader img.avatar {
     border: 2px solid #3df2d6; }
-  .chat .chatHeader h2 {
+  .chat h2 {
     color: #fff !important;
     font-size: 16px;
     font-weight: 500;
     margin: 25px 0 0 70px; }
-  .chat .chatHeader .message {
+  .chat .message {
     border-radius: 5px;
     margin-bottom: 10px;
     padding-bottom: 2px; }
-    .chat .chatHeader .message:first-child {
+    .chat .message:first-child {
       margin-top: 10px; }
-    .chat .chatHeader .message:first-child.meSpeak {
+    .chat .message:first-child.meSpeak {
       border-top-left-radius: 0; }
-    .chat .chatHeader .message:first-child.youSpeak {
+    .chat .message:first-child.youSpeak {
       border-top-right-radius: 0; }
-    .chat .chatHeader .message:not(:first-child).meSpeak + .message.youSpeak {
+    .chat .message:not(:first-child).meSpeak + .message.youSpeak {
       margin-top: 10px;
       border-top-left-radius: 0; }
-    .chat .chatHeader .message:not(:first-child).youSpeak + .message.meSpeak {
+    .chat .message:not(:first-child).youSpeak + .message.meSpeak {
       margin-top: 10px;
       border-top-right-radius: 0; }
-  .chat .chatHeader .message.meSpeak {
+  .chat .message.meSpeak {
     background: #ededed;
     text-align: left;
     padding-left: 4px; }
-  .chat .chatHeader .message.youSpeak {
+  .chat .message.youSpeak {
     background: #3df2d6;
     padding-right: 4px;
     text-align: right; }
-  .chat .chatHeader .bar-footer {
-    height: 58px; }
-  .chat .chatHeader .has-footer {
-    bottom: 58px; }
-  .chat .chatHeader .sendMessageBox {
+  .chat .bar-footer {
+    height: 54px; }
+  .chat .has-footer {
+    bottom: 54px; }
+  .chat .sendMessageBox {
     min-width: 100%; }
-    .chat .chatHeader .sendMessageBox .item {
+    .chat .sendMessageBox .item {
       background-color: #f0fcfb;
       border: 0; }
-      .chat .chatHeader .sendMessageBox .item label {
+      .chat .sendMessageBox .item label {
         background-color: #fff; }
-      .chat .chatHeader .sendMessageBox .item input {
+      .chat .sendMessageBox .item input {
         background-color: #fff;
         width: 100%; }
-      .chat .chatHeader .sendMessageBox .item a {
+      .chat .sendMessageBox .item a {
         color: #0062f2; }
 
 .bar-stable .button.button-clear {
