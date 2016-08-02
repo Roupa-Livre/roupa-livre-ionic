@@ -144,12 +144,15 @@ ion-footer-bar form {
   padding: 10px 0; }
   .mainMenu .item span {
     padding-left: 38px;
-    font-weight: 700; }
+    font-weight: 700;
+    float: left;
+    margin-top: 6px; }
 
 .mainMenu img.icon {
   width: 30px;
   height: 30px;
-  margin: 10px 0 0 30px; }
+  margin: 0 0 0 30px;
+  float: left; }
 
 .registerClothes .user-header {
   background: #0772ef;
