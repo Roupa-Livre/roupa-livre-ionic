@@ -174,7 +174,6 @@ ion-footer-bar form {
   .mainMenu .item-content {
     padding: 14px 49px 14px 16px; } }
 
-/* https://medium.com/@hrangel/212ba3f542b0 */
 /* REGISTER CLOTHES ************************************************ */
 /* ***************************************************************** */
 .registerClothes .user-header {
@@ -446,6 +445,21 @@ ion-footer-bar form {
       background-color: #0062f2;
       box-shadow: 0px 5px #004ab5;
       border: 0; }
+
+@media (max-height: 480px) {
+  .matched .matchCards .col-50 {
+    max-width: 40%;
+    margin-left: 5%;
+    margin-right: 5%; }
+  .matched .matchCards img {
+    width: 100px;
+    height: 100px; }
+  .matched .matchCards p {
+    display: none; }
+  .matched .buttonBar .col {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: baseline; } }
 
 /* ALERT *********************************************************** */
 /* ***************************************************************** */
