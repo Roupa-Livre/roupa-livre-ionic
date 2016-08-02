@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper'])
+angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
       REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
       API_URL: 'http://roupa-livre-api-staging.herokuapp.com',

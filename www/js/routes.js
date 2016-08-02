@@ -69,7 +69,17 @@ angular.module('app.routes', [])
       views: {
         'view-content': {
           templateUrl: 'templates/apparels/new.html',
-          controller: 'newApparelCtrl'
+          controller: 'editApparelCtrl'
+        }
+      }
+    })
+
+    .state('menu.edit_apparel', {
+      url: '/edit_apparel/:id',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/apparels/edit.html',
+          controller: 'editApparelCtrl'
         }
       }
     })
@@ -130,6 +140,16 @@ angular.module('app.routes', [])
         'view-content': {
           templateUrl: 'templates/chats/show.html',
           controller: 'chatCtrl'
+        }
+      }
+    })
+
+    .state('menu.chat_details', {
+      url: '/chat-details/:id',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/chats/details.html',
+          controller: 'chatDetailsCtrl'
         }
       }
     });

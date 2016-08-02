@@ -163,21 +163,15 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
   .controller('matchWarningCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, Apparel, Chat) {
     $scope.single_option = false;
-    // Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
-    //   $scope.chat = chat;
-    //   if (!$scope.chat) {
-    //     Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
-    //       $scope.chat = chat;
-    //     }, function(error) {
-    //       console.log(error);
-    //     });
-    //   }
-    // });
-
-    Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+    Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
       $scope.chat = chat;
-    }, function(error) {
-      console.log(error);
+      if (!$scope.chat) {
+        Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+          $scope.chat = chat;
+        }, function(error) {
+          console.log(error);
+        });
+      }
     });
 
     function successUpdatedGeo() {
@@ -232,8 +226,42 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     updateLatLng($cordovaGeolocation, $auth, $q);
   })
 
-  .controller('apparelListCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, Apparel) {
-    
+  .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel) {
+    var user_id = $stateParams.hasOwnProperty("user_id") && $stateParams.user_id > 0 ? $stateParams.user_id : null;
+    $scope.is_mine = user_id == null;
+    if ($scope.is_mine) {
+      $scope.owner_user = $rootScope.user;
+      Apparel.owned().then(function(apparels) {
+        $scope.apparels = apparels;
+      });
+    } else {
+      // TODO Carrega apparels de outro user
+    }
+
+    $scope.edit = function(apparel) {
+      if ($scope.is_mine) {
+        $ionicHistory.nextViewOptions({ disableBack: false });
+        $state.go('menu.edit_apparel', { id: apparel.id });
+      }
+    }
+
+    $scope.delete = function(apparel) {
+      if ($scope.is_mine) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Tirando?',
+          template: 'Já trocou a roupa?<br />Ou só não quer mais trocar?<br />Tem certeza que quer tirar ela do roupa livre?'
+        });
+
+        confirmPopup.then(function(res) {
+          if(res) {
+            Apparel.delete(apparel);
+            console.log('You are sure');
+          } else {
+            console.log('You are not sure');
+          }
+        });
+      }
+    }
   })
 
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
@@ -461,6 +489,12 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       checkChat();
     })
 
+    $scope.showChatDetails = function() {
+      $ionicHistory.nextViewOptions({ disableBack: false });
+      // $state.go($state.current, {}, {reload: true});
+      $state.go('menu.chat_details', { id: $scope.chat.id });
+    };
+
     $scope.loadPrevious = function() {
       if ($scope.chat_messages == null || $scope.chat_messages.length == 0)
         checkInitialMessages();
@@ -487,6 +521,20 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       } else {
         return 'ChatMessage.html';
       }
+    };
+  })
+
+  .controller('chatDetailsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub) {
+    Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
+      $scope.chat = chat;
+      Chat.online_active_by_id($stateParams["id"]).then(function(newChatInfo) {
+        if (newChatInfo)
+          $scope.chat = newChatInfo;
+      });
+    });
+
+    $scope.close = function() {
+      $ionicHistory.goBack();
     };
   })
 

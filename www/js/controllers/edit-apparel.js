@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('newApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, ionicToast) {
+  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, ionicToast) {
     var currentController = this;
 
     $scope.show = function() {
@@ -108,11 +108,23 @@ angular.module('app.controllers')
     };
 
     $scope.submit = function() {
+      var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
       $scope.entry.save().then(function(data) {
-        ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.apparel');
+        if (isNew) {
+          ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
+          $state.go('menu.apparel');
+        } else { 
+          $state.go('menu.apparel_list');
+        }
       });
+    };
+
+    $scope.cancel = function() {
+      var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
+      if (!isNew) {
+        $ionicHistory.goBack();
+      }
     };
 
     // Upload.fileTo($auth.apiUrl() + '/apparels').then(
@@ -123,10 +135,20 @@ angular.module('app.controllers')
     //   });
 
     function setCurrentApparel() {
-      //$scope.entry = new Apparel({apparel_images: [ {id:1, file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}, { id:2,file_url: 'img/bg-new-image.png'}], apparel_tags: []});
-      $scope.entry = new Apparel({apparel_images: [ ], apparel_tags: []});
-      
-      $ionicSlideBoxDelegate.update();
+      if ($stateParams.hasOwnProperty('id')) {
+        Apparel.get($stateParams["id"]).then(function(apparel) {
+          $scope.entry = apparel;
+          $ionicSlideBoxDelegate.update();
+        }, function(error) {
+          ionicToast.show('Não conseguimos carregar os detalhes, tá tudo ok com a internet?', 'top', false, 2500);
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('menu.apparel_list');
+        });
+      }
+      else {
+        $scope.entry = new Apparel({apparel_images: [ ], apparel_tags: []});
+        $ionicSlideBoxDelegate.update();
+      }
     }
 
     setCurrentApparel();

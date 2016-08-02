@@ -34,7 +34,7 @@
           <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="chat.other_user_apparels.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="apparel in chat.other_user_apparels"><ion-item><img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%" />
                 <p ng-bind="apparel.title"></p>
                 <p>
-                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.hasGender()"> | </span><span ng-bind="apparel.gender | genderName" ng-if="apparel.hasGender()"></span><span ng-if="apparel.hasAgeInfo()"> | </span><span ng-bind="apparel.age_info | ageInfoName" ng-if="apparel.hasAgeInfo()"></span>
+                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.hasGender()"> | </span><span ng-bind="apparel.gender | genderName"></span><span ng-if="apparel.hasAgeInfo()"> | </span><span ng-bind="apparel.age_info | ageInfoName"></span>
                 </p>
               </ion-item></ks-swiper-slide></ks-swiper-container>
         </div>
@@ -51,12 +51,6 @@
       </div>
     </div>
     <div class="row buttonBar">
-      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="cancel()" ng-if="single_option">voltar pra conversa</button>
-      <div class="col" ng-if="!single_option">
-        <button class="button button-continue" ng-click="cancel()">continuar trocando</button>
-      </div>
-      <div class="col" ng-if="!single_option">
-        <button class="button button-change" ng-click="submit()">combinar a troca</button>
-      </div>
+      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="close()">voltar pra conversa</button>
     </div>
   </ion-content></ion-view>

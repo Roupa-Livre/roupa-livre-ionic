@@ -143,6 +143,10 @@ angular.module('app.services', ['ngResource', 'rails'])
         return resource.query(mergedParams);
       };
 
+      resource.owned_by_user = function (user_id) {
+        return resource.query({ user_id: user_id});
+      };
+
       resource.owned = function() {
         return $q(function(resolve, reject) {
           if (!resource.hasOwnProperty('_owned_apparels')) {
@@ -158,6 +162,14 @@ angular.module('app.services', ['ngResource', 'rails'])
           }
         })
       };
+
+      resource.prototype.hasGender = function() {
+        return this.gender != null && this.gender != "SKIP";
+      }
+
+      resource.prototype.hasAgeInfo = function() {
+        return this.age_info != null;
+      }
 
       return resource;
   }])

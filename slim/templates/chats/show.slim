@@ -5,7 +5,7 @@ ion-view.chat
       .left
         img.avatar ng-src="{{ (chat.other_user | userImageSrc ) || 'img/avatar.png' }}" /
       .right
-        a.matchLink href=""
+        a.matchLink href="" ng-click="showChatDetails()"
           img ng-src="img/btnLikeChat.png" /
           .matchLinkText ver peças que combinaram
 

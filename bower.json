@@ -12,6 +12,7 @@
     "ng-tags-input": "^3.0.0",
     "ionic-toast": "^0.2.0",
     "socket.io-client": "^1.4.6",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "angular-filter": "^0.5.9"
   }
 }
