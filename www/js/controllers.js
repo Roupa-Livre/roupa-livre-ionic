@@ -22,6 +22,13 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       validate();
   })
 
+  .controller('myselfCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+    $scope.goApparels = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.new');
+    };
+  })
+
   .controller('loginCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     function successLogged(data) {
       $ionicHistory.nextViewOptions({ disableBack: true });

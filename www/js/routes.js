@@ -39,7 +39,7 @@ angular.module('app.routes', [])
     .state('menu', {
       url: '/menu',
       abstract:true,
-      templateUrl: 'templates/menu.html',
+      templateUrl: 'templates/template.html',
       resolve: {
         auth: function($auth, $location, $state) {
           var response = $auth.validateUser();
@@ -54,10 +54,20 @@ angular.module('app.routes', [])
       }
     })
 
+    .state('menu.me', {
+      url: '/me',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/me.html',
+          controller: 'myselfCtrl'
+        }
+      }
+    })
+
     .state('menu.new', {
       url: '/new_apparel',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/apparels/new.html',
           controller: 'newApparelCtrl'
         }
@@ -67,7 +77,7 @@ angular.module('app.routes', [])
     .state('menu.apparel', {
       url: '/apparel/:last_id',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/match/apparel.html',
           controller: 'apparelCtrl'
         }
@@ -77,7 +87,7 @@ angular.module('app.routes', [])
     .state('menu.match_warning', {
       url: '/match_warning/:chat_id',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/match/matched.html',
           controller: 'matchWarningCtrl'
         }
@@ -87,7 +97,7 @@ angular.module('app.routes', [])
     .state('menu.not_found', {
       url: '/notfound',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/match/not_found.html',
           controller: 'matchNotFoundCtrl'
         }
@@ -97,7 +107,7 @@ angular.module('app.routes', [])
     .state('menu.chats', {
       url: '/chats',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/chats/index.html',
           controller: 'chatsCtrl'
         }
@@ -107,7 +117,7 @@ angular.module('app.routes', [])
     .state('menu.chat', {
       url: '/chat/:id',
       views: {
-        'side-menu-content': {
+        'view-content': {
           templateUrl: 'templates/chats/show.html',
           controller: 'chatCtrl'
         }

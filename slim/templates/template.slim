@@ -1,0 +1,12 @@
+ion-nav-bar.bar-stable
+  ion-nav-buttons side="left"
+    button.button.button-clear.ion-navicon menu-toggle="left" ng-click="goMenu()" 
+  ion-nav-title
+    h1.title
+      button.button.button-clear ng-click="goMain()" 
+        img.logoButton src="img/logoHeader.png" /
+  ion-nav-buttons side="right"
+      button.button.button-clear ng-click="goChats()" 
+        img.iconButton src="img/iconChat.png" /
+
+ion-nav-view name="view-content" 
