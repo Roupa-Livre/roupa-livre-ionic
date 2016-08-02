@@ -69,7 +69,17 @@ angular.module('app.routes', [])
       views: {
         'view-content': {
           templateUrl: 'templates/apparels/new.html',
-          controller: 'newApparelCtrl'
+          controller: 'editApparelCtrl'
+        }
+      }
+    })
+
+    .state('menu.edit_apparel', {
+      url: '/edit_apparel/:id',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/apparels/edit.html',
+          controller: 'editApparelCtrl'
         }
       }
     })

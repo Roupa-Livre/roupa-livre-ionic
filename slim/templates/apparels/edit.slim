@@ -1,0 +1,14 @@
+ion-view.registerClothes
+  /! CONTENT
+  ion-content.has-header
+    .list
+      div ng-include="'templates/apparels/_form.html'"
+      
+      /! FOOTER
+      .row.buttonBar
+        .col
+          button.button.button-cancel ng-click="cancel()" 
+            | cancelar
+        .col
+          button.button.button-offer ng-click="submit()" 
+            | atualizar
