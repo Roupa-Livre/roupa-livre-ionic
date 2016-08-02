@@ -7,10 +7,10 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
-      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
-      API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
-      // REALTIME_URL: 'http://localhost:5001',
-      // API_URL: 'http://localhost:3000',
+      // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
+      // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      REALTIME_URL: 'http://localhost:5001',
+      API_URL: 'http://localhost:3000',
   })
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;

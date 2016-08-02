@@ -210,17 +210,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     }
 
     $scope.advance = function() {
-      // TODO Limpa Filtros
-
       $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.apparel', {}, {reload: true});
-    };
-
-    $scope.advance = function() {
-      // TODO Limpa Filtros
-
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.apparel', {}, {reload: true});
+      $state.go('menu.search');
     };
 
     updateLatLng($cordovaGeolocation, $auth, $q);
@@ -535,6 +526,35 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     $scope.close = function() {
       $ionicHistory.goBack();
+    };
+  })
+  
+  .controller('filterCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, Apparel) {
+    $scope.filters = angular.extend({}, Apparel.getFilters());
+
+    $scope.filter = function() {
+      $rootScope.apparels = [];
+      if ($scope.filters.tags && $scope.filters.tags.length > 0) {
+        var tags = $scope.filters.tags[0].name;
+        if ($scope.filters.tags.length > 1) {
+          for (var i = 1; i < $scope.filters.tags.length; i++) {
+            tags = tags + ',' + $scope.filters.tags[i].name;
+          }
+        }
+        
+        $scope.filters.apparel_tags = tags;
+      } else if ($scope.filters.hasOwnProperty('apparel_tags')) {
+        delete $scope.filters['apparel_tags'];
+      }
+
+      Apparel.applyFilters($scope.filters);
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel', { reload: true });
+    };
+
+    $scope.cancel = function() {
+      Apparel.clearFilters();
+      $scope.filters = angular.extend({}, Apparel.getFilters());
     };
   })
 

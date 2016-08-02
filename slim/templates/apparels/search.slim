@@ -9,28 +9,31 @@ ion-view.search
     .list
       .item.item-input.item-stacked-label
         span.input-label #hashtag
-        input placeholder=("#camisa #usada #linda") type="text" /
+        tags-input type="text" placeholder="Separe as tags com vírgulas." ng-model="filters.tags" display-property="name" keyProperty="name" /
       .item.item-input.item-stacked-label
         span.input-label tamanho
-        input placeholder="p, m, g, ou 48?" type="text" /
+        input type="text" ng-model="entry.size_info" name="size_info" placeholder="p, m, g ou 48?" /
       .item.item-input.item-stacked-label
         span.input-label gênero
         .row
-          .col.col-33
-            ion-radio ng-model="gender" ng-value="female" value="gender"  fem
-          .col.col-33
-            ion-radio ng-model="gender" ng-value="male" value="gender"  mas
-          .col.col-33
-            ion-radio ng-model="gender" ng-value="nogender" value="gender"  sem gênero
+          .col.col-50
+            ion-radio ng-model="filters.gender" name="gender" value="FEM"  feminino
+          .col.col-50
+            ion-radio ng-model="filters.gender" name="gender" value="MASC" masculino
+        .row
+          .col.col-50
+            ion-radio ng-model="filters.gender" name="gender" value="NO" sem gênero
+          .col.col-50
+            ion-radio ng-model="filters.gender" name="gender" ng-value="null" tanto faz
       .item.item-input.item-stacked-label
         span.input-label adulta ou infantil
         .row
           .col.col-33
-            ion-radio ng-model="clothestype" ng-value="adult" value="clothestype"  adulta
+            ion-radio ng-model="filters.age_info" name="age_info" value="ADU" adulta
           .col.col-33
-            ion-radio ng-model="clothestype" ng-value="adult" value="clothestype"  infantil
+            ion-radio ng-model="filters.age_info" name="age_info" value="INF" infantil
           .col.col-33
-            ion-radio ng-model="clothestype" ng-value="nomatter" value="clothestype"  tanto faz
+            ion-radio ng-model="filters.age_info" name="age_info" ng-value="null" tanto faz
   /! FOOTER
   ion-footer-bar
     .row.buttonBar
