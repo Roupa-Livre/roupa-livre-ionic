@@ -20,7 +20,7 @@ angular.module('app.services', ['ngResource', 'rails'])
       var q = $q.defer();
 
       self.get_db().then(function (db) {         
-        var CHATS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chats (id integer primary key, user_1_id integer, user_2_id integer, name text, last_read_at date, other_user blob, others_last_read_at date, other_user_apparel_images blob, owned_apparel_images blob, unread_messages_count integer, total_messages_count integer, last_message_sent blob, last_message_sent_at date)";
+        var CHATS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chats (id integer primary key, user_1_id integer, user_2_id integer, name text, last_read_at date, other_user blob, others_last_read_at date, other_user_apparels blob, owned_apparels blob, unread_messages_count integer, total_messages_count integer, last_message_sent blob, last_message_sent_at date)";
         $cordovaSQLite.execute(db, CHATS_TABLE_QUERY); 
 
         // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
@@ -165,16 +165,16 @@ angular.module('app.services', ['ngResource', 'rails'])
       function readFromDB(dbData) {
         var chat = new resource(dbData);
         chat.other_user = JSON.parse(chat.other_user);
-        chat.other_user_apparel_images = JSON.parse(chat.other_user_apparel_images);
-        chat.owned_apparel_images = JSON.parse(chat.owned_apparel_images);
+        chat.other_user_apparels = JSON.parse(chat.other_user_apparels);
+        chat.owned_apparels = JSON.parse(chat.owned_apparels);
         chat.last_message_sent = JSON.parse(chat.last_message_sent);
         delete chat['last_message_sent_at'];
         return chat;
       };
 
       function saveToDB(chat) {
-        var values = [chat.id, chat.user_1_id, chat.user_2_id, name, chat.last_read_at, JSON.stringify(chat.other_user), chat.others_last_read_at, JSON.stringify(chat.other_user_apparel_images), JSON.stringify(chat.owned_apparel_images), chat.unread_messages_count, chat.total_messages_count, JSON.stringify(chat.last_message_sent), (chat.last_message_sent != null ? chat.last_message_sent.created_at : null)];
-        DBA.query("INSERT OR REPLACE INTO chats (id, user_1_id, user_2_id, name, last_read_at, other_user, others_last_read_at, other_user_apparel_images, owned_apparel_images, unread_messages_count, total_messages_count, last_message_sent, last_message_sent_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", values);
+        var values = [chat.id, chat.user_1_id, chat.user_2_id, name, chat.last_read_at, JSON.stringify(chat.other_user), chat.others_last_read_at, JSON.stringify(chat.other_user_apparels), JSON.stringify(chat.owned_apparels), chat.unread_messages_count, chat.total_messages_count, JSON.stringify(chat.last_message_sent), (chat.last_message_sent != null ? chat.last_message_sent.created_at : null)];
+        DBA.query("INSERT OR REPLACE INTO chats (id, user_1_id, user_2_id, name, last_read_at, other_user, others_last_read_at, other_user_apparels, owned_apparels, unread_messages_count, total_messages_count, last_message_sent, last_message_sent_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", values);
       };
 
       // _active_chats
@@ -295,7 +295,7 @@ angular.module('app.services', ['ngResource', 'rails'])
         });
       };
 
-      resource.latestAfterRead = function(chat) {
+      resource.latestAfterRead = function(chat, lastReadAt) {
         return $q(function(resolve, reject) {
           resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(function(data) {
             saveAllToDB(data);

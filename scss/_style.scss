@@ -217,6 +217,27 @@ ion-footer-bar {
   }
 }
 
+@media (max-height: 480px) {
+  .mainMenu {
+    .user {
+      height: 200px;
+      max-height: 200px;
+      padding-top: 10px;
+
+      .button-offer {
+        margin: 3% 10%;
+      }
+    }
+    img.avatar {
+      margin-bottom: 10px;
+    }
+    .item-content {
+      padding: 14px 49px 14px 16px;
+    }
+  }
+}
+/* https://medium.com/@hrangel/212ba3f542b0 */
+
 /* REGISTER CLOTHES ************************************************ */
 /* ***************************************************************** */
 .registerClothes {
@@ -538,6 +559,10 @@ ion-footer-bar {
 
     p {
       text-align:center;
+
+      span {
+        display: inline;
+      }
     }
   }
 

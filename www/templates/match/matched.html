@@ -5,15 +5,15 @@
       </h1>
     </div>
     <div class="row">
-      <div class="col">
-        <img class="avatar" src="img/avatar.png" />
+      <div class="col col-50">
+        <img class="avatar" ng-src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       </div>
-      <div class="col">
-        <img class="avatar" src="img/avatar.png" />
+      <div class="col col-50">
+        <img class="avatar" ng-src="{{ (chat.other_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       </div>
     </div>
     <div class="row users">
-      <div class="col">
+      <div class="col col-50">
         <p>
           Você
         </p>
@@ -21,41 +21,42 @@
           curtiu
         </p>
       </div>
-      <div class="col">
+      <div class="col col-50">
         <p ng-bind="chat.other_user | shortName"></p>
         <p>
           curtiu
         </p>
       </div>
     </div>
-    <div class="row matchCards">
-      <div class="col">
+    <div class="row matchCards" ng-if="chat.owned_apparels.length &gt; 0 &amp;&amp; chat.other_user_apparels.length &gt; 0">
+      <div class="col col-50">
         <div class="list">
-          <ion-item><img ng-src="img/picDress1.jpg" width="100%" />
-            <p>
-              vestidinho florido
-            </p>
-            <p>
-              tamanho M | fem | adulta
-            </p>
-          </ion-item>
+          <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="chat.other_user_apparels.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="apparel in chat.other_user_apparels"><ion-item><img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%" />
+                <p ng-bind="apparel.title"></p>
+                <p>
+                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.gender">| </span><span ng-bind="apparel.gender"></span><span ng-if="apparel.age_info">| </span><span ng-bind="apparel.age_info"></span>
+                </p>
+              </ion-item></ks-swiper-slide></ks-swiper-container>
         </div>
       </div>
-      <div class="col">
+      <div class="col col-50">
         <div class="list">
-          <ion-item><img ng-src="img/picDress3.jpg" width="100%" />
-            <p>
-              bolsa novinha
-            </p>
-            <p>
-              pequena | fem | adulta
-            </p>
-          </ion-item>
+          <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="chat.owned_apparels.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="apparel in chat.owned_apparels"><ion-item><img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%" />
+                <p ng-bind="apparel.title"></p>
+                <p>
+                  <span ng-bind="apparel.size_info"></span><span ng-if="apparel.gender">| </span><span ng-bind="apparel.gender"></span><span ng-if="apparel.age_info">| </span><span ng-bind="apparel.age_info"></span>
+                </p>
+              </ion-item></ks-swiper-slide></ks-swiper-container>
         </div>
       </div>
     </div>
-  </ion-content></ion-view><!--   .row.buttonBar--><!--     .col--><!--       button.button.button-continue ng-click="cancel()" --><!--         | continuar trocando--><!--     .col--><!--       button.button.button-change ng-click="submit()" --><!--         | combinar a troca
-
- /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
- button.button.button-change
-   | voltar pra conversa-->
+    <div class="row buttonBar">
+      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="cancel()" ng-if="single_option">voltar pra conversa</button>
+      <div class="col" ng-if="!single_option">
+        <button class="button button-continue" ng-click="cancel()">continuar trocando</button>
+      </div>
+      <div class="col" ng-if="!single_option">
+        <button class="button button-change" ng-click="submit()">combinar a troca</button>
+      </div>
+    </div>
+  </ion-content></ion-view>

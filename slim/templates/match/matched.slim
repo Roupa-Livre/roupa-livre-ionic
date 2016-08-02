@@ -5,46 +5,59 @@ ion-view.matched
       h1 Combinou!
 
     .row
-      .col
-        img.avatar src="img/avatar.png"
+      .col.col-50
+        img.avatar ng-src="{{ (user | userImageSrc ) || 'img/avatar.png' }}"
 
-      .col
-        img.avatar src="img/avatar.png"
+      .col.col-50
+        img.avatar ng-src="{{ (chat.other_user | userImageSrc ) || 'img/avatar.png' }}"
 
     .row.users
-      .col
+      .col.col-50
         p Você
         p curtiu
 
-      .col
+      .col.col-50
         p ng-bind="chat.other_user | shortName"
         p curtiu
 
-    .row.matchCards
-      .col
+    .row.matchCards ng-if="chat.owned_apparels.length > 0 && chat.other_user_apparels.length > 0" 
+      .col.col-50
         .list
-          ion-item
-            img ng-src="img/picDress1.jpg" width="100%"
+          ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.other_user_apparels.length > 1" 
+            ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.other_user_apparels"
+              ion-item
+                img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%"
+                p ng-bind="apparel.title"
+                p
+                  span ng-bind="apparel.size_info"
+                  span ng-if="apparel.gender" | 
+                  span ng-bind="apparel.gender"
+                  span ng-if="apparel.age_info" | 
+                  span ng-bind="apparel.age_info"
 
-            p vestidinho florido
-            p tamanho M | fem | adulta
-
-      .col
+      .col.col-50
         .list
-          ion-item
-            img ng-src="img/picDress3.jpg" width="100%"
+          ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.owned_apparels.length > 1" 
+            ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.owned_apparels"
+              ion-item
+                img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%"
+                p ng-bind="apparel.title"
+                p
+                  span ng-bind="apparel.size_info"
+                  span ng-if="apparel.gender" | 
+                  span ng-bind="apparel.gender"
+                  span ng-if="apparel.age_info" | 
+                  span ng-bind="apparel.age_info"
 
-            p bolsa novinha
-            p pequena | fem | adulta
+    .row.buttonBar
 
-/!    .row.buttonBar
-/!      .col
-/!        button.button.button-continue ng-click="cancel()" 
-/!          | continuar trocando
-/!      .col
-/!        button.button.button-change ng-click="submit()" 
-/!          | combinar a troca
+      /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
+      button.button.button-change ng-click="cancel()" ng-if="single_option"
+        | voltar pra conversa
 
-    /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
-    button.button.button-change
-      | voltar pra conversa
+      .col ng-if="!single_option"
+        button.button.button-continue ng-click="cancel()" 
+          | continuar trocando
+      .col ng-if="!single_option"
+        button.button.button-change ng-click="submit()" 
+          | combinar a troca

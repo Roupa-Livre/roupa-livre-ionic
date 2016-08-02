@@ -152,9 +152,9 @@ ion-footer-bar form {
   padding: 10px 0; }
   .mainMenu .item span {
     padding-left: 38px;
+    margin-top: 6px;
     font-weight: 700;
-    float: left;
-    margin-top: 6px; }
+    float: left; }
 
 .mainMenu img.icon {
   width: 30px;
@@ -162,6 +162,19 @@ ion-footer-bar form {
   margin: 0 0 0 30px;
   float: left; }
 
+@media (max-height: 480px) {
+  .mainMenu .user {
+    height: 200px;
+    max-height: 200px;
+    padding-top: 10px; }
+    .mainMenu .user .button-offer {
+      margin: 3% 10%; }
+  .mainMenu img.avatar {
+    margin-bottom: 10px; }
+  .mainMenu .item-content {
+    padding: 14px 49px 14px 16px; } }
+
+/* https://medium.com/@hrangel/212ba3f542b0 */
 /* REGISTER CLOTHES ************************************************ */
 /* ***************************************************************** */
 .registerClothes .user-header {
@@ -394,6 +407,8 @@ ion-footer-bar form {
     height: 150px; }
   .matched .matchCards p {
     text-align: center; }
+    .matched .matchCards p span {
+      display: inline; }
   .matched .button-change {
     background-color: #0062f2;
     color: #fff;

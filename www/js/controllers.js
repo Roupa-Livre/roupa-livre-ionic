@@ -162,12 +162,23 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   })
 
   .controller('matchWarningCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, Apparel, Chat) {
-    $scope.chat = Chat.local_active_by_id($stateParams["chat_id"]);
-    if (!$scope.chat) {
-      Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
-        $scope.chat = chat;
-      });
-    }
+    $scope.single_option = false;
+    // Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
+    //   $scope.chat = chat;
+    //   if (!$scope.chat) {
+    //     Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+    //       $scope.chat = chat;
+    //     }, function(error) {
+    //       console.log(error);
+    //     });
+    //   }
+    // });
+
+    Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+      $scope.chat = chat;
+    }, function(error) {
+      console.log(error);
+    });
 
     function successUpdatedGeo() {
       
