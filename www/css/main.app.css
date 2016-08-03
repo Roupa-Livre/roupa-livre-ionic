@@ -446,6 +446,26 @@ ion-footer-bar form {
       box-shadow: 0px 5px #004ab5;
       border: 0; }
 
+.matched .swiper-container {
+  height: 250px;
+  background: #ccc;
+}
+
+.matched .swiper-pagination {
+  height: 25px;
+  bottom: 0;
+  background: #c0c;
+}
+
+.matched .swiper-pagination-bullet {
+  background: #ededed;
+  opacity: 1;
+}
+
+.matched .swiper-pagination-bullet-active {
+  background: #3df2d6;
+}
+
 @media (max-height: 480px) {
   .matched .matchCards .col-50 {
     max-width: 40%;
