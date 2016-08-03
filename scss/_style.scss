@@ -1039,8 +1039,27 @@ ion-footer-bar {
   }
 
   input {
-    color:#ccc;
     font-size:13px;
+
+    &::-webkit-input-placeholder {
+      color:#ccc;
+    }
+
+    &:-moz-placeholder {
+      color:#ccc;
+    }
+
+    &::-moz-placeholder {
+      color:#ccc;
+    }
+
+    &:-ms-input-placeholder {
+      color:#ccc;
+    }
+  }
+
+  input.placeholder {
+    color:#ccc;
   }
 
   &::-webkit-input-placeholder {

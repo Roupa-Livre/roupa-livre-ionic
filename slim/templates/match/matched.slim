@@ -22,9 +22,9 @@ ion-view.matched
 
     .row.matchCards ng-if="chat.owned_apparels.length > 0 && chat.other_user_apparels.length > 0" 
       .col.col-50
-        .list
-          ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.other_user_apparels.length > 1" 
-            ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.other_user_apparels"
+        ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.other_user_apparels.length > 1" 
+          ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.other_user_apparels"
+            .list
               ion-item
                 img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%"
                 p ng-bind="apparel.title"
@@ -36,9 +36,9 @@ ion-view.matched
                   span ng-if="apparel.hasAgeInfo()" ng-bind="apparel.age_info | ageInfoName"
 
       .col.col-50
-        .list
-          ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.owned_apparels.length > 1" 
-            ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.owned_apparels"
+        ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.owned_apparels.length > 1" 
+          ks-swiper-slide.swiper-slide ng-repeat="apparel in chat.owned_apparels"
+            .list
               ion-item
                 img ng-src="{{ apparel.main_image.file | imageSrc }}" width="100%"
                 p ng-bind="apparel.title"
