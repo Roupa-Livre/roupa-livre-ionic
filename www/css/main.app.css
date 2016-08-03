@@ -408,6 +408,16 @@ ion-footer-bar form {
     text-align: center; }
     .matched .matchCards p span {
       display: inline; }
+  .matched .matchCards .swiper-container {
+    height: 250px; }
+  .matched .matchCards .swiper-pagination {
+    height: 25px;
+    bottom: 0; }
+  .matched .matchCards .swiper-pagination-bullet {
+    background: #ededed;
+    opacity: 1; }
+  .matched .matchCards .swiper-pagination-bullet-active {
+    background: #3df2d6; }
   .matched .button-change {
     background-color: #0062f2;
     color: #fff;
@@ -445,26 +455,6 @@ ion-footer-bar form {
       background-color: #0062f2;
       box-shadow: 0px 5px #004ab5;
       border: 0; }
-
-.matched .swiper-container {
-  height: 250px;
-  background: #ccc;
-}
-
-.matched .swiper-pagination {
-  height: 25px;
-  bottom: 0;
-  background: #c0c;
-}
-
-.matched .swiper-pagination-bullet {
-  background: #ededed;
-  opacity: 1;
-}
-
-.matched .swiper-pagination-bullet-active {
-  background: #3df2d6;
-}
 
 @media (max-height: 480px) {
   .matched .matchCards .col-50 {
@@ -751,8 +741,18 @@ ion-footer-bar form {
   font-size: 12px; }
 
 .search input {
-  color: #ccc;
   font-size: 13px; }
+  .search input::-webkit-input-placeholder {
+    color: #ccc; }
+  .search input:-moz-placeholder {
+    color: #ccc; }
+  .search input::-moz-placeholder {
+    color: #ccc; }
+  .search input:-ms-input-placeholder {
+    color: #ccc; }
+
+.search input.placeholder {
+  color: #ccc; }
 
 .search::-webkit-input-placeholder {
   color: #333; }
