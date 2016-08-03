@@ -563,6 +563,24 @@ ion-footer-bar {
         display: inline;
       }
     }
+
+    .swiper-container {
+      height: 250px;
+    }
+
+    .swiper-pagination {
+      height: 25px;
+      bottom: 0;
+    }
+
+    .swiper-pagination-bullet {
+      background: #ededed;
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #3df2d6;
+    }
   }
 
   .button-change {
