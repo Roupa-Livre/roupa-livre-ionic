@@ -457,6 +457,16 @@ ion-footer-bar form {
       border: 0; }
 
 @media (max-height: 480px) {
+  .matched .buttonBar .col button {
+    margin: 0% 5%; } }
+
+@media (min-height: 481px) and (max-height: 570px) {
+  .matched .title {
+    height: 25%; }
+  .matched .buttonBar .col button {
+    margin: 20% 5%; } }
+
+@media (max-height: 570px) {
   .matched .matchCards .col-50 {
     max-width: 40%;
     margin-left: 5%;
@@ -466,6 +476,8 @@ ion-footer-bar form {
     height: 100px; }
   .matched .matchCards p {
     display: none; }
+  .matched .matchCards .swiper-container {
+    height: 155px; }
   .matched .buttonBar .col {
     padding-top: 0px;
     padding-bottom: 0px;

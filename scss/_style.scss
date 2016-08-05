@@ -635,6 +635,33 @@ ion-footer-bar {
 
 @media (max-height: 480px) {
   .matched {
+    .buttonBar {
+      .col {
+        button {
+          margin: 0% 5%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-height: 481px) and (max-height: 570px) {
+  .matched {
+    .title {
+      height: 25%;
+    }
+    .buttonBar {
+      .col {
+        button {
+          margin: 20% 5%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-height: 570px) {
+  .matched {
     .users {
     }
     .matchCards {
@@ -650,6 +677,9 @@ ion-footer-bar {
       p { 
         display: none;
       }
+      .swiper-container {
+        height: 155px;
+      }
     }
     .buttonBar {
       .col {
@@ -657,6 +687,7 @@ ion-footer-bar {
         padding-bottom: 0px;
         vertical-align: baseline;
         button {
+          
         }
       }
     }

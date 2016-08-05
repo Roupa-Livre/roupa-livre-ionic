@@ -185,7 +185,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     $scope.submit = function() {
       $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.chat');
+      $state.go('menu.chat', { id: $scope.chat.id });
     };
 
     updateLatLng($cordovaGeolocation, $auth, $q)
@@ -255,7 +255,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     }
   })
 
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, $ionicLoading, $log) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, ionicToast) {
     $scope.show = function(message) {
       $rootScope.showLoading(message);
     };
@@ -263,10 +263,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       $rootScope.hideLoading();
     };
 
-    function setCurrentApparel() {
-      if ($rootScope.apparels.length > 0) {
-        var entry = $rootScope.apparels[0];
-        $rootScope.apparels.shift();
+    function setCurrentApparel(apparel) {
+      if (apparel != null) {
+        var entry = apparel;
 
         // sets dummy data
         if (!entry.hasOwnProperty('user') || !entry.user) {
@@ -278,6 +277,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
             image: null
           }
         }
+
         $scope.entry = entry;
         $ionicSlideBoxDelegate.update();
       } else {
@@ -286,29 +286,19 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       }
     }
 
-    function loadMore() {
-      Apparel.search().then(function(data) {
-          $rootScope.apparels = data;
-          setCurrentApparel();
-          $scope.hide();
-        }, function(data) {
-          $scope.hide();
-        });
-    }
-
-    function checkNextApparel(onHasData, onLoadRequired) {
+    function loadNextApparel() {
       $scope.show('Carregando roupas ...');
-      if ($rootScope.apparels && $rootScope.apparels.length > 0) {
-        onHasData();
+      ApparelMatcher.getNextAvailableApparel().then(function(apparel) {
+        setCurrentApparel(apparel);
         $scope.hide();
-      } else {
-        onLoadRequired();
-      }
+      }, function(error) {
+        $log.debug(error);
+        ionicToast.show('Erro carregando mais opções', 'top', false, 1000);
+        $scope.hide();
+      })
     }
 
     function nextAfterMatch(chat_data) {
-      Chat.new_chat_created(chat_data);
-
       $ionicHistory.nextViewOptions({ disableBack: true });
       // $state.go($state.current, {}, {reload: true});
       $state.go('menu.match_warning', { chat_id: chat_data.id });
@@ -318,7 +308,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       $ionicHistory.nextViewOptions({ disableBack: true });
       // $state.go($state.current, {}, {reload: true});
       $state.go($state.current, { last_id: $scope.entry.id }, {
-        reload: true,
+        reload: false,
         inherit: false,
         notify: true
       });
@@ -326,26 +316,31 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     function failAfterRating(error) {
       $log.debug(error);
+      ionicToast.show('Erro carregando salvando rating', 'top', false, 1000);
     };
 
     $scope.like = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
       $scope.show('Opa, será que deu match?');
       rating.save().then(function(data) {
+        ApparelMatcher.markFirstAsRated();
         $scope.hide();
         if (data.hasOwnProperty('chat') && data.chat != null)
           nextAfterMatch(data.chat);
         else
           nextAfterRating();
-      });
+      }, failAfterRating);
     };
 
     $scope.dislike = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: false})
-      rating.save().then(nextAfterRating, failAfterRating);
+      rating.save().then(function(data) {
+        ApparelMatcher.markFirstAsRated();
+        nextAfterRating(data);
+      }, failAfterRating);
     }
 
-    checkNextApparel(setCurrentApparel, loadMore);
+    loadNextApparel();
     
     updateLatLng($cordovaGeolocation, $auth, $q)
       .then(function(resp) {
@@ -356,7 +351,6 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       }, function(resp) {
         // $scope.hide();
       });
-    // $scope.show();
 
   })
 
@@ -383,7 +377,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
     function onSubscribedNewMessage(messageData) {
       $scope.last_message_sent = messageData;
-      $scope.saveLocally();
+      $scope.chat.last_message_sent = messageData;
+      $scope.chat.saveLocally();
 
       onNewMessages([ messageData ]);
       $ionicScrollDelegate.scrollBottom(true);
@@ -529,7 +524,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     };
   })
   
-  .controller('filterCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, Apparel) {
+  .controller('filterCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, Apparel, ApparelMatcher) {
     $scope.filters = angular.extend({}, Apparel.getFilters());
 
     $scope.filter = function() {
@@ -548,8 +543,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       }
 
       Apparel.applyFilters($scope.filters);
+      ApparelMatcher.clearCache();
       $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.apparel', { reload: true });
+      $state.go('menu.apparel');
     };
 
     $scope.cancel = function() {

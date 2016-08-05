@@ -21,10 +21,12 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       self.get_db().then(function (db) {         
         var CHATS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chats (id integer primary key, user_1_id integer, user_2_id integer, name text, last_read_at date, other_user blob, others_last_read_at date, other_user_apparels blob, owned_apparels blob, unread_messages_count integer, total_messages_count integer, last_message_sent blob, last_message_sent_at date)";
+        // $cordovaSQLite.execute(db, 'DROP TABLE chats'); 
         $cordovaSQLite.execute(db, CHATS_TABLE_QUERY); 
 
         // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
         var MESSAGES_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chat_messages (id integer primary key, chat_id integer, user_id integer, message text, created_at date)";
+        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
         $cordovaSQLite.execute(db, MESSAGES_TABLE_QUERY); 
 
         self.query = do_query;
@@ -190,6 +192,40 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       return resource;
   }])
 
+  .factory('ApparelMatcher', ['Apparel', '$q', 
+    function(Apparel, $q) {
+      var matcher = self;
+      self.apparels = [];
+
+      self.getNextAvailableApparel = function() {
+        return $q(function(resolve, reject) {
+          if (matcher.apparels.length > 0) 
+            resolve(matcher.apparels[0]);
+          else {
+            Apparel.search().then(function(data) {
+              if (data && data.length > 0) {
+                matcher.apparels = data;
+                resolve(matcher.apparels[0]);
+              } else 
+                resolve(null);
+            }, reject);
+          }
+        });
+      };
+
+      self.markFirstAsRated = function() {
+        if (matcher.apparels && matcher.apparels.length > 0) {
+          matcher.apparels.shift();
+        }
+      };
+
+      self.clearCache = function() {
+        matcher.apparels = [];
+      }
+
+      return self;
+  }])
+
   .factory('ApparelRating', ['$resource', '$auth', 'railsResourceFactory', 
     function($resource, $auth, railsResourceFactory) {
       var resource = railsResourceFactory({
@@ -242,10 +278,6 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       resource.prototype.getLastMessage = function() {
         return this.last_message_sent;
-      };
-
-      resource.new_chat_created = function(chat) {
-        saveToDB(chat);
       };
 
       resource.local_active_by_id = function(id) {      

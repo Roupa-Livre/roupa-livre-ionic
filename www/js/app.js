@@ -54,8 +54,16 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       };
 
       $rootScope.goMenu = function() {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.menu');
+        if ($ionicHistory.currentStateName() == 'menu.menu') {
+          var backView = $ionicHistory.backView()
+          if (backView && backView.name != 'menu.menu')
+            $ionicHistory.goBack();
+          else
+            $state.go('menu.apparel');
+        } else {
+          $ionicHistory.nextViewOptions({ disableBack: false });
+          $state.go('menu.menu');
+        }
       };
 
       $rootScope.showLoading = function(message) {

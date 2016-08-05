@@ -1,9 +1,9 @@
 ion-view.has-header.has-subheader.mainMenu
   ion-content.has-header
     .user
-      img.avatar src="img/avatar.png"
+      img.avatar src="{{ (user | userImageSrc ) || 'img/avatar.png' }}"
 
-      p.title oiê, giovana camargo!
+      p.title oiê, {{ user | shortName}}
       p.subtitle tire sua roupa esquecida do armário
 
       button.button.button-offer ng-click="goNew()" oferecer peça
