@@ -1,11 +1,11 @@
-angular.module('app.services', ['ngResource', 'rails'])
+angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
   .config(["railsSerializerProvider", "RailsResourceProvider", function(railsSerializerProvider, RailsResourceProvider) {
       // RailsResourceProvider.extensions('snapshots');
 
       railsSerializerProvider.underscore(angular.identity).camelize(angular.identity);
   }])
 
-  .factory('DBA', function($cordovaSQLite, $q, $ionicPlatform) {
+  .factory('DBA', ['$cordovaSQLite', '$q', '$ionicPlatform', function($cordovaSQLite, $q, $ionicPlatform) {
     var self = this;
     var db;
 
@@ -40,7 +40,19 @@ angular.module('app.services', ['ngResource', 'rails'])
 
       $ionicPlatform.ready(function () {         
         if (window.cordova) {
-          db = $cordovaSQLite.openDB("roupalivre_v1.db"); //device
+          // http://phonegapcmsworld.blogspot.com.br/2016/06/iosDatabaseLocation-value-is-now-mandatory-in-openDatabase-call.html
+          if (ionic.Platform.isAndroid()) {
+            db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'}); 
+          } else {
+            try {
+              db = window.sqlitePlugin.openDatabase({ name: "roupalivre_v1.db", location: 2, createFromLocation: 1});   
+            } catch (err) {
+              console.log(err);
+              db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'}); 
+            }
+            
+          }
+          
         } else {
           db = window.openDatabase('roupalivre_v1.db', '1.0', 'roupa_livre', -1);
         }
@@ -105,14 +117,14 @@ angular.module('app.services', ['ngResource', 'rails'])
     }
 
     return self;
-  })
+  }])
 
-  .factory('ApparelSerializer', function (railsSerializer) {
+  .factory('ApparelSerializer', ['railsSerializer', function (railsSerializer) {
     return railsSerializer(function () {
       this.nestedAttribute('apparel_images');
       this.nestedAttribute('apparel_tags');
     });
-  })
+  }])
 
   .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', '$q', 
     function($resource, $auth, railsResourceFactory, ApparelSerializer, $q) {
@@ -188,8 +200,8 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 'DBA',
-    function($resource, $auth, $q, $rootScope, railsResourceFactory, DBA) {
+  .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', '$cordovaSQLite', 'DBA',
+    function($resource, $auth, $q, $rootScope, railsResourceFactory, $cordovaSQLite, DBA) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/chats', 
         name: 'chat'
@@ -288,8 +300,8 @@ angular.module('app.services', ['ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', 'DBA', 
-    function($resource, $auth, $q, $rootScope, railsResourceFactory, DBA) {
+  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', '$cordovaSQLite','DBA', 
+    function($resource, $auth, $q, $rootScope, railsResourceFactory, $cordovaSQLite, DBA) {
       var resource = railsResourceFactory({
         url: $auth.apiUrl() + '/chat_messages', 
         name: 'chat_message'

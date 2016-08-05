@@ -13,6 +13,7 @@
     "ionic-toast": "^0.2.0",
     "socket.io-client": "^1.4.6",
     "moment": "^2.14.1",
-    "angular-filter": "^0.5.9"
+    "angular-filter": "^0.5.9",
+    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.2"
   }
 }
