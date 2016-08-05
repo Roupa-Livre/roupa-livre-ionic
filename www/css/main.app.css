@@ -608,6 +608,9 @@ ion-footer-bar form {
 
 /* CHAT ************************************************************ */
 /* ***************************************************************** */
+.platform-ios.platform-cordova:not(.fullscreen) .chat .has-subheader {
+  top: 144px; }
+
 .chat .bar-subheader {
   background: #0772ef;
   background: -moz-linear-gradient(top, #0772ef 0%, #1fabe4 50%, #37e4d9 100%);

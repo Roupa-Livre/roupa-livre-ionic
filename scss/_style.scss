@@ -858,6 +858,13 @@ ion-footer-bar {
 
 /* CHAT ************************************************************ */
 /* ***************************************************************** */
+.platform-ios.platform-cordova:not(.fullscreen) {
+  .chat {
+    .has-subheader {
+      top:144px;
+    }
+  }
+}
 .chat {
 
   .bar-subheader {
