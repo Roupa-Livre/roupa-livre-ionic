@@ -7,6 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
+      SHOWS_STACK: true,
       REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
       API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
       // REALTIME_URL: 'http://localhost:5001',

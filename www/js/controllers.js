@@ -369,7 +369,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     };
   })
 
-  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub) {
+  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, ionicToast, config) {
     $scope.$on("$destroy", function(){
       if ($scope.chat && $scope.chat != null)
         ChatSub.unsubscribe($scope.chat);
@@ -498,6 +498,14 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
         // $scope.chat_messages.push(saved_message);
         $scope.chat.last_sent_message = null;
         $ionicScrollDelegate.scrollBottom(true);
+      }, function(errorData) {
+        $scope.chat.last_sent_message = null;
+        try {
+          if (config.SHOWS_STACK)
+            ionicToast.show('Erro enviando mensagem:\r\n<br/>' + JSON.stringify(errorData), 'top', true, 1000);
+          else
+            ionicToast.show('Erro inesperado enviando mensagem', 'top', true, 1000);
+        } catch (ex) { }
       });
     };
 
