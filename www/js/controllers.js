@@ -504,7 +504,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
           if (config.SHOWS_STACK)
             ionicToast.show('Erro enviando mensagem:\r\n<br/>' + JSON.stringify(errorData), 'top', true, 1000);
           else
-            ionicToast.show('Erro inesperado enviando mensagem', 'top', true, 1000);
+            ionicToast.show('Erro inesperado enviando mensagem', 'top', false, 1000);
         } catch (ex) { }
       });
     };
