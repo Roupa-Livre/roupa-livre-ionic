@@ -125,7 +125,7 @@ angular.module('app.filters', [])
     return function (gender) {
       if (gender == "ADU")
         return 'adulto';
-      else if (gender == "NO")
+      else if (gender == "INF")
         return 'infantil';
       else if (gender != "NO")
         return 'tanto faz';
