@@ -821,6 +821,11 @@ ion-footer-bar {
     }
   }
 }
+.platform-ios.platform-cordova:not(.fullscreen) .myClothes {
+  .has-subheader {
+    top: 185px;
+  }
+}
 
 /* USERS *********************************************************** */
 /* ***************************************************************** */
@@ -858,13 +863,6 @@ ion-footer-bar {
 
 /* CHAT ************************************************************ */
 /* ***************************************************************** */
-.platform-ios.platform-cordova:not(.fullscreen) {
-  .chat {
-    .has-subheader {
-      top:144px;
-    }
-  }
-}
 .chat {
 
   .bar-subheader {
@@ -1019,6 +1017,11 @@ ion-footer-bar {
     }
   }
 }
+.platform-ios.platform-cordova:not(.fullscreen) .chat {
+  .has-subheader {
+    top:144px;
+  }
+}
 
 .bar-stable {
 
@@ -1162,5 +1165,11 @@ ion-footer-bar {
     }
 
     .btnTeste { }
+  }
+}
+
+.platform-ios.platform-cordova:not(.fullscreen) .search {
+  .has-subheader {
+    top: 185px;
   }
 }
