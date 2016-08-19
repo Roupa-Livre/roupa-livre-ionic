@@ -181,6 +181,12 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         })
       };
 
+      resource.prototype.update_owned_cache = function() {
+        var item = this;
+        if (resource.hasOwnProperty('_owned_apparels'))
+          addOrReplaceValues(resource._owned_apparels, item);
+      };
+
       resource.prototype.hasGender = function() {
         return this.gender != null && this.gender != "SKIP";
       }

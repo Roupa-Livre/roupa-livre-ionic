@@ -110,6 +110,8 @@ angular.module('app.controllers')
     $scope.submit = function() {
       var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
       $scope.entry.save().then(function(data) {
+        data.update_owned_cache();
+
         $ionicHistory.nextViewOptions({ disableBack: true });
         if (isNew) {
           ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
