@@ -641,6 +641,25 @@ ion-footer-bar {
           margin: 0% 5%;
         }
       }
+      .button-change {
+        margin: 0% 5%;
+      }
+    }
+  }
+  .platform-ios {
+    .matched {
+      .title {
+        h1 {
+          font-size: 60px;
+          padding-top: 0.1em;
+        }
+      }
+      .users {
+        p {
+          font-size: 80%;
+          line-height: 1em;
+        }
+      }
     }
   }
 }
