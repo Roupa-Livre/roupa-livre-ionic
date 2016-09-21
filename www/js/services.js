@@ -312,7 +312,8 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             resource.GlobalNotifications = countAllChatsNotifications(data);
             resource.LastRefreshedChatsAt = new Date();
           }
-          resolve(data);
+
+          resource.active().then(resolve, reject);
         }, reject);
       };
 
