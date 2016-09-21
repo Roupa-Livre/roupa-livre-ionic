@@ -5,7 +5,7 @@ ion-view.has-header title=""
       h3 ng-if="chat_messages.length == 0" Nenhuma Mensagem enviada
       ion-list
         ion-item.item-thumbnail-left ng-repeat=("chat_message in chat_messages") ng-include="getIncludeFile(chat_message)"
-  ion-footer-bar
+  ion-footer-bar keyboard-attach=""
     input type="text" ng-model="chat.last_sent_message" placeholder="nova mensagem" /
     .buttons
       button.button ng-click="send()" enviar

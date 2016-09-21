@@ -99,6 +99,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       }
     });
   })
+  .run(function($ionicPlatform) {
+    $ionicPlatform.ready(function(readyEventData) {
+      if(window.cordova && window.cordova.plugins.Keyboard) {
+        if (ionic.Platform.isIOS()) {
+          cordova.plugins.Keyboard.disableScroll(true);
+        }
+      }
+    });
+  })
 
   .config(function($ionicNativeTransitionsProvider){
       $ionicNativeTransitionsProvider.setDefaultOptions({

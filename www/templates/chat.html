@@ -9,7 +9,7 @@
       </h3>
       <ion-list><ion-item class="item-thumbnail-left" ng-include="getIncludeFile(chat_message)" ng-repeat="chat_message in chat_messages"></ion-item></ion-list></ion-content>
   </div>
-  <ion-footer-bar><input ng-model="chat.last_sent_message" placeholder="nova mensagem" type="text" />
+  <ion-footer-bar keyboard-attach=""><input ng-model="chat.last_sent_message" placeholder="nova mensagem" type="text" />
     <div class="buttons">
       <button class="button" ng-click="send()">enviar</button>
     </div>
