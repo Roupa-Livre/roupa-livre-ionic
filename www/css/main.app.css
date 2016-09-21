@@ -400,7 +400,8 @@ ion-footer-bar form {
     text-align: center;
     margin: 0; }
   .matched .matchCards .item {
-    padding: 9px; }
+    padding: 9px;
+    text-align: center; }
   .matched .matchCards img {
     width: 100%;
     height: 150px; }
