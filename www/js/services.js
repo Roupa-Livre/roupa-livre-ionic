@@ -362,7 +362,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       resource.current = function(chat) {
         return $q(function(resolve, reject) {
-          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT 20", [chat.id]).then(function(messageRows){ 
+          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at asc LIMIT 20", [chat.id]).then(function(messageRows){ 
             var messages = DBA.processAll(messageRows, readFromDB); 
             resolve(reverse(messages));
           }, reject);
