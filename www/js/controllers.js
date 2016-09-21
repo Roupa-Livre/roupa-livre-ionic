@@ -494,8 +494,6 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     $scope.send = function() {
       var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: $scope.chat.last_sent_message})
       chat_message.save().then(function(saved_message) {
-        $scope.chat.chat_messages.push(saved_message);
-        // $scope.chat_messages.push(saved_message);
         $scope.chat.last_sent_message = null;
         $ionicScrollDelegate.scrollBottom(true);
       }, function(errorData) {
