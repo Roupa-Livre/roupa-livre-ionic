@@ -181,6 +181,11 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         })
       };
 
+      resource.clear_owned_cache = function() {
+        if (resource.hasOwnProperty('_owned_apparels'))
+          delete resource['_owned_apparels'];
+      };
+
       resource.prototype.update_owned_cache = function() {
         var item = this;
         if (resource.hasOwnProperty('_owned_apparels'))

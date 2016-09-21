@@ -220,14 +220,19 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
   .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel) {
     var user_id = $stateParams.hasOwnProperty("user_id") && $stateParams.user_id > 0 ? $stateParams.user_id : null;
     $scope.is_mine = user_id == null;
-    if ($scope.is_mine) {
+    if ($scope.is_mine) 
       $scope.owner_user = $rootScope.user;
-      Apparel.owned().then(function(apparels) {
-        $scope.apparels = apparels;
-      });
-    } else {
-      // TODO Carrega apparels de outro user
+
+    function refreshApparels() {
+      if ($scope.is_mine) {
+        Apparel.owned().then(function(apparels) {
+          $scope.apparels = apparels;
+        });
+      } else {
+        // TODO Carrega apparels de outro user
+      }
     }
+    refreshApparels();
 
     $scope.edit = function(apparel) {
       if ($scope.is_mine) {
@@ -245,8 +250,11 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
 
         confirmPopup.then(function(res) {
           if(res) {
-            Apparel.delete(apparel);
             console.log('You are sure');
+            apparel.delete().then(function() {
+              Apparel.clear_owned_cache();
+              refreshApparels();
+            });
           } else {
             console.log('You are not sure');
           }
