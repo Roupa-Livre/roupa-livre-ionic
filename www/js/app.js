@@ -82,6 +82,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
       function tryRegisterOnPush() {
         PushSystem.tryRegister('468184339406', onRegistration, pushReceived, null, onUnregistration);
+        PushSystem.tryClearBadgeCount();
       }
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
         tryRegisterOnPush();
@@ -96,8 +97,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       });
 
       $rootScope.$on('auth:validation-success', function(ev, user) {
-        if (MainPushSystem == null)
+        if (MainPushSystem == null) {
           tryRegisterOnPush();
+        }
       });
     }
     $ionicPlatform.ready(function(readyEventData) {

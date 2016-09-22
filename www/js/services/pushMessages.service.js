@@ -12,6 +12,11 @@ PushSystem.tryRegister = function(senderID, onRegisterCallback, onNotificationCa
     MainPushSystem = new PushSystem(onRegisterCallback, onNotificationCallback, onErrorCallback, onUnregisterCallback);
   MainPushSystem.register(senderID);
 };
+PushSystem.tryClearBadgeCount = function() {
+  if (MainPushSystem != null) {
+    MainPushSystem.clearBadgeCount();
+  }
+}
 PushSystem.tryUnregister = function($q) {
   var deferred = $q.defer();
   if (MainPushSystem != null) {
@@ -39,7 +44,12 @@ PushSystem.prototype.unregister = function(deferred) {
     deferred.reject(false);
   });
 };
-
+PushSystem.prototype.clearBadgeCount = function() {
+  if (this.pushNotificationService != null) {
+    this.pushNotificationService.setApplicationIconBadgeNumber(function() {}, function() {}, 0);
+    this.pushNotificationService.clearAllNotifications(function() {}, function() {});
+  }
+};
 PushSystem.prototype.register = function(senderID) {
   var self = this;
 

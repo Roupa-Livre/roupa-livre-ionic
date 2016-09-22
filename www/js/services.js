@@ -368,7 +368,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       resource.current = function(chat) {
         return $q(function(resolve, reject) {
-          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at asc LIMIT 20", [chat.id]).then(function(messageRows){ 
+          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT 20", [chat.id]).then(function(messageRows){ 
             var messages = DBA.processAll(messageRows, readFromDB); 
             resolve(reverse(messages));
           }, reject);
@@ -379,7 +379,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return $q(function(resolve, reject) {
           resource.query({ chat_id: chat.id }).then(function(data) {
             saveAllToDB(data);
-            resolve(data);
+            resolve(reverse(data));
           }, reject);
         });
       };
@@ -388,7 +388,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return $q(function(resolve, reject) {
           resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(function(data) {
             saveAllToDB(data);
-            resolve(data);
+            resolve(reverse(data));
           }, reject);
         });
       };
@@ -397,7 +397,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return $q(function(resolve, reject) {
           resource.query({ chat_id: chat.id, base_message_id: base_message.id }).then(function(data) {
             saveAllToDB(data);
-            resolve(data);
+            resolve(reverse(data));
           }, reject);
         });
       };
