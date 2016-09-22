@@ -25,7 +25,14 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "com.telerik.plugins.nativepagetransitions"
+    "com.telerik.plugins.nativepagetransitions",
+    {
+      "variables": {
+        "SENDER_ID": "468184339406"
+      },
+      "locator": "https://github.com/phonegap/phonegap-plugin-push#07fa81b7a3a62400915ac70b9a24a802465a6f95",
+      "id": "phonegap-plugin-push"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

@@ -32,7 +32,74 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
     // $sceDelegateProvider.resourceUrlWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http) {
+    function setupPush() {
+      function onRegistration(data) {
+        var postData = { registration_id: data.registrationId, provider: null }
+        if (ionic.Platform.isIOS()) {
+          postData.provider = 'ios';
+        } else if (ionic.Platform.isAndroid()) {
+          postData.provider = 'android';
+        }
+
+        if (postData.provider != null) {
+          $http({ 
+            method: 'POST', 
+            data: postData,
+            headers: $auth.retrieveData('auth_headers'),
+            url: config.API_URL + '/users/register_device'
+          });
+        }
+      }
+      function onUnregistration(registrationID) {
+        var postData = { registration_id: registrationID, provider: null }
+        if (ionic.Platform.isIOS()) {
+          postData.provider = 'ios';
+        } else if (ionic.Platform.isAndroid()) {
+          postData.provider = 'android';
+        }
+
+        if (postData.provider != null) {
+          $http({ 
+            method: 'POST', 
+            data: postData,
+            headers: $auth.retrieveData('auth_headers'),
+            url: config.API_URL + '/users/unregister_device'
+          });
+        }
+      }
+      function pushReceived(data) {
+        if (data.hasOwnProperty('additionalData')) {
+          if (data.additionalData.type == 'message') {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('menu.chat', { id: data.additionalData.chat_id });
+          } else if (data.additionalData.type == 'match') {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('menu.match_warning', { chat_id: data.additionalData.chat_id });
+          }
+        }
+      }
+
+      function tryRegisterOnPush() {
+        PushSystem.tryRegister('468184339406', onRegistration, pushReceived, null, onUnregistration);
+      }
+      if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
+        tryRegisterOnPush();
+      }
+
+      $rootScope.$on('auth:login-success', function(ev, user) {
+        tryRegisterOnPush();
+      });
+
+      $rootScope.$on('auth:logout-success', function(ev) {
+        PushSystem.tryUnregister($q);
+      });
+
+      $rootScope.$on('auth:validation-success', function(ev, user) {
+        if (MainPushSystem == null)
+          tryRegisterOnPush();
+      });
+    }
     $ionicPlatform.ready(function(readyEventData) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -86,6 +153,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
         });
       }
+
+      setupPush();
     });
 
     $ionicPlatform.on('resume', function(){
@@ -97,6 +166,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
         });
       }
+
+      setupPush();
     });
   })
   .run(function($ionicPlatform) {
