@@ -1,12 +1,11 @@
-angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io'])
-  .controller('initialCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io', 'app.factories'])
+  .controller('initialCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck) {
     $scope.loadingMessage = "Bem vindo!!"
 
     function validate() {
       $auth.validateUser()
         .then(function(data) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('starting');
+          UserCheck.redirectLoggedUser();
         }, function(result) {
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('login');
@@ -39,10 +38,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
     };
   })
 
-  .controller('loginCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+  .controller('loginCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck) {
     function successLogged(data) {
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('starting');
+      UserCheck.redirectLoggedUser();
     };
 
     function logOrRegisterWithUUID() {
@@ -121,43 +119,13 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io']
       validate();
   })
 
-  .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth) {
+  .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, UserCheck) {
     $auth.signOut()
       .then(function(resp) {
         $state.go('login');
       })
       .catch(function(resp) {
-        $state.go('starting');
-      });
-  })
-
-  .controller('startCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Apparel) {
-    $scope.loadingMessage = "Carregando ..."
-
-    function onUserHasOwnApparels() {
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.apparel');
-    };
-
-    function successUpdatedGeo() {
-      Apparel.owned().then(function(data) {
-        if (data && data != null && data.length > 0) {
-          onUserHasOwnApparels();
-        } else {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('menu.new');
-        }
-      }, function() {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.new');
-      });
-    };
-
-    updateLatLng($cordovaGeolocation, $auth, $q)
-      .then(function(resp) {
-        successUpdatedGeo();
-      }, function(resp) {
-        successUpdatedGeo();
+        UserCheck.redirectLoggedUser();
       });
   })
 

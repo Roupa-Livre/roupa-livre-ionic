@@ -29,12 +29,6 @@ angular.module('app.routes', [])
       templateUrl: 'templates/loading.html',
       controller: 'logoutCtrl'
     })
-
-    .state('starting', {
-      url: '/start',
-      templateUrl: 'templates/loading.html',
-      controller: 'startCtrl'
-    })
     
     .state('menu', {
       url: '/menu',

@@ -728,6 +728,9 @@ ion-footer-bar form {
 .platform-ios.platform-cordova:not(.fullscreen) .chat .has-subheader {
   top: 144px; }
 
+.platform-android .chat .has-subheader {
+  top: 124px; }
+
 .bar-stable .button.button-clear {
   color: #0066ff;
   font-size: 36px; }

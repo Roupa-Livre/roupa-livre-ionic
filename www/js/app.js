@@ -33,7 +33,38 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
     // $sceDelegateProvider.resourceUrlWhitelist(/^\s*(https?|ftp|mailto|file|tel|content|assets-library|data):/);
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http) {
+  .factory('BackgroundCheck', function($ionicPlatform){
+    var service = {};
+    var inBackground = false;
+
+    $ionicPlatform.ready(function() {        
+        document.addEventListener("resume", function(){inBackground = false;}, false);
+        document.addEventListener("pause", function(){inBackground = true;}, false);
+    });
+
+    service.isActive = function(){
+        return inBackground == false;
+    }
+    return service;    
+  })
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck) {
+    $rootScope.cleanInitialState = function(fallbackState) {
+      $rootScope.initialState = null;
+      $rootScope.initialStateParams = null;
+    }
+    
+    $rootScope.gotToInitialState = function(fallbackState) {
+      if ($rootScope.initialState != null) {
+        var initialState = $rootScope.initialState;
+        var initialStateParams = $rootScope.initialStateParams;
+        
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go(initialState, initialStateParams);
+      } else {
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go(fallbackState);
+      }
+    };
     function setupPush() {
       function onRegistration(data) {
         var postData = { registration_id: data.registrationId, provider: null }
@@ -72,11 +103,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       function pushReceived(data) {
         if (data.hasOwnProperty('additionalData')) {
           if (data.additionalData.type == 'message') {
-            $ionicHistory.nextViewOptions({ disableBack: true });
-            $state.go('menu.chat', { id: data.additionalData.chat_id });
+            if (!BackgroundCheck.isActive() || $ionicHistory.viewHistory().histories.root.stack.length < 2) {
+              $rootScope.initialState = 'menu.chat';
+              $rootScope.initialStateParams = { id: data.additionalData.chat_id };
+              $rootScope.gotToInitialState();
+            }
           } else if (data.additionalData.type == 'match') {
-            $ionicHistory.nextViewOptions({ disableBack: true });
-            $state.go('menu.match_warning', { chat_id: data.additionalData.chat_id });
+            $rootScope.initialState = 'menu.match_warning';
+            $rootScope.initialStateParams = { chat_id: data.additionalData.chat_id };
+            $rootScope.gotToInitialState();
           }
         }
       }
@@ -108,6 +143,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     $ionicPlatform.ready(function(readyEventData) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
+
       if(window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       }

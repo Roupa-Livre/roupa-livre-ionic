@@ -227,7 +227,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
           if (matcher.apparels.length > 0) 
             resolve(matcher.apparels[0]);
           else {
-            Apparel.search().then(function(data) {
+            Apparel.search({page_size: 5}).then(function(data) {
               if (data && data.length > 0) {
                 matcher.apparels = data;
                 resolve(matcher.apparels[0]);
