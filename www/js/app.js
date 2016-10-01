@@ -10,6 +10,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       SHOWS_STACK: true,
       REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
       API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      SENDER_ID: '468184339406',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
   })
@@ -81,8 +82,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       }
 
       function tryRegisterOnPush() {
-        PushSystem.tryRegister('468184339406', onRegistration, pushReceived, null, onUnregistration);
-        PushSystem.tryClearBadgeCount();
+        if(ionic.Platform.is('cordova')){
+          PushSystem.tryRegister(config.SENDER_ID, onRegistration, pushReceived, null, onUnregistration);
+          PushSystem.tryClearBadgeCount();
+        }
       }
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
         tryRegisterOnPush();

@@ -14,8 +14,9 @@
     </div>
     <h2 ng-bind="chat.other_user | shortName"></h2>
   </div>
-  <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
+  <!--CONTENT--><ion-content class="has-header has-subheader has-footer" id="messages">
     <div class="padding">
+      <ion-refresher on-refresh="onMessagesScroll()" pulling-text="Carregar mensagens anteriores ..."></ion-refresher>
       <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
         <div class="col" ng-bind="chat_message.message"></div>
       </div>

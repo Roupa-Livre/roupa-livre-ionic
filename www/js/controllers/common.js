@@ -29,13 +29,20 @@ function updateLatLng($cordovaGeolocation, $auth, $q) {
   return deferred.promise;
 }
 
-function reverse(items) {
-  new_list = [];
-  for (var i = items.length - 1; i >= 0; i--) {
-    new_list.push(items[i]);
-  }
-  return items;
+function reverse(arr) {
+  var result = [],
+       ii = arr.length;
+   for (var i = ii - 1;i > -1;i--) {
+       result.push(arr[i]);
+   }
+   return result;
 };
+
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  };
+}
 
 // ---- IMAGE CROP MODAL ----
 function addCroppingModal(controller, $scope, $ionicModal, $q, $timeout) {

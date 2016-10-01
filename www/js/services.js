@@ -118,6 +118,20 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       return null;
     }
 
+    self.queryAndFetchIfEmpty = function(queryText, parameters, fetchDeferredDelegate) {
+      var q = $q.defer();
+      self.query(queryText, parameters).then(function(initialResult) {
+        if (initialResult.rows.length == 0) {
+          fetchDeferredDelegate().then(function(fetchResult) {
+            self.query(queryText, parameters).then(q.resolve, q.reject);
+          }, q.reject);
+        } else {
+          q.resolve(initialResult);
+        }
+      }, q.reject)
+      return q.promise;
+    }
+
     return self;
   }])
 
@@ -366,38 +380,76 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
       }
 
-      resource.current = function(chat) {
+      resource.latest = function(chat, pageSize) {
+        var QUERY = "SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT " + pageSize;
+        var ARGS = [chat.id];
+
+        function fetch() {
+          return resource.latestOnline(chat);
+        }
+
         return $q(function(resolve, reject) {
-          DBA.query("SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT 20", [chat.id]).then(function(messageRows){ 
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
+            resolve(reverse(DBA.processAll(messageRows, readFromDB)));
+          }, reject);
+        });
+      };
+
+      resource.latestOnline = function(chat, pageSize) {
+        return $q(function(resolve, reject) {
+          resource.query({ chat_id: chat.id, page_size: pageSize }).then(function(data) {
+            saveAllToDB(data);
+            resolve(data);
+          }, reject);
+        });
+      };
+
+      resource.latestAfterReadOnline = function(chat, lastReadAt) {
+        return $q(function(resolve, reject) {
+          resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(function(data) {
+            saveAllToDB(data);
+            resolve(data);
+          }, reject);
+        });
+      };
+
+      resource.latestAfterRead = function(chat, lastReadAt) {
+        var QUERY = "SELECT * FROM chat_messages where chat_id = ? and created_at > ? order by created_at desc";
+        var ARGS = [chat.id, lastReadAt];
+
+        function fetch() {
+          return resource.latestAfterReadOnline(chat, lastReadAt);
+        }
+
+        return $q(function(resolve, reject) {
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
             var messages = DBA.processAll(messageRows, readFromDB); 
             resolve(reverse(messages));
           }, reject);
         });
       };
 
-      resource.latest = function(chat) {
+      resource.loadPreviousOnline = function(chat, base_message, pageSize) {
         return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id }).then(function(data) {
+          resource.query({ chat_id: chat.id, base_message_id: base_message.id, page_size: pageSize }).then(function(data) {
             saveAllToDB(data);
-            resolve(reverse(data));
+            resolve(data);
           }, reject);
         });
       };
 
-      resource.latestAfterRead = function(chat, lastReadAt) {
-        return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id, last_read_at: lastReadAt }).then(function(data) {
-            saveAllToDB(data);
-            resolve(reverse(data));
-          }, reject);
-        });
-      };
+      resource.previousMessages = function(chat, base_message, pageSize) {
+        var QUERY = "SELECT * FROM chat_messages where chat_id = ? and created_at < ? order by created_at desc LIMIT " + pageSize;
+        var ARGS = [chat.id, base_message.created_at];
 
-      resource.previousMessages = function(chat, base_message) {
+        function fetch() {
+          return resource.loadPreviousOnline(chat, base_message, pageSize);
+        }
+
         return $q(function(resolve, reject) {
-          resource.query({ chat_id: chat.id, base_message_id: base_message.id }).then(function(data) {
-            saveAllToDB(data);
-            resolve(reverse(data));
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
+            var messages = DBA.processAll(messageRows, readFromDB); 
+            resolve(reverse(messages));
           }, reject);
         });
       };

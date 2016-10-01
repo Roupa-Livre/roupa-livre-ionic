@@ -638,6 +638,9 @@ ion-footer-bar form {
 .chat .has-footer {
   bottom: 54px !important; }
 
+.chat .padding {
+  padding-top: 15px; }
+
 .chat .chatHeader {
   display: block; }
   .chat .chatHeader .left img {
