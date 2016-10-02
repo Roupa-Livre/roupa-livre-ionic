@@ -1,6 +1,7 @@
 ion-view.users
   ion-content
     .list ng-if="chats"
+      ion-refresher pulling-text="Recarregar todos chats ..." on-refresh="onForceRefresh()"
       a.item.item-avatar ng-repeat=("chat in chats") href="" ng-click="open(chat)" ng-init="last_message=chat.getLastMessage();"
         img.thumb ng-src="{{(chat.other_user | userImageSrc) || 'img/avatar.png'}}" /
         h2 ng-bind="chat.other_user | shortName"

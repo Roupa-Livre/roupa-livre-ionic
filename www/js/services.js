@@ -305,6 +305,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return this.last_message_sent;
       };
 
+      resource.clearCache = function() {
+        return DBA.query("DELETE FROM chats", []);
+      };
+
       resource.local_active_by_id = function(id) {      
         return DBA.query("SELECT * FROM chats where id = ?", [ id ]).then(function(chatRows){ 
           return DBA.processFirstOrNull(chatRows, readFromDB); 
@@ -380,12 +384,39 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
       }
 
+      resource.prototype.saveAndPersist = function() {
+        return this.save().then(function(savedMessage) {
+          saveToDB(savedMessage); 
+          return savedMessage;
+        });
+      };
+
+      resource.clearCache = function(chat) {
+        return DBA.query("DELETE FROM chat_messages where chat_id = ?", [chat.id]);
+      };
+
+      resource.retrieveLastMessage = function(chat) {
+        var QUERY = "SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT 1";
+        var ARGS = [chat.id];
+
+        function fetch() {
+          return resource.latestOnline(chat, 1);
+        }
+
+        return $q(function(resolve, reject) {
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
+            var messages = DBA.processAll(messageRows, readFromDB);
+            return messages.length > 0 ? messages[0] : null;
+          }, reject);
+        });
+      };
+
       resource.latest = function(chat, pageSize) {
         var QUERY = "SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT " + pageSize;
         var ARGS = [chat.id];
 
         function fetch() {
-          return resource.latestOnline(chat);
+          return resource.latestOnline(chat, pageSize);
         }
 
         return $q(function(resolve, reject) {

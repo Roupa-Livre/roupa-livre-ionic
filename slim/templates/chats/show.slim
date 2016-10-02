@@ -12,9 +12,12 @@ ion-view.chat
     h2 ng-bind="chat.other_user | shortName"
 
   /! CONTENT
-  ion-content#messages.has-header.has-subheader.has-footer
+  ion-content#messages.has-header.has-subheader.has-footer on-scroll="onMessageInfiniteScroll()"
     .padding
-      ion-refresher pulling-text="Carregar mensagens anteriores ..." on-refresh="onMessagesScroll()"
+      ion-refresher ng-if="reachedEnd" pulling-text="Recarregar todas mensagens ..." on-refresh="onForceRefresh()"
+      .row ng-if="!reachedEnd && $scope.loadingPrevious"
+        .col
+          ion-spinner
       .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id == user.id)}" 
         .col ng-bind="chat_message.message" 
 

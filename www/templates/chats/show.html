@@ -14,9 +14,14 @@
     </div>
     <h2 ng-bind="chat.other_user | shortName"></h2>
   </div>
-  <!--CONTENT--><ion-content class="has-header has-subheader has-footer" id="messages">
+  <!--CONTENT--><ion-content class="has-header has-subheader has-footer" id="messages" on-scroll="onMessageInfiniteScroll()">
     <div class="padding">
-      <ion-refresher on-refresh="onMessagesScroll()" pulling-text="Carregar mensagens anteriores ..."></ion-refresher>
+      <ion-refresher ng-if="reachedEnd" on-refresh="onForceRefresh()" pulling-text="Recarregar todas mensagens ..."></ion-refresher>
+      <div class="row" ng-if="!reachedEnd &amp;&amp; $scope.loadingPrevious">
+        <div class="col">
+          <ion-spinner></ion-spinner>
+        </div>
+      </div>
       <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
         <div class="col" ng-bind="chat_message.message"></div>
       </div>

@@ -330,7 +330,31 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
   })
 
-  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat) {
+  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup) {
+
+    $scope.onForceRefresh = function() {
+      // TODO Confirmar
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Recarregar tudo?',
+        template: 'Quer recarregar todas informações dos chats?'
+      });
+
+      confirmPopup.then(function(res) {
+        if(res) {
+          Chat.clearCache().then(function() {
+            Chat.force_reload_active().then(function(data) {
+              $scope.chats = data;
+              $scope.$broadcast('scroll.refreshComplete');
+            }, function() {
+              $scope.$broadcast('scroll.refreshComplete');
+            });
+          }, function() {
+            $scope.$broadcast('scroll.refreshComplete');
+          });
+        }
+      });
+    };
+
     Chat.active().then(function(data) {
       $scope.chats = data;
       Chat.force_reload_active().then(function(data) {
@@ -345,7 +369,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, ionicToast, config) {
+  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, ionicToast, config, $ionicPopup) {
     $scope.pageSize = 20;
     $scope.$on("$destroy", function(){
       if ($scope.chat && $scope.chat != null)
@@ -359,6 +383,31 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
         $scope.onMessagesScroll();
       }
     }, 500);
+
+    $scope.onForceRefresh = function() {
+      // TODO Confirmar
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Recarregar tudo?',
+        template: 'Quer recarregar o chat todo?'
+      });
+
+      confirmPopup.then(function(res) {
+        if(res) {
+          ChatMessage.clearCache($scope.chat).then(function() {
+            $scope.loadingPrevious = false;
+            $scope.reachedEnd = false;
+            $scope.chat_messages = null;
+            checkChat().then(function() {
+              $scope.$broadcast('scroll.refreshComplete');
+            }, function() {
+              $scope.$broadcast('scroll.refreshComplete');
+            });
+          }, function() {
+            $scope.$broadcast('scroll.refreshComplete');
+          });
+        }
+      });
+    };
 
     $scope.onMessagesScroll = function() {
       if (!$scope.reachedEnd) {
@@ -378,14 +427,16 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       }
     };
 
-
-    function onSubscribedNewMessage(messageData) {
-      $scope.last_message_sent = messageData;
-      $scope.chat.last_message_sent = messageData;
-      $scope.chat.saveLocally();
+    function setAndAddLastMessage(messageData) {
+      updateLastReadDate();
 
       onNewMessages([ messageData ]);
       $ionicScrollDelegate.scrollBottom(true);
+    };
+
+
+    function onSubscribedNewMessage(messageData) {
+      setAndAddLastMessage(messageData);
     };
 
     function onNewMessages(messagesData) {
@@ -404,12 +455,22 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       ChatSub.subscribe($scope.chat, onSubscribedNewMessage);
     };
 
+    function updateLastReadDate() {
+      ChatMessage.retrieveLastMessage($scope.chat).then(function(lastMessage) {
+        if (lastMessage != null) {
+          $scope.last_message_sent = lastMessage;
+          $scope.chat.last_message_sent = lastMessage;
+          $scope.chat.last_read_at = lastMessage.created_at;
+          $scope.chat.saveLocally();
+        }
+      });
+    }
+
     $scope.getLatestMessages = function() {
       var newLastRead = new Date();
       return ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at, $scope.pageSize).then(function(new_messages) {
         onNewMessages(new_messages);
-        $scope.chat.last_read_at = newLastRead;
-        $scope.chat.saveLocally();
+        updateLastReadDate();
 
         return new_messages;
       },function(error) {
@@ -422,8 +483,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       var newLastRead = new Date();
       return ChatMessage.latest($scope.chat, $scope.pageSize).then(function(new_messages) {
         $scope.chat_messages = new_messages;
-        $scope.chat.last_read_at = newLastRead;
-        $scope.chat.saveLocally();
+        
+        updateLastReadDate();
 
         return new_messages;
       }, function(error) {
@@ -441,15 +502,13 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
         if (currentMessages.length > 0) {
           $scope.getLatestMessages().then(function() {
             subscribe();
-            $scope.chat.last_read_at = newLastRead;
-            $scope.chat.saveLocally();
+            updateLastReadDate();
 
             $ionicScrollDelegate.scrollBottom(true);
           });
         } else {
           subscribe();
-          $scope.chat.last_read_at = newLastRead;
-          $scope.chat.saveLocally();
+          updateLastReadDate();
         }
         
       }, function(error) {
@@ -460,14 +519,15 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
     function checkChat() {
       if ($scope.chat && $scope.chat != null) {
-        checkInitialMessages();
+        return checkInitialMessages();
       }
       else {
         $rootScope.showLoading('Carregando mensagens ...');
-        Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
+        return Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
           $scope.chat = chat;
           checkInitialMessages();
           $rootScope.hideLoading();
+          return chat;
         });
       }
     }
@@ -503,9 +563,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       var messageTrimmed = $scope.chat.last_sent_message ? $scope.chat.last_sent_message.trim() : '';
       if (messageTrimmed.length > 0) {
         var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: messageTrimmed})
-        chat_message.save().then(function(saved_message) {
+        chat_message.saveAndPersist().then(function(savedMessage) {
           $scope.chat.last_sent_message = null;
-          $ionicScrollDelegate.scrollBottom(true);
+          setAndAddLastMessage(savedMessage);
         }, function(errorData) {
           $scope.chat.last_sent_message = null;
           try {
