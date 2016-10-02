@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     }
     return service;    
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice) {
     $rootScope.cleanInitialState = function(fallbackState) {
       $rootScope.initialState = null;
       $rootScope.initialStateParams = null;
@@ -67,7 +67,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     };
     function setupPush() {
       function onRegistration(data) {
-        var postData = { registration_id: data.registrationId, provider: null }
+        var postData = { registration_id: data.registrationId, provider: null, device_uid: $cordovaDevice.getUUID() }
         if (ionic.Platform.isIOS()) {
           postData.provider = 'ios';
         } else if (ionic.Platform.isAndroid()) {
@@ -84,7 +84,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         }
       }
       function onUnregistration(registrationID) {
-        var postData = { registration_id: registrationID, provider: null }
+        var postData = { registration_id: registrationID, provider: null, device_uid: $cordovaDevice.getUUID() }
         if (ionic.Platform.isIOS()) {
           postData.provider = 'ios';
         } else if (ionic.Platform.isAndroid()) {
