@@ -467,7 +467,6 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     }
 
     $scope.getLatestMessages = function() {
-      var newLastRead = new Date();
       return ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at, $scope.pageSize).then(function(new_messages) {
         onNewMessages(new_messages);
         updateLastReadDate();

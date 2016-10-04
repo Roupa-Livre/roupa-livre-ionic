@@ -20,7 +20,7 @@ ion-view.matched
         p ng-bind="chat.other_user | shortName"
         p curtiu
 
-    .row.matchCards ng-if="chat.owned_apparels.length > 0 && chat.other_user_apparels.length > 0" 
+    .row.matchCards
       .col.col-50
         .list
           ks-swiper-container initial-slide="0" loop="chat.other_user_apparels.length > 1" override-parameters=("{paginationHide: false}") pagination-clickable="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" pagination-is-active="chat.other_user_apparels.length > 1" 
@@ -34,6 +34,9 @@ ion-view.matched
                   span ng-bind="apparel.gender | genderName"
                   span ng-if="apparel.hasAgeInfo()"  | 
                   span ng-bind="apparel.age_info | ageInfoName"
+            ks-swiper-slide.swiper-slide ng-if="chat.other_user_apparels.length == 0"
+              ion-item
+                img src="img/no-images.png" width="100%"
 
       .col.col-50
         .list
@@ -48,6 +51,9 @@ ion-view.matched
                   span ng-if="apparel.hasGender()" ng-bind="apparel.gender | genderName"
                   span ng-if="apparel.hasAgeInfo()"  | 
                   span ng-if="apparel.hasAgeInfo()" ng-bind="apparel.age_info | ageInfoName"
+            ks-swiper-slide.swiper-slide ng-if="chat.owned_apparels.length == 0"
+              ion-item
+                img src="img/no-images.png" width="100%"
 
     .row.buttonBar
 
