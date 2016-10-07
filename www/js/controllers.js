@@ -397,6 +397,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
             $scope.loadingPrevious = false;
             $scope.reachedEnd = false;
             $scope.chat_messages = null;
+            $scope.chat_messages_map = {};
             checkChat().then(function() {
               $scope.$broadcast('scroll.refreshComplete');
             }, function() {
@@ -434,6 +435,14 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       $ionicScrollDelegate.scrollBottom(true);
     };
 
+    function hasOnMap(message) {
+      return ($scope.chat_messages_map.hasOwnProperty('m_' + message.id));
+    }
+
+    function setOnMap(message) {
+      $scope.chat_messages_map['m_' + message.id] = message.id;
+    }
+
 
     function onSubscribedNewMessage(messageData) {
       setAndAddLastMessage(messageData);
@@ -441,13 +450,21 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
     function onNewMessages(messagesData) {
       for (var i = 0; i < messagesData.length; i++) {
-        $scope.chat_messages.push(messagesData[i]);
+        var message = messagesData[i];
+        if (!hasOnMap(message)) {
+          $scope.chat_messages.push(message);
+          setOnMap(message);
+        }
       }
     }
 
     function addPreviousMessages(messagesData) {
       for (var i = messagesData.length - 1; i >= 0; i--) {
-        $scope.chat_messages.unshift(messagesData[i]);
+        var message = messagesData[i];
+        if (!hasOnMap(message)) {
+          $scope.chat_messages.unshift(message);
+          setOnMap(message);
+        }
       }
     }
 
@@ -482,6 +499,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       var newLastRead = new Date();
       return ChatMessage.latest($scope.chat, $scope.pageSize).then(function(new_messages) {
         $scope.chat_messages = new_messages;
+        for (var i = 0; i < new_messages.length; i++)
+          setOnMap(new_messages[i]);
         
         updateLastReadDate();
 
@@ -496,6 +515,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       var newLastRead = new Date();
       return ChatMessage.latest($scope.chat, $scope.pageSize).then(function(currentMessages) {
         $scope.chat_messages = currentMessages;
+        for (var i = 0; i < currentMessages.length; i++)
+          setOnMap(currentMessages[i]);
         $ionicScrollDelegate.scrollBottom(true);
 
         if (currentMessages.length > 0) {
@@ -533,6 +554,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
     $scope.chat = null;
     $scope.chat_messages = null;
+    $scope.chat_messages_map = { };
     Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
       $scope.chat = chat;
       checkChat();
@@ -564,7 +586,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
         var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: messageTrimmed})
         chat_message.saveAndPersist().then(function(savedMessage) {
           $scope.chat.last_sent_message = null;
-          setAndAddLastMessage(savedMessage);
+          setAndAddLastMessage(new ChatMessage(savedMessage));
         }, function(errorData) {
           $scope.chat.last_sent_message = null;
           try {
