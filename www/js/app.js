@@ -8,8 +8,10 @@
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
       SHOWS_STACK: true,
-      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
-      API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
+      // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      REALTIME_URL: 'http://roupa-livre-realtime-live.herokuapp.com:80',
+      API_URL: 'http://roupa-livre-api-live.herokuapp.com',
       SENDER_ID: '468184339406',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
