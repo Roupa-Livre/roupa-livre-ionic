@@ -221,31 +221,63 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
     function(Apparel, $q) {
       var matcher = self;
       self.apparels = [];
+      self.already_seen = [];
+
+      function getFirstAndDequeue() {
+        var apparel = matcher.apparels[0];
+        matcher.already_seen.push(apparel.id);
+        matcher.apparels.shift();
+        return apparel;
+      }
+
+      function loadApparels() {
+        return $q(function(resolve, reject) {
+          var ignore = matcher.apparels.join(',');
+          var params = { page_size: 5, ignore: ignore };
+          Apparel.search(params).then(function(data) {
+            if (data && data.length > 0) {
+              matcher.apparels = data;
+              resolve(data);
+            } else 
+              resolve(null);
+          }, reject);
+        });
+      }
+
+      self.loadApparelsIfNeededAsync = function() {
+        if (matcher.apparels.length == 0)
+          loadApparels();
+      }
 
       self.getNextAvailableApparel = function() {
         return $q(function(resolve, reject) {
-          if (matcher.apparels.length > 0) 
-            resolve(matcher.apparels[0]);
-          else {
-            Apparel.search({page_size: 5}).then(function(data) {
-              if (data && data.length > 0) {
-                matcher.apparels = data;
-                resolve(matcher.apparels[0]);
-              } else 
-                resolve(null);
+          if (matcher.apparels.length > 0)
+            resolve(getFirstAndDequeue());
+          else
+            loadApparels().then(function(data) {
+              if (data != null)
+                resolve(getFirstAndDequeue());
+              else
+                resolve(data)
             }, reject);
-          }
         });
       };
 
-      self.markFirstAsRated = function() {
-        if (matcher.apparels && matcher.apparels.length > 0) {
-          matcher.apparels.shift();
+      self.markAsRated = function(apparelId) {
+        if (matcher.already_seen.length > 0) {
+          for (var i = 0; i < matcher.already_seen.length; i++) {
+            var auxId = matcher.already_seen[i];
+            if (auxId == apparelId) {
+              matcher.already_seen.remove(i);
+              break;
+            }
+          }
         }
       };
 
       self.clearCache = function() {
         matcher.apparels = [];
+        matcher.already_seen = [];
       }
 
       return self;
