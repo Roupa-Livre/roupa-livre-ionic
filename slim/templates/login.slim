@@ -4,9 +4,8 @@ ion-view.splash
     .logo
       img alt=("ROUPA LIVRE") src="img/logo.png" /
     .slogan
-      p O armário coletivo de quem se ligou
+      p ng-bind="getLocalizedMessage('login.initial')"
     .action
-      button.button.button-facebook ng-click="loginWithFacebook()" 
-        | entrar com facebook
+      button.button.button-facebook ng-click="loginWithFacebook()" ng-bind="getLocalizedMessage('login.buttons.facebook')"
       / button.button.button-facebook ng-click="loginAuto()" 
       /   | entrar com id celular

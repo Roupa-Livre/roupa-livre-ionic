@@ -443,11 +443,12 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         });
       };
 
-      resource.latest = function(chat, pageSize) {
+      resource.latest = function(chat, pageSize, onBeforeFetchOnline) {
         var QUERY = "SELECT * FROM chat_messages where chat_id = ? order by created_at desc LIMIT " + pageSize;
         var ARGS = [chat.id];
 
         function fetch() {
+          onBeforeFetchOnline();
           return resource.latestOnline(chat, pageSize);
         }
 

@@ -159,3 +159,17 @@ function encodeImageUri(imageUri)
      var dataURL = c.toDataURL("image/jpeg");
      return dataURL;
 };
+
+function getDiffInMilliseconds(date1, date2) {
+  // TODO
+  return date2 - date1;
+}
+function getDiffInMillisecondsFromNow(date1) {
+  getDiffInMilliseconds(date1, new Date());
+}
+function sleepToBeReadbleIfNeeded(date1, config) {
+  var waitingTime = getDiffInMillisecondsFromNow(newLastRead);
+  if (waitingTime < config.MIN_READING_TIMEOUT){
+    sleep(config.MIN_READING_TIMEOUT - waitingTime);
+  }
+}

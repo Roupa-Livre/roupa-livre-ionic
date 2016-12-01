@@ -20,6 +20,8 @@ ion-view.chat
           ion-spinner
       .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id == user.id)}" 
         .col ng-bind="chat_message.message" 
+      .row.no-messages ng-show='chat_messages && chat_messages.length > 0' 
+        .col ng-bind="getLocalizedMessage('chat.chat_messages.empty')" 
 
   /! FOOTER
   ion-footer-bar keyboard-attach=""

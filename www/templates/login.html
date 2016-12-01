@@ -3,11 +3,9 @@
       <img alt="ROUPA LIVRE" src="img/logo.png" />
     </div>
     <div class="slogan">
-      <p>
-        O armário coletivo de quem se ligou
-      </p>
+      <p ng-bind="getLocalizedMessage(&#39;login.initial&#39;)"></p>
     </div>
     <div class="action">
-      <button class="button button-facebook" ng-click="loginWithFacebook()">entrar com facebook</button>
+      <button class="button button-facebook" ng-bind="getLocalizedMessage(&#39;login.buttons.facebook&#39;)" ng-click="loginWithFacebook()"></button>
     </div>
   </ion-content></ion-view>
