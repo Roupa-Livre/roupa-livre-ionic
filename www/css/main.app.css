@@ -689,6 +689,9 @@ ion-footer-bar form {
   text-align: center;
   width: 100%;
   color: #0066ff; }
+  .chat .no-messages.loading {
+    color: #666666;
+    background-color: transparent; }
 
 .chat .message {
   border-radius: 5px;

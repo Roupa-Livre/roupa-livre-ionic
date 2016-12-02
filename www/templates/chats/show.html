@@ -6,9 +6,7 @@
       </div>
       <div class="right">
         <a class="matchLink" href="" ng-click="showChatDetails()"><img ng-src="img/btnLikeChat.png" />
-          <div class="matchLinkText">
-            ver peças que combinaram
-          </div>
+          <div class="matchLinkText" ng-bind="t(&#39;chat.match_details.title&#39;)"></div>
         </a>
       </div>
     </div>
@@ -16,7 +14,7 @@
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader has-footer" id="messages" on-scroll="onMessageInfiniteScroll()">
     <div class="padding">
-      <ion-refresher ng-if="reachedEnd" on-refresh="onForceRefresh()" pulling-text="{{getLocalizedMessage(&#39;chat.chat_messages.reload&#39;)}}"></ion-refresher>
+      <ion-refresher ng-if="reachedEnd" on-refresh="onForceRefresh()" pulling-text="{{t(&#39;chat.chat_messages.reload&#39;)}}"></ion-refresher>
       <div class="row" ng-if="!reachedEnd &amp;&amp; $scope.loadingPrevious">
         <div class="col">
           <ion-spinner></ion-spinner>
@@ -25,8 +23,11 @@
       <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
         <div class="col" ng-bind="chat_message.message"></div>
       </div>
-      <div class="row no-messages" ng-show="chat_messages &amp;&amp; chat_messages.length == 0">
-        <div class="col" ng-bind="getLocalizedMessage(&#39;chat.chat_messages.empty&#39;)"></div>
+      <div class="row no-messages" ng-show="chat_messages &amp;&amp; chat_messages.length == 0 &amp;&amp; !loadingMessages">
+        <div class="col" ng-bind="t(&#39;chat.chat_messages.empty&#39;)"></div>
+      </div>
+      <div class="row no-messages loading" ng-show="(!chat_messages || chat_messages.length == 0) &amp;&amp; loadingMessages">
+        <div class="col" ng-bind="t(&#39;chat.loading.message&#39;)"></div>
       </div>
     </div>
   </ion-content><!--FOOTER--><ion-footer-bar keyboard-attach="">

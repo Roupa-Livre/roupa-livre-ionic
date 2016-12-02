@@ -14,6 +14,16 @@ angular.module('app.controllers')
       }
     }, 500);
 
+    function showLoading() {
+      $scope.loadingMessages = true;
+      // $rootScope.showLoading(getLocalizedMessage("chat.loading.message"));
+    }
+
+    function hideLoading() {
+      $scope.loadingMessages = false;
+      // $rootScope.hideLoading();
+    }
+
     $scope.onForceRefresh = function() {
       // TODO Confirmar
       var confirmPopup = $ionicPopup.confirm({
@@ -146,7 +156,7 @@ angular.module('app.controllers')
       function onBeforeFetchOnline() {
         if (allowLoadingMessage) {
           loadingStartDate = new Date();
-          $rootScope.showLoading(getLocalizedMessage("chat.loading.message"));
+          showLoading();
         }
       };
       
@@ -170,7 +180,7 @@ angular.module('app.controllers')
 
         if (loadingStartDate != null) {
           sleepToBeReadbleIfNeeded(loadingStartDate, config, function() {
-            $rootScope.hideLoading();
+            hideLoading();
             loadingStartDate = null;
           });
         }
@@ -178,6 +188,13 @@ angular.module('app.controllers')
       }, function(error) {
         console.log(error);
         subscribe();
+
+        if (loadingStartDate != null) {
+          sleepToBeReadbleIfNeeded(loadingStartDate, config, function() {
+            hideLoading();
+            loadingStartDate = null;
+          });
+        }
       });
     };
 
@@ -186,13 +203,13 @@ angular.module('app.controllers')
         return checkInitialMessages();
       }
       else {
-        $rootScope.showLoading('Carregando mensagens ...');
+        showLoading('Carregando mensagens ...');
         return Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
           $scope.chat = chat;
           checkInitialMessages().then(function() {
-            $rootScope.hideLoading();
+            hideLoading();
           }, function() {
-            $rootScope.hideLoading();
+            hideLoading();
           });
           return chat;
         });

@@ -974,6 +974,11 @@ ion-footer-bar {
     text-align: center;
     width: 100%;
     color: #0066ff;
+
+    &.loading {
+      color: #666666;
+      background-color: transparent;
+    }
   }
 
   .message {

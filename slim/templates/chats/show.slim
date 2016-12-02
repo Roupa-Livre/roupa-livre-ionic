@@ -7,21 +7,23 @@ ion-view.chat
       .right
         a.matchLink href="" ng-click="showChatDetails()"
           img ng-src="img/btnLikeChat.png" /
-          .matchLinkText ver peças que combinaram
+          .matchLinkText ng-bind="t('chat.match_details.title')" 
 
     h2 ng-bind="chat.other_user | shortName"
 
   /! CONTENT
   ion-content#messages.has-header.has-subheader.has-footer on-scroll="onMessageInfiniteScroll()"
     .padding
-      ion-refresher ng-if="reachedEnd" pulling-text="{{getLocalizedMessage('chat.chat_messages.reload')}}" on-refresh="onForceRefresh()"
+      ion-refresher ng-if="reachedEnd" pulling-text="{{t('chat.chat_messages.reload')}}" on-refresh="onForceRefresh()"
       .row ng-if="!reachedEnd && $scope.loadingPrevious"
         .col
           ion-spinner
       .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id == user.id)}" 
         .col ng-bind="chat_message.message" 
-      .row.no-messages ng-show='chat_messages && chat_messages.length == 0' 
-        .col ng-bind="getLocalizedMessage('chat.chat_messages.empty')" 
+      .row.no-messages ng-show='chat_messages && chat_messages.length == 0 && !loadingMessages' 
+        .col ng-bind="t('chat.chat_messages.empty')" 
+      .row.no-messages.loading ng-show='(!chat_messages || chat_messages.length == 0) && loadingMessages' 
+        .col ng-bind="t('chat.loading.message')" 
 
   /! FOOTER
   ion-footer-bar keyboard-attach=""

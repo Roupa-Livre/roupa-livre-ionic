@@ -170,7 +170,7 @@ function getDiffInMillisecondsFromNow(date1) {
 function sleepToBeReadbleIfNeeded(date1, config, onWakeUp) {
   var waitingTime = getDiffInMillisecondsFromNow(date1);
   if (waitingTime < config.MIN_READING_TIMEOUT){
-    console.log(config.MIN_READING_TIMEOUT - waitingTime);
+    // console.log(config.MIN_READING_TIMEOUT - waitingTime);
     setTimeout(onWakeUp, config.MIN_READING_TIMEOUT - waitingTime);
   } else {
     onWakeUp();

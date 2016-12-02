@@ -15,7 +15,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       SENDER_ID: '468184339406',
       REALTIME_URL: 'http://localhost:5001',
       API_URL: 'http://localhost:3000',
-      MIN_READING_TIMEOUT: (3 * 1000)
+      MIN_READING_TIMEOUT: (2 * 1000)
   })
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;

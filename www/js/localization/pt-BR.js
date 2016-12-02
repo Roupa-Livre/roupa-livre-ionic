@@ -4,5 +4,6 @@ var TEXT_RESOURCES = {
   "chat.loading.message": 'Carregando mensagens ...',
   "chat.chat_messages.empty": 'Nenhuma mensagem nessa conversa ainda, bora?',
   "chat.chat_messages.reload": 'Recarregar todas mensagens ...',
+  "chat.match_details.title": 'ver peças que combinaram',
   'apparel.loading.message': 'Buscando peças ...'
 }
