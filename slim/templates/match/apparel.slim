@@ -1,7 +1,10 @@
 ion-view.searchMatch
   /! CONTENT
   ion-content
-    .list
+    .list ng-show="entry == null"
+      .item
+        p.details ng-bind="t('apparel.loading.message')"
+    .list ng-show="entry != null"
       .item.item-image.clothesImage
         ks-swiper-container initial-slide="0" loop="false" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" 
           ks-swiper-slide.swiper-slide ng-repeat="image in entry.apparel_images"
@@ -25,7 +28,7 @@ ion-view.searchMatch
         p.ownerDistance ng-bind="entry.distance | distanceToString"
   
   /! FOOTER
-  ion-footer-bar
+  ion-footer-bar ng-show="entry != null"
     .row.buttonBar
       .col
         button.button.button-block.button-dislike ng-click="dislike()" 

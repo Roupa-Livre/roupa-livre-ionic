@@ -1,7 +1,12 @@
 <ion-view class="searchMatch"><!--CONTENT--><ion-content>
-    <div class="list">
+    <div class="list" ng-show="entry == null">
+      <div class="item">
+        <p class="details" ng-bind="t(&#39;apparel.loading.message&#39;)"></p>
+      </div>
+    </div>
+    <div class="list" ng-show="entry != null">
       <div class="item item-image clothesImage">
-        <ks-swiper-container initial-slide="0" loop="true" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="entry.apparel_images.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="image in entry.apparel_images"><img ng-src="{{image | imageSrc}}" width="100%" /></ks-swiper-slide></ks-swiper-container>
+        <ks-swiper-container initial-slide="0" loop="false" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="entry.apparel_images.length &gt; 1" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="image in entry.apparel_images"><img ng-src="{{image | imageSrc}}" width="100%" /></ks-swiper-slide></ks-swiper-container>
       </div>
       <div class="item">
         <p class="title" ng-bind="entry.title"></p>
@@ -22,7 +27,7 @@
         <p class="ownerDistance" ng-bind="entry.distance | distanceToString"></p>
       </div>
     </div>
-  </ion-content><!--FOOTER--><ion-footer-bar>
+  </ion-content><!--FOOTER--><ion-footer-bar ng-show="entry != null">
     <div class="row buttonBar">
       <div class="col">
         <button class="button button-block button-dislike" ng-click="dislike()"><img src="img/btnDislike.png" /></button>

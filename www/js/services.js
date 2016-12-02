@@ -223,17 +223,18 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       self.apparels = [];
       self.already_seen = [];
 
+      function getPageSize() { return 1; };
+
       function getFirstAndDequeue() {
-        var apparel = matcher.apparels[0];
+        var apparel = matcher.apparels.shift();;
         matcher.already_seen.push(apparel.id);
-        matcher.apparels.shift();
         return apparel;
       }
 
       function loadApparels() {
         return $q(function(resolve, reject) {
-          var ignore = matcher.apparels.join(',');
-          var params = { page_size: 5, ignore: ignore };
+          var ignore = matcher.already_seen.join(',');
+          var params = { page_size: getPageSize(), ignore: ignore };
           Apparel.search(params).then(function(data) {
             if (data && data.length > 0) {
               matcher.apparels = data;
@@ -244,8 +245,12 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         });
       }
 
+      self.isNextAlreadyLoaded = function() {
+        return (matcher.apparels.length > 0)
+      }
+
       self.loadApparelsIfNeededAsync = function() {
-        if (matcher.apparels.length == 0)
+        if (!matcher.isNextAlreadyLoaded())
           loadApparels();
       }
 

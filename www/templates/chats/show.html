@@ -16,7 +16,7 @@
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader has-footer" id="messages" on-scroll="onMessageInfiniteScroll()">
     <div class="padding">
-      <ion-refresher ng-if="reachedEnd" on-refresh="onForceRefresh()" pulling-text="Recarregar todas mensagens ..."></ion-refresher>
+      <ion-refresher ng-if="reachedEnd" on-refresh="onForceRefresh()" pulling-text="{{getLocalizedMessage(&#39;chat.chat_messages.reload&#39;)}}"></ion-refresher>
       <div class="row" ng-if="!reachedEnd &amp;&amp; $scope.loadingPrevious">
         <div class="col">
           <ion-spinner></ion-spinner>
@@ -25,7 +25,7 @@
       <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
         <div class="col" ng-bind="chat_message.message"></div>
       </div>
-      <div class="row no-messages" ng-show="chat_messages &amp;&amp; chat_messages.length &gt; 0">
+      <div class="row no-messages" ng-show="chat_messages &amp;&amp; chat_messages.length == 0">
         <div class="col" ng-bind="getLocalizedMessage(&#39;chat.chat_messages.empty&#39;)"></div>
       </div>
     </div>

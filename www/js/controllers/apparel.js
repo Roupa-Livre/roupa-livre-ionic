@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, ionicToast) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, ionicToast, config) {
     $scope.showLoading = function(message) {
       $rootScope.showLoading(message);
     };
@@ -31,17 +31,30 @@ angular.module('app.controllers')
     }
 
     function loadNextApparel() {
-      // $scope.showLoading('Carregando roupas ...');
+      var loadingShownAt = null;
+      if (!ApparelMatcher.isNextAlreadyLoaded()) {
+        loadingShownAt = new Date();
+        $scope.showLoading(t('apparel.loading.message'));
+      }
+
       ApparelMatcher.getNextAvailableApparel().then(function(apparel) {
         setCurrentApparel(apparel);
         setTimeout(function() { 
           ApparelMatcher.loadApparelsIfNeededAsync();
         }, 500);
-        // $scope.hideLoading();
+        if (loadingShownAt != null)
+          sleepToBeReadbleIfNeeded(loadingShownAt, config, function() {
+            $scope.hideLoading();
+            loadingShownAt = null;
+          });
       }, function(error) {
         $log.debug(error);
+        if (loadingShownAt != null)
+          sleepToBeReadbleIfNeeded(loadingShownAt, config, function() {
+            $scope.hideLoading();
+            loadingShownAt = null;
+          });
         ionicToast.show('Erro carregando mais opções', 'top', false, 1000);
-        // $scope.hideLoading();
       })
     }
 
@@ -86,6 +99,8 @@ angular.module('app.controllers')
       rating.save().then(function(data) {
         ApparelMatcher.markAsRated(data.id);
       }, failAfterRating);
+
+      goToNextApparel();
     }
 
     loadNextApparel();
