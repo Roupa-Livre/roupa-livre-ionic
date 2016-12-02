@@ -161,15 +161,18 @@ function encodeImageUri(imageUri)
 };
 
 function getDiffInMilliseconds(date1, date2) {
-  // TODO
-  return date2 - date1;
+  return date2.getTime() - date1.getTime();
 }
 function getDiffInMillisecondsFromNow(date1) {
-  getDiffInMilliseconds(date1, new Date());
+  return getDiffInMilliseconds(date1, new Date());
 }
-function sleepToBeReadbleIfNeeded(date1, config) {
-  var waitingTime = getDiffInMillisecondsFromNow(newLastRead);
+
+function sleepToBeReadbleIfNeeded(date1, config, onWakeUp) {
+  var waitingTime = getDiffInMillisecondsFromNow(date1);
   if (waitingTime < config.MIN_READING_TIMEOUT){
-    sleep(config.MIN_READING_TIMEOUT - waitingTime);
+    console.log(config.MIN_READING_TIMEOUT - waitingTime);
+    setTimeout(onWakeUp, config.MIN_READING_TIMEOUT - waitingTime);
+  } else {
+    onWakeUp();
   }
 }

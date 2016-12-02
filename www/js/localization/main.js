@@ -1,3 +1,6 @@
 function getLocalizedMessage(key) {
-  return TEXT_RESOURCES[key];
+  return t(key);
 };
+function t(key) {
+  return TEXT_RESOURCES[key];
+}

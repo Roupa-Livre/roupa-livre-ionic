@@ -140,12 +140,14 @@ angular.module('app.controllers')
       });
     };  
 
-    function checkInitialMessages() {
+    function checkInitialMessages(allowLoadingMessage = true) {
       var newLastRead = new Date();
       var loadingStartDate = null;
       function onBeforeFetchOnline() {
-        loadingStartDate = new Date();
-        $rootScope.showLoading(getLocalizedMessage("chat.loading.message"));
+        if (allowLoadingMessage) {
+          loadingStartDate = new Date();
+          $rootScope.showLoading(getLocalizedMessage("chat.loading.message"));
+        }
       };
       
       return ChatMessage.latest($scope.chat, $scope.pageSize, onBeforeFetchOnline).then(function(currentMessages) {
@@ -167,9 +169,10 @@ angular.module('app.controllers')
         }
 
         if (loadingStartDate != null) {
-          sleepToBeReadbleIfNeeded(newLastRead, config);
-          $rootScope.hideLoading();
-          loadingStartDate = null;
+          sleepToBeReadbleIfNeeded(loadingStartDate, config, function() {
+            $rootScope.hideLoading();
+            loadingStartDate = null;
+          });
         }
         
       }, function(error) {
@@ -186,8 +189,11 @@ angular.module('app.controllers')
         $rootScope.showLoading('Carregando mensagens ...');
         return Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
           $scope.chat = chat;
-          checkInitialMessages();
-          $rootScope.hideLoading();
+          checkInitialMessages().then(function() {
+            $rootScope.hideLoading();
+          }, function() {
+            $rootScope.hideLoading();
+          });
           return chat;
         });
       }
@@ -211,8 +217,9 @@ angular.module('app.controllers')
     };
 
     $scope.loadPrevious = function() {
-      if ($scope.chat_messages == null || $scope.chat_messages.length == 0)
-        return checkInitialMessages();
+      if ($scope.chat_messages == null || $scope.chat_messages.length == 0) {
+        return checkInitialMessages(false);
+      }
       else {
         return ChatMessage.previousMessages($scope.chat, $scope.chat_messages[0], $scope.pageSize).then(function(new_messages) {
           addPreviousMessages(new_messages);
