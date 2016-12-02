@@ -4,7 +4,7 @@
   p tire sua roupa esquecida do armário.
 
 .item.item-image.clothesImage
-  ks-swiper-container initial-slide="0" loop="true" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 0" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" 
+  ks-swiper-container initial-slide="0" loop="false" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 0" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" 
     ks-swiper-slide.swiper-slide ng-repeat="image in entry.apparel_images | filter:filterOnlyNotDestroyed"
       img ng-src="{{image | imageSrc }}" width="100%" /
       .actions
