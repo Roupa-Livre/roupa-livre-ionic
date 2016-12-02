@@ -63,11 +63,6 @@ angular.module('app.controllers')
       $state.go('menu.match_warning', { chat_id: chat_data.id });
     };
 
-    function nextAfterRating() {
-      // agora só marca
-      // goToNextApparel();
-    };
-
     function goToNextApparel() {
       $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go($state.current, { last_id: $scope.entry.id }, {
@@ -89,6 +84,10 @@ angular.module('app.controllers')
 
       rating.save().then(function(data) {
         ApparelMatcher.markAsRated(data.id);
+        
+        if (data.hasOwnProperty('chat') && data.chat != null)
+          nextAfterMatch(data.chat);
+
       }, failAfterRating);
 
       goToNextApparel();
