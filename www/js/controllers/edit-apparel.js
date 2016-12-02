@@ -1,6 +1,7 @@
 angular.module('app.controllers')
   .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, ionicToast) {
     var currentController = this;
+    $scope.savingEntry = false;
 
     $scope.show = function() {
       $ionicLoading.show({
@@ -109,17 +110,24 @@ angular.module('app.controllers')
 
     $scope.submit = function() {
       var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
-      $scope.entry.save().then(function(data) {
-        data.update_owned_cache();
+      if (!$scope.savingEntry) {
+        $scope.savingEntry = true;
+        $scope.entry.save().then(function(data) {
+          data.update_owned_cache();
 
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        if (isNew) {
-          ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
-          $state.go('menu.apparel');
-        } else { 
-          $state.go('menu.apparel_list');
-        }
-      });
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          if (isNew) {
+            ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
+            $state.go('menu.apparel');
+            $scope.savingEntry = false;
+          } else { 
+            $state.go('menu.apparel_list');
+            $scope.savingEntry = false;
+          }
+        });
+      } else {
+        // ionicToast.show(t('edit_apparel.form.already_saving'), 'top', false, 2000);
+      }
     };
 
     $scope.cancel = function() {
