@@ -85,8 +85,6 @@ angular.module('app.controllers')
           //   return currentController.cropImage(result, 1);
           // })
           .then(function(result) {
-            if (!result.startsWith('data:image'))
-              result = 'data:image/jpg;base64,' + result;
             $scope.entry.apparel_images.push({ data: result });
             $ionicSlideBoxDelegate.update();
             refereshApparelSwiper();

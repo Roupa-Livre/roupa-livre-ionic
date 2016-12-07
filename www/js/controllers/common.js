@@ -176,6 +176,14 @@ function toDataUrl(src, callback) {
   img.src = src;
 };
 
+function getImageDimmesions(src, callback) {
+  var img = new Image();
+  img.onload = function() {
+    callback(this.width, this.height);
+  }
+  img.src = src;
+}
+
 function getDiffInMilliseconds(date1, date2) {
   return date2.getTime() - date1.getTime();
 }

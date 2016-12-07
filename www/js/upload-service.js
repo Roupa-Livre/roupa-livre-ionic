@@ -2,6 +2,21 @@
 
 angular.module('app')
 	.factory('CurrentCamera', ['$q', function($q) {
+    function checkDataUrlFormat(imageSrc) {
+      if (!imageSrc.startsWith('data:image'))
+        return 'data:image/jpg;base64,' + imageSrc;
+      else
+        return imageSrc;
+    }
+    function enforceRatio(ratio, imageSrc, callbackSameRatio, callbackDifferentRatio) {
+      getImageDimmesions(imageSrc, function(width, height) {
+        var imageRatio = width / height;
+        if (imageRatio == ratio)
+          callbackSameRatio(imageRatio);
+        else
+          callbackDifferentRatio(imageRatio);
+      })
+    }
 
     function doCropWithPlugin(result, options) {
       var q = $q.defer();
@@ -10,12 +25,7 @@ angular.module('app')
         console.log('Cropped Image Path!: ' + path);
         // Do whatever you want with new path such as read in a file
         // Here we resolve the path to finish, but normally you would now want to read in the file
-        if (options.destinationType == Camera.DestinationType.DATA_URL)
-          toDataUrl(path, function(dataUrl) {
-            q.resolve(dataUrl);  
-          });
-        else
-          q.resolve(path);
+        q.resolve(path);  
       }, function(error) {
         q.reject(error);
       }, result, options);
@@ -36,14 +46,20 @@ angular.module('app')
       	options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
       if (!options.hasOwnProperty('encodingType'))
       	options.encodingType = Camera.EncodingType.JPEG;
+      if (!options.hasOwnProperty('enforceRatio'))
+        options.enforceRatio = true;
 
+      // Troca para File URI para garantir que Crop funcionará
       var oldDestinationType = options.destinationType;
+      options.destinationType = Camera.DestinationType.FILE_URI;
+
       var allowEdit = options.hasOwnProperty('allowEdit') ? options.allowEdit : false;
       var targetWidth = options.hasOwnProperty('targetWidth') ? options.targetWidth : false;
       var targetHeight = options.hasOwnProperty('targetHeight') ? options.targetHeight : false;;
+      
       if (allowEdit || targetWidth || targetHeight) {
         if (ionic.Platform.isIOS()) {
-          options.destinationType = Camera.DestinationType.FILE_URI;
+          // alteramos para não abrir Cropper Nativo
           options.allowEdit = false;
           if (targetWidth)
             delete options["targetWidth"];
@@ -53,16 +69,31 @@ angular.module('app')
       }
       
       navigator.camera.getPicture(function(result) {
+        options.destinationType = oldDestinationType;
+        function finalResolve(finalResult) {
+          if (options.destinationType == Camera.DestinationType.DATA_URL)
+            toDataUrl(finalResult, q.resolve);
+          else
+            q.resolve(finalResult);
+        };
+
         if (ionic.Platform.isIOS()) {
-          options.destinationType = oldDestinationType;
           options.allowEdit = allowEdit;
           if (targetWidth)
             options.targetWidth = targetWidth;
           if (targetHeight)
             options.targetHeight = targetHeight;
-          doCropWithPlugin(result, options).then(q.resolve, q.reject);
+
+          doCropWithPlugin(result, options).then(finalResolve, q.reject);
         } else {
-          q.resolve(result);
+          if (targetWidth && targetHeight && targetWidth > 0 && targetHeight > 0 && options.enforceRatio)
+            enforceRatio(targetWidth / targetHeight, result, function() {
+              finalResolve(result);
+            }, function() {
+              doCropWithPlugin(result, options).then(finalResolve, q.reject);
+            });
+          else
+            finalResolve(result);
         }
       }, function(err) {
         q.reject(err);
