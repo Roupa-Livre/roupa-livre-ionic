@@ -223,7 +223,15 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       self.apparels = [];
       self.already_seen = [];
 
-      function getPageSize() { return 1; };
+      function getPageSize() {
+        if (window.Connection) {
+          // console.log(navigator.connection.type);
+          if (navigator.connection.type == Connection.ETHERNET || navigator.connection.type == Connection.WIFI)
+            return 3;
+        }
+
+        return 1; 
+      };
 
       function getFirstAndDequeue() {
         var apparel = matcher.apparels.shift();;
