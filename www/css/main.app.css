@@ -846,3 +846,27 @@ ion-footer-bar form {
 
 .platform-ios.platform-cordova:not(.fullscreen) .search .has-subheader {
   top: 185px; }
+
+.slider {
+  height: auto; }
+
+.swiper-slide .actions {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px; }
+  .swiper-slide .actions a {
+    border: #0066ff solid 2px;
+    color: #0066ff;
+    border-radius: 50%;
+    background-color: white;
+    display: inline-block;
+    padding-bottom: 3px;
+    padding: 3px 7px 3px 7px;
+    margin-right: 10px; }
+    .swiper-slide .actions a.remove {
+      border: #ff0000 solid 2px;
+      color: #ff0000; }
+    .swiper-slide .actions a:last-child {
+      margin-right: 0px; }

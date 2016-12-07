@@ -2,6 +2,26 @@
 
 angular.module('app')
 	.factory('CurrentCamera', ['$q', function($q) {
+
+    function doCropWithPlugin(result, options) {
+      var q = $q.defer();
+      plugins.crop(function(path) {
+        // path looks like 'file:///storage/emulated/0/Android/data/com.foo.bar/cache/1477008080626-cropped.jpg?1477008106566'
+        console.log('Cropped Image Path!: ' + path);
+        // Do whatever you want with new path such as read in a file
+        // Here we resolve the path to finish, but normally you would now want to read in the file
+        if (options.destinationType == Camera.DestinationType.DATA_URL)
+          toDataUrl(path, function(dataUrl) {
+            q.resolve(dataUrl);  
+          });
+        else
+          q.resolve(path);
+      }, function(error) {
+        q.reject(error);
+      }, result, options);
+      return q.promise;
+    };
+
 	  function getPicture(options) {
       var q = $q.defer();
 
@@ -16,10 +36,34 @@ angular.module('app')
       	options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
       if (!options.hasOwnProperty('encodingType'))
       	options.encodingType = Camera.EncodingType.JPEG;
+
+      var oldDestinationType = options.destinationType;
+      var allowEdit = options.hasOwnProperty('allowEdit') ? options.allowEdit : false;
+      var targetWidth = options.hasOwnProperty('targetWidth') ? options.targetWidth : false;
+      var targetHeight = options.hasOwnProperty('targetHeight') ? options.targetHeight : false;;
+      if (allowEdit || targetWidth || targetHeight) {
+        if (ionic.Platform.isIOS()) {
+          options.destinationType = Camera.DestinationType.FILE_URI;
+          options.allowEdit = false;
+          if (targetWidth)
+            delete options["targetWidth"];
+          if (targetHeight)
+            delete options["targetHeight"];
+        }
+      }
       
       navigator.camera.getPicture(function(result) {
-        // Do any magic you need
-        q.resolve(result);
+        if (ionic.Platform.isIOS()) {
+          options.destinationType = oldDestinationType;
+          options.allowEdit = allowEdit;
+          if (targetWidth)
+            options.targetWidth = targetWidth;
+          if (targetHeight)
+            options.targetHeight = targetHeight;
+          doCropWithPlugin(result, options).then(q.resolve, q.reject);
+        } else {
+          q.resolve(result);
+        }
       }, function(err) {
         q.reject(err);
       }, options);
@@ -28,6 +72,7 @@ angular.module('app')
     };
 
 	  return {
+      cropWithPlugin: doCropWithPlugin,
 	  	getPictureFromLibrary: function(options) {
 	  		if (!options || options == null)
       		options = {};

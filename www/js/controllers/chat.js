@@ -150,7 +150,10 @@ angular.module('app.controllers')
       });
     };  
 
-    function checkInitialMessages(allowLoadingMessage = true) {
+    function checkInitialMessages(allowLoadingMessage) {
+      if (typeof allowLoadingMessage === 'undefined') 
+        allowLoadingMessage = true
+      
       var newLastRead = new Date();
       var loadingStartDate = null;
       function onBeforeFetchOnline() {

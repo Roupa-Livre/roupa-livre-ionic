@@ -156,8 +156,24 @@ function encodeImageUri(imageUri)
        ctx.drawImage(img, 0,0);
      };
      img.src=imageUri;
-     var dataURL = c.toDataURL("image/jpeg");
+     var dataURL = c.toDataURL("image/jpg");
      return dataURL;
+};
+
+function toDataUrl(src, callback) {
+  var img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = function() {
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var dataURL;
+    canvas.height = this.height;
+    canvas.width = this.width;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL('image/jpeg');
+    callback(dataURL);
+  };
+  img.src = src;
 };
 
 function getDiffInMilliseconds(date1, date2) {

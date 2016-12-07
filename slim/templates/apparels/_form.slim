@@ -4,12 +4,14 @@
   p tire sua roupa esquecida do armário.
 
 .item.item-image.clothesImage
-  ks-swiper-container initial-slide="0" loop="false" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 0" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" 
+  ks-swiper-container initial-slide="0" loop="false" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 0" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" swiper="apparelSwiper" on-ready="onReadySwiper(swiper)"
     ks-swiper-slide.swiper-slide ng-repeat="image in entry.apparel_images | filter:filterOnlyNotDestroyed"
       img ng-src="{{image | imageSrc }}" width="100%" /
       .actions
-        a.image-button href="" ng-click="removeImage(image)" Remove
-        a.image-button href="" ng-if="!$first" ng-click="makeMainImage(image)" Tornar Principal
+        a.image-button.remove href="" ng-click="removeImage(image)" alt="Remover"
+          i.fa.fa-times
+        a.image-button.main href="" ng-if="!$first" ng-click="makeMainImage(image)"
+          i.fa.fa-star
     / Testing Modal Cropping on WEB BROWSER
     / ion-slide.full-width 
     /   a href="" ng-click="editImage('img/bg-new-image.png')" 
