@@ -1,7 +1,7 @@
 <ion-view class="matched"><!--CONTENT--><ion-content scroll="false">
     <div class="title">
       <h1>
-        Combinou!
+        {{t('match.title')}}
       </h1>
     </div>
     <div class="row">
@@ -15,16 +15,16 @@
     <div class="row users">
       <div class="col col-50">
         <p>
-          Você
+          {{t('shared.you')}}
         </p>
         <p>
-          curtiu
+          {{t('match.liked.you')}}
         </p>
       </div>
       <div class="col col-50">
         <p ng-bind="chat.other_user | shortName"></p>
         <p>
-          curtiu
+          {{t('match.liked.other')}}
         </p>
       </div>
     </div>
@@ -51,12 +51,12 @@
       </div>
     </div>
     <div class="row buttonBar">
-      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="cancel()" ng-if="single_option">voltar pra conversa</button>
+      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="cancel()" ng-if="single_option">{{t('match.butons.back')}}</button>
       <div class="col" ng-if="!single_option">
-        <button class="button button-continue" ng-click="cancel()">continuar trocando</button>
+        <button class="button button-continue" ng-click="cancel()">{{t('match.butons.cancel')}}</button>
       </div>
       <div class="col" ng-if="!single_option">
-        <button class="button button-change" ng-click="submit()">combinar a troca</button>
+        <button class="button button-change" ng-click="submit()">{{t('match.butons.submit')}}</button>
       </div>
     </div>
   </ion-content></ion-view>

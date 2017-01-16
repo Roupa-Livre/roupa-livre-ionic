@@ -2,7 +2,7 @@
   <div class="bar bar-subheader">
     <div class="sheader">
       <img class="avatar" src="{{ (owner_user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
-      <p class="title" ng-bind="is_mine ? &#39;minhas peças&#39; : (owner_user | shortName)"></p>
+      <p class="title" ng-bind="is_mine ? t(&#39;apparels.my_apparels&#39;) : (owner_user | shortName)"></p>
     </div>
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader">

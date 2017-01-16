@@ -2,7 +2,8 @@ ion-view.matched
   /! CONTENT
   ion-content scroll="false" 
     .title
-      h1 Combinou!
+      h1
+        | {{ t('chat_detail.title') }}
 
     .row
       .col.col-50
@@ -13,12 +14,15 @@ ion-view.matched
 
     .row.users
       .col.col-50
-        p Você
-        p curtiu
+        p 
+          | {{ t('shared.you') }}
+        p 
+          | {{ t('chat_detail.liked.you') }}
 
       .col.col-50
         p ng-bind="chat.other_user | shortName"
-        p curtiu
+        p 
+          | {{ t('chat_detail.liked.other') }}
 
     .row.matchCards
       .col.col-50
@@ -59,4 +63,4 @@ ion-view.matched
 
       /! IMPLEMENTAR ESSA OPÇÃO TAMBEM
       button.button.button-change ng-click="close()"
-        | voltar pra conversa
+        | {{t('chat_detail.butons.back')}}

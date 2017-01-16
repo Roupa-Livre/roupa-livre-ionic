@@ -12,9 +12,9 @@ ion-view.searchMatch
       .item
         p.title ng-bind="entry.title"
         p.details
-          span ng-bind="'tamanho ' + entry.size_info"
+          span ng-bind="t('shared.titles.size_info') + ' ' + entry.size_info + ' '"
           span ng-if="entry.gender" | 
-          span ng-bind="entry.gender"
+          span ng-bind="entry.gender + ' '"
           span ng-if="entry.age_info" | 
           span ng-bind="entry.age_info"
         p.hashtags ng-if="entry.apparel_tags.length > 0"

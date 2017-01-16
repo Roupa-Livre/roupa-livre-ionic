@@ -2,11 +2,11 @@
     <div class="user">
       <img class="avatar" src="{{ (user | userImageSrc ) || &#39;img/avatar.png&#39; }}" />
       <p class="title">
-        oiê, {{ user | shortName}}
+        {{ t('menu.greeting.prefix') }} {{ user | shortName}} {{ t('menu.greeting.sufix') }}
       </p>
       <p class="subtitle">
-        tire sua roupa esquecida do armário
+        {{ t('menu.subtitle') }}
       </p>
-      <button class="button button-offer" ng-click="goNew()">oferecer peça</button>
+      <button class="button button-offer" ng-click="goNew()">{{ t('menu.new_apparel') }}</button>
     </div>
-    <ion-list><ion-item href="" menu-close="" ng-click="goSearch()"><img class="icon" src="img/iconSearch.png" /><span>filtrar</span></ion-item><ion-item href="" menu-close="" ng-click="goApparels()"><img class="icon" src="img/iconPencil.png" /><span>minhas peças</span></ion-item><ion-item href="#" menu-close=""><img class="icon" src="img/iconInfo.png" /><span>sobre</span></ion-item></ion-list></ion-content></ion-view>
+    <ion-list><ion-item href="" menu-close="" ng-click="goSearch()"><img class="icon" src="img/iconSearch.png" /><span ng-bind="t(&#39;menu.items.filter&#39;)"></span></ion-item><ion-item href="" menu-close="" ng-click="goApparels()"><img class="icon" src="img/iconPencil.png" /><span ng-bind="t(&#39;menu.items.my_apparels&#39;)"></span></ion-item><ion-item href="#" menu-close=""><img class="icon" src="img/iconInfo.png" /><span ng-bind="t(&#39;menu.items.about&#39;)"></span></ion-item></ion-list></ion-content></ion-view>

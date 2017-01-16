@@ -1,6 +1,6 @@
 <ion-view class="loading"><!--CONTENT--><ion-content scroll="false">
     <div class="logo">
-      <img alt="ROUPA LIVRE" src="img/logo.png" />
+      <img alt="{{t(&#39;global.app.name&#39;)}}" src="img/logo.png" />
     </div>
-    <p class="loadingText" ng-bind="loadingMessage &amp;&amp; loadingMessage.length &gt; 0 ? loadingMessage : &#39;Carregando...&#39;"></p>
+    <p class="loadingText" ng-bind="loadingMessage &amp;&amp; loadingMessage.length &gt; 0 ? loadingMessage : t(&#39;shared.loading&#39;)"></p>
   </ion-content></ion-view>

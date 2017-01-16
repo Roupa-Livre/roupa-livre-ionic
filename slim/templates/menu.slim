@@ -3,18 +3,20 @@ ion-view.mainMenu
     .user
       img.avatar src="{{ (user | userImageSrc ) || 'img/avatar.png' }}"
 
-      p.title oiê, {{ user | shortName}}
-      p.subtitle tire sua roupa esquecida do armário
+      p.title 
+        | {{ t('menu.greeting.prefix') }} {{ user | shortName}} {{ t('menu.greeting.sufix') }}
+      p.subtitle 
+        | {{ t('menu.subtitle') }}
 
-      button.button.button-offer ng-click="goNew()" oferecer peça
+      button.button.button-offer ng-click="goNew()" {{ t('menu.new_apparel') }}
 
     ion-list
       ion-item href="" ng-click="goSearch()" menu-close=""
         img.icon src="img/iconSearch.png"
-        span filtrar
+        span ng-bind="t('menu.items.filter')"
       ion-item href="" ng-click="goApparels()" menu-close="" 
         img.icon src="img/iconPencil.png"
-        span minhas peças
+        span ng-bind="t('menu.items.my_apparels')"
       ion-item href="#" menu-close="" 
         img.icon src="img/iconInfo.png"
-        span sobre
+        span ng-bind="t('menu.items.about')"

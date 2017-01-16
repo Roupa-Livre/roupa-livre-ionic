@@ -2,10 +2,10 @@ ion-view.splash
   /! CONTENT
   ion-content scroll="false" 
     .logo
-      img alt=("ROUPA LIVRE") src="img/logo.png" /
+      img alt=("{{t('global.app.name')}}") src="img/logo.png" /
     .slogan
-      p ng-bind="getLocalizedMessage('login.initial')"
+      p ng-bind="t('login.initial')"
     .action
-      button.button.button-facebook ng-click="loginWithFacebook()" ng-bind="getLocalizedMessage('login.buttons.facebook')"
+      button.button.button-facebook ng-click="loginWithFacebook()" ng-bind="t('login.buttons.facebook')"
       / button.button.button-facebook ng-click="loginAuto()" 
       /   | entrar com id celular

@@ -1,10 +1,10 @@
 ion-view.users
   ion-content
     .list ng-if="chats"
-      ion-refresher pulling-text="Recarregar todos chats ..." on-refresh="onForceRefresh()"
+      ion-refresher pulling-text="{{t('chats.pulling_text')}}" on-refresh="onForceRefresh()"
       a.item.item-avatar ng-repeat=("chat in chats") href="" ng-click="open(chat)" ng-init="last_message=chat.getLastMessage();"
         img.thumb ng-src="{{(chat.other_user | userImageSrc) || 'img/avatar.png'}}" /
         h2 ng-bind="chat.other_user | shortName"
         p ng-if="last_message" ng-bind="last_message.message" ng-class="{'active': (chat.unread_messages_count && chat.unread_messages_count > 0)}"
-        span.item-note.active ng-if="last_message" ng-bind="last_message.created_at | timeToString" 20:36
+        span.item-note.active ng-if="last_message" ng-bind="last_message.created_at | timeToString" -
         span.badge.badge-positive ng-if="chat.unread_messages_count && chat.unread_messages_count > 0" ng-bind="chat.unread_messages_count"

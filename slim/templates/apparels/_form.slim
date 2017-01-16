@@ -1,7 +1,7 @@
 .item.item-avatar.user-header
   img.avatar ng-src="{{(user | userImageSrc) || 'img/avatar.png'}}" /
-  h2 ng-bind="'oiê, ' + (user | shortName) + '!'"
-  p tire sua roupa esquecida do armário.
+  h2 ng-bind="t('apparel_form.greeting.prefix') + (user | shortName) + t('apparel_form.greeting.sufix')"
+  p ng-bind="t('apparel_form.subtitle')"
 
 .item.item-image.clothesImage
   ks-swiper-container initial-slide="0" loop="false" override-parameters=("{paginationHide: false}") pagination-clickable="true" pagination-is-active="entry.apparel_images.length > 0" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000" swiper="apparelSwiper" on-ready="onReadySwiper(swiper)"
@@ -21,40 +21,47 @@
         img.main src="img/clothesDefault.jpg" width="100%" /
 
 .item.item-input.item-stacked-label
-  span.input-label titulo
-  input type="text" ng-model="entry.title" placeholder="dê um nome diferentão para sua peça" /
+  span.input-label ng-bind="t('apparel_form.titles.title')"
+  input type="text" ng-model="entry.title" placeholder="{{t('apparel_form.placeholders.title')}}" /
 
 .item.item-input.item-stacked-label
-  span.input-label tamanho
-  input type="text" ng-model="entry.size_info" name="size_info" placeholder="p, m, g ou 48?" /
+  span.input-label ng-bind="t('apparel_form.titles.size_info')"
+  input type="text" ng-model="entry.size_info" name="size_info" placeholder="{{t('apparel_form.placeholders.size_info')}}" /
 
 .item.item-input.item-stacked-label
-  span.input-label gênero
+  span.input-label ng-bind="t('apparel_form.titles.gender')"
   .row
     .col.col-50
-      ion-radio ng-model="entry.gender" name="gender" value="FEM"  feminino
+      ion-radio ng-model="entry.gender" name="gender" value="FEM" 
+        | {{ t('shared.options.gender.fem') }}
     .col.col-50
-      ion-radio ng-model="entry.gender" name="gender" value="MASC" masculino
+      ion-radio ng-model="entry.gender" name="gender" value="MASC" 
+        | {{ t('shared.options.gender.masc') }}
   .row
     .col.col-50
-      ion-radio ng-model="entry.gender" name="gender" value="NO" sem gênero
+      ion-radio ng-model="entry.gender" name="gender" value="NO" 
+        | {{ t('shared.options.gender.no') }}
     .col.col-50
-      ion-radio ng-model="entry.gender" name="gender" value="SKIP" não informar
+      ion-radio ng-model="entry.gender" name="gender" value="SKIP" 
+        | {{ t('shared.options.gender.skip') }}
 
 .item.item-input.item-stacked-label
-  span.input-label adulta ou infantil
+  span.input-label ng-bind="t('apparel_form.titles.age_info')"
   .row
     .col.col-33
-      ion-radio ng-model="entry.age_info" name="age_info" value="ADU" adulta
+      ion-radio ng-model="entry.age_info" name="age_info" value="ADU" 
+        | {{ t('shared.options.age_info.adult') }}
     .col.col-33
-      ion-radio ng-model="entry.age_info" name="age_info" value="INF" infantil
+      ion-radio ng-model="entry.age_info" name="age_info" value="INF" 
+        | {{ t('shared.options.age_info.child') }}
     .col.col-33
-      ion-radio ng-model="entry.age_info" name="age_info" value="ANY" tanto faz
+      ion-radio ng-model="entry.age_info" name="age_info" value="ANY" 
+        | {{ t('shared.options.age_info.any') }}
 
 .item.item-input.item-stacked-label
-  span.input-label #hashtag
-  tags-input type="text" placeholder="Separe as tags com vírgulas." ng-model="entry.apparel_tags" display-property="name" keyProperty="id" /
+  span.input-label ng-bind="t('apparel_form.titles.hashtags')"
+  tags-input type="text" placeholder="{{t('apparel_form.placeholders.hashtags')}}" ng-model="entry.apparel_tags" display-property="name" keyProperty="id" /
 
 .item.item-input.item-stacked-label
-  span.input-label descrição
-  textarea ng-model="entry.description" placeholder="capriche! venda, ou melhor, troque seu peixe." /
+  span.input-label ng-bind="t('apparel_form.titles.description')"
+  textarea ng-model="entry.description" placeholder="{{t('apparel_form.placeholders.description')}}" /

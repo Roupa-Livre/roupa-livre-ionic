@@ -1,11 +1,11 @@
 <ion-view class="splash"><!--CONTENT--><ion-content scroll="false">
     <div class="logo">
-      <img alt="ROUPA LIVRE" src="img/logo.png" />
+      <img alt="{{t(&#39;global.app.name&#39;)}}" src="img/logo.png" />
     </div>
     <div class="slogan">
-      <p ng-bind="getLocalizedMessage(&#39;login.initial&#39;)"></p>
+      <p ng-bind="t(&#39;login.initial&#39;)"></p>
     </div>
     <div class="action">
-      <button class="button button-facebook" ng-bind="getLocalizedMessage(&#39;login.buttons.facebook&#39;)" ng-click="loginWithFacebook()"></button>
+      <button class="button button-facebook" ng-bind="t(&#39;login.buttons.facebook&#39;)" ng-click="loginWithFacebook()"></button>
     </div>
   </ion-content></ion-view>

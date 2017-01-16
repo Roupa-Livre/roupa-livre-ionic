@@ -4,7 +4,7 @@ ion-view.myClothes
   .bar.bar-subheader
     .sheader
       img.avatar src="{{ (owner_user | userImageSrc ) || 'img/avatar.png' }}" /
-      p.title ng-bind="is_mine ? 'minhas peças' : (owner_user | shortName)"
+      p.title ng-bind="is_mine ? t('apparels.my_apparels') : (owner_user | shortName)"
 
   /! CONTENT
   ion-content.has-header.has-subheader

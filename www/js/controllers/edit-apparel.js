@@ -81,9 +81,6 @@ angular.module('app.controllers')
       var isMob = window.cordova !== undefined;
       if (isMob) {
         $scope.getNewPhoto()
-          // .then(function(result) {
-          //   return currentController.cropImage(result, 1);
-          // })
           .then(function(result) {
             $scope.entry.apparel_images.push({ data: result });
             $ionicSlideBoxDelegate.update();
@@ -186,6 +183,4 @@ angular.module('app.controllers')
     
     updateLatLng($cordovaGeolocation, $auth, $q)
       .then(function(resp) { }, function(resp) { });
-
-    addCroppingModal(currentController, $scope, $ionicModal, $q, $timeout);
   });

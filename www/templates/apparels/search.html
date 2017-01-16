@@ -3,48 +3,48 @@
     <div class="sheader">
       <img class="icon" src="img/iconSearch.png" />
       <p class="title">
-        filtrar
+        {{t('search_apparels.title')}}
       </p>
     </div>
   </div>
   <!--CONTENT--><ion-content class="has-header has-subheader has-footer">
     <div class="list">
       <div class="item item-input item-stacked-label">
-        <span class="input-label">#hashtag</span><tags-input display-property="name" keyProperty="name" ng-model="filters.tags" placeholder="Separe as tags com vírgulas." type="text" />
+        <span class="input-label">{{t('search_apparels.titles.hashtags')}}</span><tags-input display-property="name" keyProperty="name" ng-model="filters.tags" placeholder="{{t(&#39;search_apparels.placeholders.hashtags&#39;)}}" type="text" />
       </div>
       <div class="item item-input item-stacked-label">
-        <span class="input-label">tamanho</span><input name="size_info" ng-model="entry.size_info" placeholder="p, m, g ou 48?" type="text" />
+        <span class="input-label">{{t('search_apparels.titles.size_info')}}</span><input name="size_info" ng-model="entry.size_info" placeholder="{{t(&#39;search_apparels.placeholders.size_info&#39;)}}" type="text" />
       </div>
       <div class="item item-input item-stacked-label">
-        <span class="input-label">gênero</span>
+        <span class="input-label">{{t('search_apparels.titles.gender')}}</span>
         <div class="row">
           <div class="col col-50">
-            <ion-radio name="gender" ng-model="filters.gender" value="FEM"> feminino</ion-radio>
+            <ion-radio name="gender" ng-model="filters.gender" value="FEM">{{ t('shared.options.gender.fem') }}</ion-radio>
           </div>
           <div class="col col-50">
-            <ion-radio name="gender" ng-model="filters.gender" value="MASC">masculino</ion-radio>
+            <ion-radio name="gender" ng-model="filters.gender" value="MASC">{{ t('shared.options.gender.fem') }}</ion-radio>
           </div>
         </div>
         <div class="row">
           <div class="col col-50">
-            <ion-radio name="gender" ng-model="filters.gender" value="NO">sem gênero</ion-radio>
+            <ion-radio name="gender" ng-model="filters.gender" value="NO">{{ t('shared.options.gender.no') }}</ion-radio>
           </div>
           <div class="col col-50">
-            <ion-radio name="gender" ng-model="filters.gender" ng-value="null">tanto faz</ion-radio>
+            <ion-radio name="gender" ng-model="filters.gender" ng-value="null">{{ t('shared.options.gender.any') }}</ion-radio>
           </div>
         </div>
       </div>
       <div class="item item-input item-stacked-label">
-        <span class="input-label">adulta ou infantil</span>
+        <span class="input-label">{{t('search_apparels.titles.age_info')}}</span>
         <div class="row">
           <div class="col col-33">
-            <ion-radio name="age_info" ng-model="filters.age_info" value="ADU">adulta</ion-radio>
+            <ion-radio name="age_info" ng-model="filters.age_info" value="ADU">{{ t('shared.options.age_info.adult') }}</ion-radio>
           </div>
           <div class="col col-33">
-            <ion-radio name="age_info" ng-model="filters.age_info" value="INF">infantil</ion-radio>
+            <ion-radio name="age_info" ng-model="filters.age_info" value="INF">{{ t('shared.options.age_info.child') }}</ion-radio>
           </div>
           <div class="col col-33">
-            <ion-radio name="age_info" ng-model="filters.age_info" ng-value="null">tanto faz</ion-radio>
+            <ion-radio name="age_info" ng-model="filters.age_info" ng-value="null">{{ t('shared.options.age_info.any') }}</ion-radio>
           </div>
         </div>
       </div>
@@ -52,10 +52,10 @@
   </ion-content><!--FOOTER--><ion-footer-bar>
     <div class="row buttonBar">
       <div class="col">
-        <button class="button button-cancel" ng-click="cancel()">limpar filtros</button>
+        <button class="button button-cancel" ng-click="cancel()">{{t('search_apparels.buttons.clear')}}</button>
       </div>
       <div class="col">
-        <button class="button button-filter" ng-click="filter()">filtrar</button>
+        <button class="button button-filter" ng-click="filter()">{{t('search_apparels.buttons.submit')}}</button>
       </div>
     </div>
   </ion-footer-bar></ion-view>

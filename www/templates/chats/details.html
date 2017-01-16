@@ -1,7 +1,7 @@
 <ion-view class="matched"><!--CONTENT--><ion-content scroll="false">
     <div class="title">
       <h1>
-        Combinou!
+        {{ t('chat_detail.title') }}
       </h1>
     </div>
     <div class="row">
@@ -15,16 +15,16 @@
     <div class="row users">
       <div class="col col-50">
         <p>
-          Você
+          {{ t('shared.you') }}
         </p>
         <p>
-          curtiu
+          {{ t('chat_detail.liked.you') }}
         </p>
       </div>
       <div class="col col-50">
         <p ng-bind="chat.other_user | shortName"></p>
         <p>
-          curtiu
+          {{ t('chat_detail.liked.other') }}
         </p>
       </div>
     </div>
@@ -51,6 +51,6 @@
       </div>
     </div>
     <div class="row buttonBar">
-      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="close()">voltar pra conversa</button>
+      <!--IMPLEMENTAR ESSA OPÇÃO TAMBEM--><button class="button button-change" ng-click="close()">{{t('chat_detail.butons.back')}}</button>
     </div>
   </ion-content></ion-view>
