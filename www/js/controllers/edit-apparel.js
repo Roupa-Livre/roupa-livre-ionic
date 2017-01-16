@@ -4,15 +4,6 @@ angular.module('app.controllers')
     $scope.savingEntry = false;
     $scope.apparelSwiper = {};
 
-    $scope.show = function() {
-      $ionicLoading.show({
-        template: 'Carregando roupas ...'
-      });
-    };
-    $scope.hide = function(){
-      $ionicLoading.hide();
-    };
-
     $scope.onReadySwiper = function(swiper) {
       $scope.apparelSwiper = swiper;
     };
@@ -32,9 +23,9 @@ angular.module('app.controllers')
       var deferred = $q.defer();
 
       var options = {
-        title: 'Onde estão suas fotos?',
-        buttonLabels: ['Nova Foto', 'Foto da Galeria'],
-        addCancelButtonWithLabel: 'Cancelar',
+        title: t('apparel_form.messages.new_photo.title'),
+        buttonLabels: [t('apparel_form.messages.new_photo.buttons.new'), t('apparel_form.messages.new_photo.buttons.gallery')],
+        addCancelButtonWithLabel: t('apparel_form.messages.new_photo.buttons.cancel'),
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true
         // , addDestructiveButtonWithLabel : 'Delete it'
@@ -135,7 +126,7 @@ angular.module('app.controllers')
 
           $ionicHistory.nextViewOptions({ disableBack: true });
           if (isNew) {
-            ionicToast.show('Tudo ok, vamos procurar roupas pra trocar agora?', 'top', false, 2500);
+            ionicToast.show(t('apparel_form.messages.new_saved'), 'top', false, 2500);
             $state.go('menu.apparel');
             $scope.savingEntry = false;
           } else { 
@@ -168,7 +159,7 @@ angular.module('app.controllers')
           $scope.entry = apparel;
           $ionicSlideBoxDelegate.update();
         }, function(error) {
-          ionicToast.show('Não conseguimos carregar os detalhes, tá tudo ok com a internet?', 'top', false, 2500);
+          ionicToast.show(t('apparel_form.messages.error.loading'), 'top', false, 2500);
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('menu.apparel_list');
         });

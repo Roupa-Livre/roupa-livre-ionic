@@ -54,7 +54,7 @@ angular.module('app.controllers')
             $scope.hideLoading();
             loadingShownAt = null;
           });
-        ionicToast.show('Erro carregando mais opções', 'top', false, 1000);
+        ionicToast.show(t('apparel.messages.error.loading'), 'top', false, 1000);
       })
     }
 

@@ -27,8 +27,8 @@ angular.module('app.controllers')
     $scope.onForceRefresh = function() {
       // TODO Confirmar
       var confirmPopup = $ionicPopup.confirm({
-        title: 'Recarregar tudo?',
-        template: 'Quer recarregar o chat todo?'
+        title: t('chat.messages.reload.title'),
+        template: t('chat.messages.reload.body')
       });
 
       confirmPopup.then(function(res) {
@@ -206,7 +206,7 @@ angular.module('app.controllers')
         return checkInitialMessages();
       }
       else {
-        showLoading('Carregando mensagens ...');
+        showLoading(t('chat.loading.message'));
         return Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
           $scope.chat = chat;
           checkInitialMessages().then(function() {
@@ -261,11 +261,11 @@ angular.module('app.controllers')
             if (config.SHOWS_STACK)
               ionicToast.show('Erro enviando mensagem:\r\n<br/>' + JSON.stringify(errorData), 'top', false, 1000);
             else
-              ionicToast.show('Erro inesperado enviando mensagem', 'top', false, 1000);
+              ionicToast.show(t('chat.messages.error.sending'), 'top', false, 1000);
           } catch (ex) { }
         });
       } else {
-        ionicToast.show('Mensagem em branco não vale!', 'top', false, 3000);
+        ionicToast.show(t('chat.messages.error.blank_message'), 'top', false, 3000);
       }
     };
 

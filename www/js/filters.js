@@ -40,12 +40,12 @@ angular.module('app.filters', [])
       var rounded = Math.round(distance * 10) / 10;
       if (rounded < 1) {
         if (rounded < 0.5)
-          return 'pertinho';
+          return t('shared.distance.really_close');
         else
-          return 'há menos de 1km';
+          return t('shared.distance.close_to_prefix') + t('shared.distance.less_than_one_km') + t('shared.distance.close_to_sufix');
       }
       else
-        return 'há ' + rounded + 'km';
+        return t('shared.distance.close_to_prefix') + rounded + t('shared.distance.close_to_sufix');
     };
   })
   .filter('timeToString', function () {
@@ -60,15 +60,15 @@ angular.module('app.filters', [])
       // var diffInHours = diffInDays / 24;
       if (diffInDays > 1) {
         if (diffInDays < 2 && nowMoment.date() == (timeMoment.date() - 1))
-          return 'ontem';
+          return t('shared.datetime.yesterday');
         else {
-          return Math.floor(diffInDays) + ' dias atrás';
+          return Math.floor(diffInDays) + ' ' + t('shared.datetime.since_days');
         }
       } else {
         if (nowMoment.date() == timeMoment.date())
           return timeMoment.format('h:mm')
         else
-          return 'ontem';
+          return t('shared.datetime.yesterday');
       }
     };
   })
@@ -107,7 +107,7 @@ angular.module('app.filters', [])
             return user.name;
         }
         else
-          return 'anônimo';
+          return t('shared.user.anonymous');
       } else
         return '-';
     };
@@ -117,18 +117,18 @@ angular.module('app.filters', [])
       if (gender == "FEM" || gender == "MASC")
         return gender;
       else if (gender == "NO")
-        return 'sem gênero';
+        return t('shared.options.gender.no');
       else
         return null;
     };
   }).filter('ageInfoName', function ($auth) {
     return function (gender) {
       if (gender == "ADU")
-        return 'adulto';
+        return t('shared.options.age_info.adult');
       else if (gender == "INF")
-        return 'infantil';
+        return t('shared.options.age_info.child');
       else if (gender != "NO")
-        return 'tanto faz';
+        return t('shared.options.age_info.any');
       else
         return null;
     };

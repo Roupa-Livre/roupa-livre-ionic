@@ -169,7 +169,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     $scope.hasAction = Apparel.hasFilters();
 
     $scope.shareApp = function() {
-      $cordovaSocialSharing.share('Vem também trocar umas peças', 'Roupa Livre', null, 'http://www.roupalivre.com.br/') // Share via native share sheet
+      $cordovaSocialSharing.share(t('match_not_found.share.title'), t('global.app.name'), null, 'http://www.roupalivre.com.br/') // Share via native share sheet
         .then(function(result) {
           // Success!
         }, function(err) {
@@ -212,8 +212,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     $scope.delete = function(apparel) {
       if ($scope.is_mine) {
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Tirando?',
-          template: 'Já trocou a roupa?<br />Ou só não quer mais trocar?<br />Tem certeza que quer tirar ela do roupa livre?'
+          title: t('apparels.delete.title'),
+          template: t('apparels.delete.body')
         });
 
         confirmPopup.then(function(res) {
@@ -236,8 +236,8 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     $scope.onForceRefresh = function() {
       // TODO Confirmar
       var confirmPopup = $ionicPopup.confirm({
-        title: 'Recarregar tudo?',
-        template: 'Quer recarregar todas informações dos chats?'
+        title: t('chats.messages.reload.title'),
+        template: t('Quer recarregar todas informações dos chats?')
       });
 
       confirmPopup.then(function(res) {
