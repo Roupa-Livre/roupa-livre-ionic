@@ -381,7 +381,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             resource.LastRefreshedChatsAt = new Date();
           }
 
-          resource.active().then(resolve, reject);
+          resource.active(true).then(resolve, reject);
         }, reject);
       };
 
@@ -391,11 +391,11 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         });
       };
 
-      resource.active = function() {
+      resource.active = function(wasReloading) {
         return $q(function(resolve, reject) {
           DBA.query("SELECT * FROM chats order by last_message_sent_at desc").then(function(chatRows){ 
             var chats = DBA.processAll(chatRows, readFromDB); 
-            if (chats.length == 0) {
+            if (chats.length == 0 && !wasReloading) {
               reloadActive(resolve, reject);
             } else {
               resolve(chats);

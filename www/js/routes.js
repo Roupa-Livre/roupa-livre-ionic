@@ -127,6 +127,16 @@ angular.module('app.routes', [])
         }
       }
     })
+    
+    .state('menu.apparels_not_found', {
+      url: '/apparels_notfound',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/apparels/not_found.html',
+          controller: 'apparelsNotFoundCtrl'
+        }
+      }
+    })
 
     .state('menu.chats', {
       url: '/chats',

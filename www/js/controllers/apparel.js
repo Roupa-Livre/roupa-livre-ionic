@@ -26,7 +26,7 @@ angular.module('app.controllers')
         $ionicSlideBoxDelegate.update();
       } else {
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.not_found');
+        $state.go('menu.apparels_not_found');
       }
     }
 

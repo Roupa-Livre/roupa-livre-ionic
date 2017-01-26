@@ -1,11 +1,13 @@
 ion-view.alert has-header="false"
   /! CONTENT
-  ion-content scroll="false" has-header="false"
+  ion-content.notfound scroll="false" has-header="false"
     .title
-      h1 ng-bind="title || t('apparel_not_found.default.title')"
-    p.subtitle ng-bind="subtitle || t('apparel_not_found.default.subtitle')"
-    p.info ng-bind="info || t('apparel_not_found.default.info')"
+      h1 ng-bind="title || t('match_not_found.default.title')"
+    p.subtitle ng-bind="subtitle || t('match_not_found.default.subtitle')"
+    p.info ng-bind="info || t('match_not_found.default.info')"
 
-    button.button.button-click ng-if="hasAction" ng-click="advance()" ng-bind="action_text || t('apparel_not_found.default.action_text')"
-    button.button.button-click ng-if="!hasAction" ng-click="shareApp()" ng-bind="t('apparel_not_found.buttons.share')"
-shareApp
+    .row.buttonBar
+      .col
+        button.button.button-continue ng-click="action1()" ng-bind="action_1_text || t('match_not_found.buttons.action_1_text')"
+      .col
+        button.button.button-change ng-click="action2()" ng-bind="action_2_text || t('match_not_found.buttons.action_2_text')"

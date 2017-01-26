@@ -165,7 +165,19 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
   })
 
   .controller('matchNotFoundCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, $cordovaSocialSharing, Apparel) {
-    // TODO tem action deve ir pra filtros caso esteja com filtros
+    $scope.action1 = function() {
+      $rootScope.goMain();
+    }
+
+    $scope.action2 = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.new');
+    };
+
+    updateLatLng($cordovaGeolocation, $auth, $q);
+  })
+
+  .controller('apparelsNotFoundCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, $cordovaSocialSharing, Apparel) {
     $scope.hasAction = Apparel.hasFilters();
 
     $scope.shareApp = function() {
@@ -256,13 +268,19 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       });
     };
 
-    Chat.active().then(function(data) {
-      $scope.chats = data;
+    Chat.active().then(function(old_data) {
+      $scope.chats = old_data;
       Chat.force_reload_active().then(function(data) {
         $scope.chats = data;
+        if (!data || data.length == 0) {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('menu.not_found');
+        }
       });
     }, function(data) {
       console.log(data);
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.not_found');
     });
 
     $scope.open = function(chat) {

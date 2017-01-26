@@ -1,0 +1,7 @@
+<ion-view class="alert" has-header="false"><!--CONTENT--><ion-content has-header="false" scroll="false">
+    <div class="title">
+      <h1 ng-bind="title || t(&#39;apparel_not_found.default.title&#39;)"></h1>
+    </div>
+    <p class="subtitle" ng-bind="subtitle || t(&#39;apparel_not_found.default.subtitle&#39;)"></p>
+    <p class="info" ng-bind="info || t(&#39;apparel_not_found.default.info&#39;)"></p>
+    <button class="button button-click" ng-bind="action_text || t(&#39;apparel_not_found.default.action_text&#39;)" ng-click="advance()" ng-if="hasAction"></button><button class="button button-click" ng-bind="t(&#39;apparel_not_found.buttons.share&#39;)" ng-click="shareApp()" ng-if="!hasAction"></button></ion-content></ion-view>
