@@ -18,18 +18,13 @@
       <div class="item item-input item-stacked-label">
         <span class="input-label">{{t('search_apparels.titles.gender')}}</span>
         <div class="row">
-          <div class="col col-50">
+          <div class="col col-33">
             <ion-radio name="gender" ng-model="filters.gender" value="FEM">{{ t('shared.options.gender.fem') }}</ion-radio>
           </div>
-          <div class="col col-50">
+          <div class="col col-33">
             <ion-radio name="gender" ng-model="filters.gender" value="MASC">{{ t('shared.options.gender.fem') }}</ion-radio>
           </div>
-        </div>
-        <div class="row">
-          <div class="col col-50">
-            <ion-radio name="gender" ng-model="filters.gender" value="NO">{{ t('shared.options.gender.no') }}</ion-radio>
-          </div>
-          <div class="col col-50">
+          <div class="col col-33">
             <ion-radio name="gender" ng-model="filters.gender" ng-value="null">{{ t('shared.options.gender.any') }}</ion-radio>
           </div>
         </div>

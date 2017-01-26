@@ -31,19 +31,18 @@
 .item.item-input.item-stacked-label
   span.input-label ng-bind="t('apparel_form.titles.gender')"
   .row
-    .col.col-50
+    .col.col-33
       ion-radio ng-model="entry.gender" name="gender" value="FEM" 
         | {{ t('shared.options.gender.fem') }}
-    .col.col-50
+    .col.col-33
       ion-radio ng-model="entry.gender" name="gender" value="MASC" 
         | {{ t('shared.options.gender.masc') }}
-  .row
-    .col.col-50
-      ion-radio ng-model="entry.gender" name="gender" value="NO" 
-        | {{ t('shared.options.gender.no') }}
-    .col.col-50
+    .col.col-33
       ion-radio ng-model="entry.gender" name="gender" value="SKIP" 
         | {{ t('shared.options.gender.skip') }}
+    / .col.col-25
+      ion-radio ng-model="entry.gender" name="gender" value="NO" 
+        | {{ t('shared.options.gender.no') }}
 
 .item.item-input.item-stacked-label
   span.input-label ng-bind="t('apparel_form.titles.age_info')"

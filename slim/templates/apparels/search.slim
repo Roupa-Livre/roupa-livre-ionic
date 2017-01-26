@@ -20,17 +20,16 @@ ion-view.search
         span.input-label
           | {{t('search_apparels.titles.gender')}}
         .row
-          .col.col-50
+          .col.col-33
             ion-radio ng-model="filters.gender" name="gender" value="FEM"
               | {{ t('shared.options.gender.fem') }}
-          .col.col-50
+          .col.col-33
             ion-radio ng-model="filters.gender" name="gender" value="MASC"
               | {{ t('shared.options.gender.fem') }}
-        .row
-          .col.col-50
+          / .col.col-25
             ion-radio ng-model="filters.gender" name="gender" value="NO"
               | {{ t('shared.options.gender.no') }}
-          .col.col-50
+          .col.col-33
             ion-radio ng-model="filters.gender" name="gender" ng-value="null"
               | {{ t('shared.options.gender.any') }}
       .item.item-input.item-stacked-label

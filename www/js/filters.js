@@ -116,8 +116,6 @@ angular.module('app.filters', [])
     return function (gender) {
       if (gender == "FEM" || gender == "MASC")
         return gender;
-      else if (gender == "NO")
-        return t('shared.options.gender.no');
       else
         return null;
     };
