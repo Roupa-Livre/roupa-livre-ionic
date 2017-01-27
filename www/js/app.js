@@ -177,6 +177,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           $state.go('menu.menu');
         }
       };
+      
 
       $rootScope.showLoading = function(message) {
         $rootScope.loadingMessage = message;
@@ -189,6 +190,21 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
       $rootScope.hideLoading = function() {
         $ionicLoading.hide();
+      };
+
+      $rootScope.loadingShownAt = null;
+      $rootScope.showReadableLoading = function(message) {
+        $rootScope.loadingShownAt = new Date();
+        $rootScope.showLoading(message);
+      };
+
+      $rootScope.hideReadableLoading = function() {
+        if ($rootScope.loadingShownAt != null) {
+          sleepToBeReadbleIfNeeded($rootScope.loadingShownAt, config, function() {
+            $rootScope.hideLoading();
+            $rootScope.loadingShownAt = null;
+          });
+        }
       };
 
       $rootScope.getLocalizedMessage = getLocalizedMessage;

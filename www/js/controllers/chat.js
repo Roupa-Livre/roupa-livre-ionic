@@ -16,12 +16,12 @@ angular.module('app.controllers')
 
     function showLoading() {
       $scope.loadingMessages = true;
-      // $rootScope.showLoading(getLocalizedMessage("chat.loading.message"));
+      $rootScope.showReadableLoading(getLocalizedMessage("chat.loading.message"));
     }
 
     function hideLoading() {
       $scope.loadingMessages = false;
-      // $rootScope.hideLoading();
+      $rootScope.hideReadableLoading();
     }
 
     $scope.onForceRefresh = function() {

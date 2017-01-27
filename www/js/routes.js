@@ -14,7 +14,7 @@ angular.module('app.routes', [])
     // })
     .state('initial', {
       url: '/initial',
-      templateUrl: 'templates/loading.html',
+      templateUrl: 'templates/initial_loading.html',
       controller: 'initialCtrl'
     })
 

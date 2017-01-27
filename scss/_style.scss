@@ -517,7 +517,7 @@ ion-footer-bar {
 
 /* LOADING ********************************************************* */
 /* ***************************************************************** */
-.loading {
+.initial_loading {
   background-color:#0062f2;
 
   div.logo {
@@ -536,6 +536,30 @@ ion-footer-bar {
     font-size:20px;
     font-weight:700;
     margin:50% auto 0 auto;
+    text-align:center;
+  }
+}
+
+.loading {
+  background-image:url('../img/degrade.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  .loading-image {
+    img {
+      display:block;
+      margin:40% auto 0 auto;
+      width:118px;
+      height:auto;
+    }
+  }
+
+  p.loadingText {
+    color:#fff;
+    display:block;
+    font-size:20px;
+    font-weight:700;
+    margin:40px auto 0 auto;
     text-align:center;
   }
 }

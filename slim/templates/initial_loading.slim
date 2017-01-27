@@ -1,6 +1,6 @@
 ion-view.loading
   /! CONTENT
   ion-content scroll="false" 
-    .loading-image
-      img alt=("{{loadingMessage && loadingMessage.length > 0 ? loadingMessage : t('shared.loading')}}") src="img/clock.png" /
+    .logo
+      img alt=("{{t('global.app.name')}}") src="img/logo.png" /
     p.loadingText ng-bind="loadingMessage && loadingMessage.length > 0 ? loadingMessage : t('shared.loading')" 

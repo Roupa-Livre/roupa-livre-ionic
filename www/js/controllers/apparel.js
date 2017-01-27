@@ -1,10 +1,10 @@
 angular.module('app.controllers')
   .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, ionicToast, config) {
     $scope.showLoading = function(message) {
-      $rootScope.showLoading(message);
+      $rootScope.showReadableLoading(message);
     };
     $scope.hideLoading = function(){
-      $rootScope.hideLoading();
+      $rootScope.hideReadableLoading();
     };
 
     function setCurrentApparel(apparel) {
@@ -31,31 +31,21 @@ angular.module('app.controllers')
     }
 
     function loadNextApparel() {
-      var loadingShownAt = null;
       if (!ApparelMatcher.isNextAlreadyLoaded()) {
-        loadingShownAt = new Date();
         $scope.showLoading(t('apparel.loading.message'));
       }
 
       ApparelMatcher.getNextAvailableApparel().then(function(apparel) {
         setCurrentApparel(apparel);
-        setTimeout(function() { 
+        setTimeout(function() {
           ApparelMatcher.loadApparelsIfNeededAsync();
         }, 500);
-        if (loadingShownAt != null)
-          sleepToBeReadbleIfNeeded(loadingShownAt, config, function() {
-            $scope.hideLoading();
-            loadingShownAt = null;
-          });
+        $scope.hideLoading();
       }, function(error) {
         $log.debug(error);
-        if (loadingShownAt != null)
-          sleepToBeReadbleIfNeeded(loadingShownAt, config, function() {
-            $scope.hideLoading();
-            loadingShownAt = null;
-          });
+        $scope.hideLoading();
         ionicToast.show(t('apparel.messages.error.loading'), 'top', false, 1000);
-      })
+      });
     }
 
     function nextAfterMatch(chat_data) {
@@ -80,11 +70,10 @@ angular.module('app.controllers')
 
     $scope.like = function() {
       var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
-      // $scope.showLoading('Opa, será que deu match?');
 
       rating.save().then(function(data) {
         ApparelMatcher.markAsRated(data.id);
-        
+
         if (data.hasOwnProperty('chat') && data.chat != null)
           nextAfterMatch(data.chat);
 

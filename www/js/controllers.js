@@ -243,7 +243,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     }
   })
 
-  .controller('chatsCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup) {
+  .controller('chatsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup) {
 
     $scope.onForceRefresh = function() {
       // TODO Confirmar
@@ -254,24 +254,33 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
       confirmPopup.then(function(res) {
         if(res) {
+          $rootScope.showReadableLoading();
           Chat.clearCache().then(function() {
             Chat.force_reload_active().then(function(data) {
               $scope.chats = data;
               $scope.$broadcast('scroll.refreshComplete');
+              $rootScope.hideReadableLoading();
             }, function() {
               $scope.$broadcast('scroll.refreshComplete');
+              $rootScope.hideReadableLoading();
             });
           }, function() {
             $scope.$broadcast('scroll.refreshComplete');
+            $rootScope.hideReadableLoading();
           });
-        }
+        } else
+          $scope.$broadcast('scroll.refreshComplete');
       });
     };
 
     Chat.active().then(function(old_data) {
       $scope.chats = old_data;
+      if (!$scope.chats || $scope.chats.length == 0) {
+        $rootScope.showReadableLoading();
+      }
       Chat.force_reload_active().then(function(data) {
         $scope.chats = data;
+        $rootScope.hideReadableLoading();
         if (!data || data.length == 0) {
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('menu.not_found');
