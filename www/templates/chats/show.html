@@ -20,8 +20,10 @@
           <ion-spinner></ion-spinner>
         </div>
       </div>
-      <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id == user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
-        <div class="col" ng-bind="chat_message.message"></div>
+      <div class="row message" ng-class="{&#39;meSpeak&#39;: (chat_message.user_id == user.id), &#39;youSpeak&#39;: (chat_message.user_id != user.id)}" ng-repeat="chat_message in chat_messages track by chat_message.id">
+        <div class="col">
+          <span class="message-content" ng-bind="chat_message.message"></span>
+        </div>
       </div>
       <div class="row no-messages" ng-show="chat_messages &amp;&amp; chat_messages.length == 0 &amp;&amp; !loadingMessages">
         <div class="col" ng-bind="t(&#39;chat.chat_messages.empty&#39;)"></div>
@@ -34,7 +36,7 @@
     <form ng-submit="send()">
       <div class="list sendMessageBox">
         <div class="item item-input-inset">
-          <label class="item-input-wrapper"><input ng-model="chat.last_sent_message" placeholder="mensagem" type="text" /></label><a class="input button-icon icon ion-ios-paperplane" href="" ng-click="send()"></a>
+          <label class="item-input-wrapper"><input ng-model="chat.last_sent_message" placeholder="mensagem" type="text" /></label><a class="input button-icon icon" href="" ng-click="send()"><img src="img/iconSendMessage.png" /></a>
         </div>
       </div>
     </form>

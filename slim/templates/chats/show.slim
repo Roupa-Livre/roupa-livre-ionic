@@ -18,8 +18,9 @@ ion-view.chat
       .row ng-if="!reachedEnd && $scope.loadingPrevious"
         .col
           ion-spinner
-      .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id == user.id)}" 
-        .col ng-bind="chat_message.message" 
+      .row.message ng-repeat="chat_message in chat_messages track by chat_message.id" ng-class="{'meSpeak': (chat_message.user_id == user.id), 'youSpeak': (chat_message.user_id != user.id)}" 
+        .col 
+          span.message-content ng-bind="chat_message.message" 
       .row.no-messages ng-show='chat_messages && chat_messages.length == 0 && !loadingMessages' 
         .col ng-bind="t('chat.chat_messages.empty')" 
       .row.no-messages.loading ng-show='(!chat_messages || chat_messages.length == 0) && loadingMessages' 
@@ -32,4 +33,5 @@ ion-view.chat
         .item.item-input-inset
           label.item-input-wrapper
             input ng-model="chat.last_sent_message" placeholder="mensagem" type="text" /
-          a.input.button-icon.icon.ion-ios-paperplane href="" ng-click="send()"
+          a.input.button-icon.icon href="" ng-click="send()"
+            img src="img/iconSendMessage.png"

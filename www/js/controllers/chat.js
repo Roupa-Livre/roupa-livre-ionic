@@ -25,14 +25,10 @@ angular.module('app.controllers')
     }
 
     $scope.onForceRefresh = function() {
-      // TODO Confirmar
-      var confirmPopup = $ionicPopup.confirm({
-        title: t('chat.messages.reload.title'),
-        template: t('chat.messages.reload.body')
-      });
-
-      confirmPopup.then(function(res) {
+      $rootScope.showConfirmPopup(t('chat.messages.reload.title'),t('chat.messages.reload.body')).then(function(res) {
         if(res) {
+          showLoading();
+
           ChatMessage.clearCache($scope.chat).then(function() {
             $scope.loadingPrevious = false;
             $scope.reachedEnd = false;
@@ -40,11 +36,14 @@ angular.module('app.controllers')
             $scope.chat_messages_map = {};
             checkChat().then(function() {
               $scope.$broadcast('scroll.refreshComplete');
+              hideLoading();
             }, function() {
               $scope.$broadcast('scroll.refreshComplete');
+              hideLoading();
             });
           }, function() {
             $scope.$broadcast('scroll.refreshComplete');
+            hideLoading();
           });
         }
       });
