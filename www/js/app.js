@@ -8,10 +8,10 @@
 angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
       SHOWS_STACK: true,
-      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
-      API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
-      // REALTIME_URL: 'http://roupa-livre-realtime-live.herokuapp.com:80',
-      // API_URL: 'http://roupa-livre-api-live.herokuapp.com',
+      // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
+      // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      REALTIME_URL: 'http://roupa-livre-realtime-live.herokuapp.com:80',
+      API_URL: 'http://roupa-livre-api-live.herokuapp.com',
       SENDER_ID: '468184339406',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
@@ -49,19 +49,19 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     service.isActive = function(){
         return inBackground == false;
     }
-    return service;    
+    return service;
   })
   .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup) {
     $rootScope.cleanInitialState = function(fallbackState) {
       $rootScope.initialState = null;
       $rootScope.initialStateParams = null;
     }
-    
+
     $rootScope.gotToInitialState = function(fallbackState) {
       if ($rootScope.initialState != null) {
         var initialState = $rootScope.initialState;
         var initialStateParams = $rootScope.initialStateParams;
-        
+
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go(initialState, initialStateParams);
       } else {

@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config, NotificationManager) {
     $scope.showLoading = function(message) {
       $rootScope.showReadableLoading(message);
     };
@@ -92,7 +92,7 @@ angular.module('app.controllers')
     }
 
     loadNextApparel();
-    
+
     updateLatLng($cordovaGeolocation, $auth, $q)
       .then(function(resp) {
         // $scope.getApparels().then(function(data){
@@ -102,4 +102,6 @@ angular.module('app.controllers')
       }, function(resp) {
         // $scope.hide();
       });
+
+    NotificationManager.showApparelsNotificationIfNeeded();
   });

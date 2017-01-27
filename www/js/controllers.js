@@ -143,7 +143,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     });
 
     function successUpdatedGeo() {
-      
+
     };
 
     $scope.cancel = function() {
