@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, ionicToast, config, $ionicPopup) {
+  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, config, $ionicPopup) {
     $scope.pageSize = 20;
     $scope.$on("$destroy", function(){
       if ($scope.chat && $scope.chat != null)
@@ -259,13 +259,13 @@ angular.module('app.controllers')
           $scope.chat.last_sent_message = null;
           try {
             if (config.SHOWS_STACK)
-              ionicToast.show('Erro enviando mensagem:\r\n<br/>' + JSON.stringify(errorData), 'top', false, 1000);
+              $rootScope.showToastMessage('Erro enviando mensagem', null, true, JSON.stringify(errorData));
             else
-              ionicToast.show(t('chat.messages.error.sending'), 'top', false, 1000);
+              $rootScope.showToastMessage(t('chat.messages.error.sending'));
           } catch (ex) { }
         });
       } else {
-        ionicToast.show(t('chat.messages.error.blank_message'), 'top', false, 3000);
+        $rootScope.showToastMessage(t('chat.messages.error.blank_message'));
       }
     };
 

@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, ionicToast) {
+  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager) {
     var currentController = this;
     $scope.savingEntry = false;
     $scope.apparelSwiper = {};
@@ -120,22 +120,27 @@ angular.module('app.controllers')
     $scope.submit = function() {
       var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
       if (!$scope.savingEntry) {
+        $rootScope.showReadableLoading(t('apparel_form.saving.message'));
+
         $scope.savingEntry = true;
         $scope.entry.save().then(function(data) {
           data.update_owned_cache();
 
           $ionicHistory.nextViewOptions({ disableBack: true });
+          $rootScope.hideReadableLoading();
           if (isNew) {
-            ionicToast.show(t('apparel_form.messages.new_saved'), 'top', false, 2500);
+            $rootScope.showToastMessage(t('apparel_form.messages.new_saved'));
             $state.go('menu.apparel');
-            $scope.savingEntry = false;
-          } else { 
+          } else {
             $state.go('menu.apparel_list');
-            $scope.savingEntry = false;
           }
+        }, function(err) {
+          $rootScope.hideReadableLoading();
+          console.log(err);
+          $scope.savingEntry = false;
         });
       } else {
-        // ionicToast.show(t('edit_apparel.form.already_saving'), 'top', false, 2000);
+        // $rootScope.showToastMessage(t('edit_apparel.form.already_saving'));
       }
     };
 
@@ -159,7 +164,7 @@ angular.module('app.controllers')
           $scope.entry = apparel;
           $ionicSlideBoxDelegate.update();
         }, function(error) {
-          ionicToast.show(t('apparel_form.messages.error.loading'), 'top', false, 2500);
+          $rootScope.showToastMessage(t('apparel_form.messages.error.loading'));
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('menu.apparel_list');
         });

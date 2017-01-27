@@ -5,17 +5,18 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'ionic-toast', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
+angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
   .constant('config', {
       SHOWS_STACK: true,
-      // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
-      // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
-      REALTIME_URL: 'http://roupa-livre-realtime-live.herokuapp.com:80',
-      API_URL: 'http://roupa-livre-api-live.herokuapp.com',
+      REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
+      API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
+      // REALTIME_URL: 'http://roupa-livre-realtime-live.herokuapp.com:80',
+      // API_URL: 'http://roupa-livre-api-live.herokuapp.com',
       SENDER_ID: '468184339406',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
-      MIN_READING_TIMEOUT: (2 * 1000)
+      MIN_READING_TIMEOUT: (2 * 1000),
+      MIN_TOAST_READING_TIMEOUT: (3 * 1000)
   })
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;
@@ -50,7 +51,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     }
     return service;    
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup) {
     $rootScope.cleanInitialState = function(fallbackState) {
       $rootScope.initialState = null;
       $rootScope.initialStateParams = null;
@@ -207,9 +208,42 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         }
       };
 
+      $rootScope.showConfirmPopup = function(title, subTitle, template, cancelText, confirmText) {
+        var options = { title: title, cssClass: 'popup-confirm' };
+        if (subTitle && subTitle.length > 0)
+          options.subTitle = subTitle;
+        if (template && template.length > 0)
+          options.template = template;
+
+        options.cancelText = (cancelText && cancelText.length > 0 ) ? cancelText : t('shared.buttons.cancel');
+        options.okText = (confirmText && confirmText.length > 0 ) ? confirmText : t('shared.buttons.confirm');
+
+        return $ionicPopup.confirm(options);
+      }
+
+      $rootScope.showToastMessage = function(message, timeout, fixed, messageBody) {
+        var messageTimeout = timeout && timeout > 0 ? timeout : config.MIN_TOAST_READING_TIMEOUT;
+        var messagedFixed = (fixed == true);
+        // messagedFixed = true; // para testes
+
+        var options = { title: message, cssClass: 'popup-show' };
+        if (messageBody && messageBody.length > 0)
+          options.template = messageBody;
+
+        if (messagedFixed)
+          options.buttons = [ { text: t('shared.buttons.close') } ];
+
+        var popup = $ionicPopup.show(options);
+        if (!messagedFixed) {
+          setTimeout(function() {
+            popup.close();
+          }, messageTimeout);
+        }
+      };
+
       $rootScope.getLocalizedMessage = getLocalizedMessage;
       $rootScope.t = t;
-      
+
       console.log('READY')
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
         Chat.force_reload_active().then(function() {

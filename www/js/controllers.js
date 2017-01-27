@@ -246,13 +246,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
   .controller('chatsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup) {
 
     $scope.onForceRefresh = function() {
-      // TODO Confirmar
-      var confirmPopup = $ionicPopup.confirm({
-        title: t('chats.messages.reload.title'),
-        template: t('Quer recarregar todas informações dos chats?')
-      });
-
-      confirmPopup.then(function(res) {
+      $rootScope.showConfirmPopup(t('chats.messages.reload.title'), null, t('chats.messages.reload.body')).then(function(res) {
         if(res) {
           $rootScope.showReadableLoading();
           Chat.clearCache().then(function() {

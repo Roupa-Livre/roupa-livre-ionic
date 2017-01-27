@@ -571,6 +571,52 @@ ion-footer-bar {
   }
 }
 
+/* POPUP/CONFIRM/ALERT/TOAST *************************************** */
+/* ***************************************************************** */
+.popup-container {
+  .popup {
+    width: auto;
+    max-width: 90%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    border-radius:10px;
+    background-color: rgba(255, 255, 255, 0.9);
+
+    h3, h4, h5, p {
+      color: #676767;
+    }
+    .popup-head {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    button.button {
+      color:#fff;
+      margin:10% 3% 0px 3%;
+      padding:3% 0;
+      border-radius:40px;
+      font-weight:700;
+      width:100%;
+      font-size:0.9em;
+    }
+
+    .button-default {
+      background-color:#f46554;
+      box-shadow:0px 5px #b74c3f;
+      border:0;
+    }
+
+    .button-positive {
+      background-color:#0062f2;
+      box-shadow:0px 5px #004ab5;
+      border:0;
+    }
+  }
+}
+.popup-confirm {
+
+}
+
 /* MATCHED ********************************************************* */
 /* ***************************************************************** */
 .matched {

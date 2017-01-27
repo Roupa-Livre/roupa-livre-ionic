@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, ionicToast, config) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config) {
     $scope.showLoading = function(message) {
       $rootScope.showReadableLoading(message);
     };
@@ -44,7 +44,7 @@ angular.module('app.controllers')
       }, function(error) {
         $log.debug(error);
         $scope.hideLoading();
-        ionicToast.show(t('apparel.messages.error.loading'), 'top', false, 1000);
+        $rootScope.showToastMessage(t('apparel.messages.error.loading'), 1000);
       });
     }
 
@@ -65,7 +65,7 @@ angular.module('app.controllers')
     function failAfterRating(error) {
       $log.debug(error);
       // não será necessario por enquanto ja que vamos fazer isso asincronamente
-      // ionicToast.show('Erro carregando salvando rating', 'top', false, 1000);
+      // $rootScope.showToastMessage('Erro carregando salvando rating');
     };
 
     $scope.like = function() {
@@ -102,5 +102,4 @@ angular.module('app.controllers')
       }, function(resp) {
         // $scope.hide();
       });
-
   });
