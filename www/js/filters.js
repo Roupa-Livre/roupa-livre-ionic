@@ -1,8 +1,9 @@
 function getProbableApiUrl($auth, url) {
-  if (url[0] == '/')
-    return $auth.apiUrl() + url;
+  var fixedUrl = url ? (url.indexOf('?') > 1 ? url + '&type=large' : url + '?type=large') : url;
+  if (fixedUrl[0] == '/')
+    return $auth.apiUrl() + fixedUrl;
   else
-    return url;
+    return fixedUrl;
 };
 
 function trimStartChar(value, charValue) {

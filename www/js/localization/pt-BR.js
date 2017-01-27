@@ -30,6 +30,7 @@ var TEXT_RESOURCES = {
   'menu.greeting.sufix': '',
   'menu.subtitle': 'liberte suas roupas.',
   'menu.new_apparel': 'oferecer peça',
+  'menu.items.exchange': 'trocar',
   'menu.items.filter': 'filtrar',
   'menu.items.my_apparels': 'minhas peças',
   'menu.items.about': 'sobre',

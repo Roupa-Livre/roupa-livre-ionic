@@ -237,6 +237,7 @@ ion-footer-bar {
   }
 }
 
+
 /* REGISTER CLOTHES ************************************************ */
 /* ***************************************************************** */
 .registerClothes {
@@ -906,24 +907,24 @@ ion-footer-bar {
     background:-ms-linear-gradient(top,#0772ef 0%,#1fabe4 50%,#37e4d9 100%);
     background:linear-gradient(to bottom,#0772ef 0%,#1fabe4 50%,#37e4d9 100%);
     display:block;
-    height:120px;
-    max-height:120px;
+    height:150px;
+    max-height:150px;
     padding-top:20px;
   }
 
   .has-subheader {
-    top:165px;
+    top:195px;
   }
 
   .sheader {
 
     img.avatar {
       border:2px solid #3df2d6;
-      border-radius:20px;
-      margin:0 auto 20px auto;
+      border-radius:40px;
+      margin:0 auto 0px auto;
       display:block;
-      max-width:40px;
-      max-height:40px;
+      max-width:80px;
+      max-height:80px;
     }
 
     p.title {
@@ -931,7 +932,10 @@ ion-footer-bar {
       font-size:16px;
       font-weight:700;
       text-align:center;
-      margin-top:65px;
+      margin-top:0px;
+
+      position: relative;
+      display: block;
     }
   }
 
@@ -964,7 +968,7 @@ ion-footer-bar {
 }
 .platform-ios.platform-cordova:not(.fullscreen) .myClothes {
   .has-subheader {
-    top: 185px;
+    top: 215px;
   }
 }
 
