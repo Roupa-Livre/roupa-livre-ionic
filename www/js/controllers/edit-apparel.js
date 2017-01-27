@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager) {
+  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager) {
     var currentController = this;
     $scope.savingEntry = false;
     $scope.apparelSwiper = {};
@@ -65,7 +65,7 @@ angular.module('app.controllers')
     };
 
     $scope.editImage = function(url) {
-      
+
     };
 
     $scope.newImage = function() {
@@ -91,30 +91,38 @@ angular.module('app.controllers')
     };
 
     $scope.removeImage = function(image) {
-      if (image.hasOwnProperty('id') && image.id > 0) {
-        image['_destroy'] = true;
-      } else {
-        var index = $scope.entry.apparel_images.indexOf(image);
-        if (index > -1)
-          $scope.entry.apparel_images.splice(index, 1);
-      }
-      $ionicSlideBoxDelegate.update();
-      refereshApparelSwiper();
+      $rootScope.showConfirmPopup(t('apparel_form.messages.confirm_delete.title')).then(function(res) {
+        if(res) {
+          if (image.hasOwnProperty('id') && image.id > 0) {
+            image['_destroy'] = true;
+          } else {
+            var index = $scope.entry.apparel_images.indexOf(image);
+            if (index > -1)
+              $scope.entry.apparel_images.splice(index, 1);
+          }
+          $ionicSlideBoxDelegate.update();
+          refereshApparelSwiper();
+        }
+      });
     };
 
     $scope.makeMainImage = function(image) {
-      var index = $scope.entry.apparel_images.indexOf(image);
-      // verifica se achou e se ja não é a primeira
-      if (index > 0) {
-        $scope.entry.apparel_images[0].sort_order = 2;
-        $scope.entry.apparel_images.splice(index, 1);
-        $scope.entry.apparel_images.unshift(image);
-        image.sort_order = 1;
-        $ionicSlideBoxDelegate.update();
-        refereshApparelSwiper(function() {
-          $scope.apparelSwiper.slideTo(0);
-        });
-      }
+      $rootScope.showConfirmPopup(t('apparel_form.messages.confirm_main.title')).then(function(res) {
+        if(res) {
+          var index = $scope.entry.apparel_images.indexOf(image);
+          // verifica se achou e se ja não é a primeira
+          if (index > 0) {
+            $scope.entry.apparel_images[0].sort_order = 2;
+            $scope.entry.apparel_images.splice(index, 1);
+            $scope.entry.apparel_images.unshift(image);
+            image.sort_order = 1;
+            $ionicSlideBoxDelegate.update();
+            refereshApparelSwiper(function() {
+              $scope.apparelSwiper.slideTo(0);
+            });
+          }
+        }
+      });
     };
 
     $scope.submit = function() {

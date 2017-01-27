@@ -1374,23 +1374,44 @@ ion-footer-bar {
     padding-right: 20px;
 
     a {
-      border: #0066ff solid 2px;
-      color: #0066ff;
-      border-radius: 50%;
-      background-color: white;
-      display: inline-block;
-      padding-bottom: 3px;
-      padding: 3px 7px 3px 7px;
-      margin-right: 10px;
+      max-width: 45px;
+      max-height: 45px;
 
-      &.remove {
-        border: #ff0000 solid 2px;
-        color: #ff0000;
+      &.rounded {
+        border: #0066ff solid 2px;
+        color: #0066ff;
+        border-radius: 50%;
+        background-color: white;
+        padding-bottom: 3px;
+        padding: 3px 7px 3px 7px;
+
+        &.remove {
+          border: #ff0000 solid 2px;
+          color: #ff0000;
+        }
       }
+      display: inline-block;
+      margin-right: 10px;
 
       &:last-child {
         margin-right: 0px;
       }
+      img {
+        max-height: 100%;
+        max-width: 100%;
+      }
     }
   }
+}
+.swiper-button-next, .swiper-button-prev {
+  background-size: cover;
+}
+.swiper-button-next {
+  background-image: url('../img/iconNext.png');
+}
+.swiper-button-prev {
+  background-image: url('../img/iconPrevious.png');
+}
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+  display: none;
 }

@@ -960,16 +960,34 @@ ion-footer-bar form {
   text-align: right;
   padding-right: 20px; }
   .swiper-slide .actions a {
-    border: #0066ff solid 2px;
-    color: #0066ff;
-    border-radius: 50%;
-    background-color: white;
+    max-width: 45px;
+    max-height: 45px;
     display: inline-block;
-    padding-bottom: 3px;
-    padding: 3px 7px 3px 7px;
     margin-right: 10px; }
-    .swiper-slide .actions a.remove {
-      border: #ff0000 solid 2px;
-      color: #ff0000; }
+    .swiper-slide .actions a.rounded {
+      border: #0066ff solid 2px;
+      color: #0066ff;
+      border-radius: 50%;
+      background-color: white;
+      padding-bottom: 3px;
+      padding: 3px 7px 3px 7px; }
+      .swiper-slide .actions a.rounded.remove {
+        border: #ff0000 solid 2px;
+        color: #ff0000; }
     .swiper-slide .actions a:last-child {
       margin-right: 0px; }
+    .swiper-slide .actions a img {
+      max-height: 100%;
+      max-width: 100%; }
+
+.swiper-button-next, .swiper-button-prev {
+  background-size: cover; }
+
+.swiper-button-next {
+  background-image: url("../img/iconNext.png"); }
+
+.swiper-button-prev {
+  background-image: url("../img/iconPrevious.png"); }
+
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+  display: none; }
