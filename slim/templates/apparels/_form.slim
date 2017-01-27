@@ -18,9 +18,12 @@
     / ion-slide.full-width 
     /   a href="" ng-click="editImage('img/bg-new-image.png')" 
     /     img.main src="img/bg-new-image.png"
-    ks-swiper-slide.swiper-slide ng-if="entry.apparel_images.length == 0"
+    ks-swiper-slide.swiper-slide
       a href="" ng-click="newImage()" 
         img.main src="img/clothesDefault.jpg" width="100%" /
+      .actions
+        a.image-button href="" ng-click="newImage()"
+          img src="img/iconRoundNewPic.png"
 
 .item.item-input.item-stacked-label
   span.input-label ng-bind="t('apparel_form.titles.title')"
