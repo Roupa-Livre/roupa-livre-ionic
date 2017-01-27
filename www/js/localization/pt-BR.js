@@ -107,6 +107,9 @@ var TEXT_RESOURCES = {
   'match.butons.back': 'voltar pra conversa',
   'match.butons.cancel': 'continuar trocando',
   'match.butons.submit': 'combinar a troca',
-  'match_not_found.share.title': 'Baixe o Roupa Livre para trocar e dar uma nova chance às roupas usadas.'
-
+  'match_not_found.share.title': 'Baixe o Roupa Livre para trocar e dar uma nova chance às roupas usadas.',
+  'about.version.prefix': 'Versão ',
+  'about.content.backers': 'Financiado coletivamente por 315 lindos apoiadores',
+  'about.content.open_source': 'Open Source sob a licença GPL-3.0',
+  'about.content.terms': 'Termos de Uso e Política de Privacidade'
 }

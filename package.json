@@ -37,7 +37,8 @@
     {
       "locator": "https://github.com/hrangel/cordova-plugin-crop.git",
       "id": "cordova-plugin-crop"
-    }
+    },
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "ios",

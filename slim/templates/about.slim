@@ -1,0 +1,12 @@
+ion-view.about
+  /! CONTENT
+  ion-content scroll="false" 
+    .logo
+      img alt=("{{t('global.app.name')}}") src="img/logo.png" /
+      span.version ng-bind="t('about.version.prefix') + appVersion"
+
+    a ng-bind="t('about.content.backers')" target="_blank" href="http://roupalivre.com.br/app"
+
+    a ng-bind="t('about.content.open_source')" target="_blank" href="https://github.com/Nucleo-235/roupa-livre-ionic"
+
+    a ng-bind="t('about.content.terms')" target="_blank" href="https://docs.google.com/document/d/11JL3w2G0NUf8K2nPC477UA-WKFQyHeDSk3q_IfLFTkw/edit?usp=sharing"

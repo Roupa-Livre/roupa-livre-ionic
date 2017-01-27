@@ -27,6 +27,11 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       $state.go('menu.apparel_list');
     };
 
+    $scope.goAbout = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.about');
+    };
+
     $scope.goSearch = function() {
       $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go('menu.search');
@@ -334,6 +339,19 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       $scope.filters = angular.extend({}, Apparel.getFilters());
     };
   })
+
+  .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+    var isMob = window.cordova !== undefined;
+    $scope.appVersion = '-';
+    if (isMob) {
+      cordova.getAppVersion.getVersionNumber().then(function (version) {
+        $scope.appVersion = version;
+      });
+    } else {
+      $scope.appVersion = 'web version';
+    }
+  })
+
 
   .controller('blankCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     

@@ -166,8 +166,18 @@ angular.module('app.routes', [])
           controller: 'chatDetailsCtrl'
         }
       }
+    })
+
+    .state('menu.about', {
+      url: '/about',
+      views: {
+        'view-content': {
+          templateUrl: 'templates/about.html',
+          controller: 'aboutCtrl'
+        }
+      }
     });
-    
+
   // if none of the above states are matched, use this as the fallback
   // $urlRouterProvider.otherwise('/to_test');
   $urlRouterProvider.otherwise('/initial');
