@@ -1,5 +1,5 @@
-<ion-nav-bar class="bar-stable"><ion-nav-buttons side="left"><button class="button button-clear ion-navicon" ng-click="goMenu()"></button></ion-nav-buttons><ion-nav-title>
+<ion-nav-bar class="bar-stable"><ion-nav-buttons side="left"><button class="button button-clear" ng-click="goMenu()"><img class="iconButton" ng-src="{{(isMenuState() ? &#39;img/iconMenu-active.png&#39; : &#39;img/iconMenu.png&#39;)}}" src="img/iconMenu.png" /></button></ion-nav-buttons><ion-nav-title>
     <h1 class="title">
-      <button class="button button-clear" ng-click="goMain()"><img class="logoButton" src="img/logoHeader.png" /></button>
+      <button class="button button-clear" ng-click="goMain()"><img class="logoButton" ng-src="{{(isMainState() ? &#39;img/logoHeader-active.png&#39; : &#39;img/logoHeader.png&#39;)}}" src="img/logoHeader.png" /></button>
     </h1>
-  </ion-nav-title><ion-nav-buttons side="right"><button class="button button-clear" ng-click="goChats()"><img class="iconButton" src="img/iconChat.png" /></button></ion-nav-buttons></ion-nav-bar><ion-nav-view name="view-content"></ion-nav-view>
+  </ion-nav-title><ion-nav-buttons side="right"><button class="button button-clear" ng-click="goChats()"><img class="iconButton" ng-src="{{(isChatState() ? &#39;img/iconChat-active.png&#39; : &#39;img/iconChat.png&#39;)}}" src="img/iconChat.png" /></button></ion-nav-buttons></ion-nav-bar><ion-nav-view name="view-content"></ion-nav-view>

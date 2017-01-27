@@ -1,12 +1,13 @@
 ion-nav-bar.bar-stable
   ion-nav-buttons side="left"
-    button.button.button-clear.ion-navicon ng-click="goMenu()" 
+    button.button.button-clear ng-click="goMenu()"
+      img.iconButton src="img/iconMenu.png" ng-src="{{(isMenuState() ? 'img/iconMenu-active.png' : 'img/iconMenu.png')}}" /
   ion-nav-title
     h1.title
       button.button.button-clear ng-click="goMain()" 
-        img.logoButton src="img/logoHeader.png" /
+        img.logoButton src="img/logoHeader.png" ng-src="{{(isMainState() ? 'img/logoHeader-active.png' : 'img/logoHeader.png')}}" /
   ion-nav-buttons side="right"
     button.button.button-clear ng-click="goChats()" 
-      img.iconButton src="img/iconChat.png" /
+      img.iconButton src="img/iconChat.png" ng-src="{{(isChatState() ? 'img/iconChat-active.png' : 'img/iconChat.png')}}" /
 
 ion-nav-view name="view-content" 

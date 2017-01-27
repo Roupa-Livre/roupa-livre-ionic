@@ -160,10 +160,17 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('menu.apparel');
       };
+      $rootScope.isMainState = function() {
+        return ($ionicHistory.currentStateName() == 'menu.apparel');
+      };
 
       $rootScope.goChats = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('menu.chats');
+      };
+      $rootScope.isChatState = function() {
+        var stateName = $ionicHistory.currentStateName();
+        return (stateName == 'menu.chats' || stateName == 'menu.chat');
       };
 
       $rootScope.goMenu = function() {
@@ -178,7 +185,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           $state.go('menu.menu');
         }
       };
-      
+      $rootScope.isMenuState = function() {
+        var stateName = $ionicHistory.currentStateName();
+        return (stateName == 'menu.menu');
+      };
 
       $rootScope.showLoading = function(message) {
         $rootScope.loadingMessage = message;
