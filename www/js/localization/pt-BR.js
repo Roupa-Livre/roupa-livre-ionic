@@ -75,6 +75,7 @@ var TEXT_RESOURCES = {
   'search_apparels.placeholders.size_info': 'p, m, g ou 48?',
   'search_apparels.placeholders.hashtags': 'Hashtags e palavras chave facilitam que a sua peça seja encontrada. Para colocar mais de uma, separe com vírgulas.',
   'search_apparels.placeholders.description': 'Capriche! Descreva detalhes para ajudar sua peça a ganhar um novo lar.',
+  'search_apparels.buttons.clear': 'limpar filtros',
   'search_apparels.buttons.submit': 'filtrar',
   'chats.pulling_text': 'Recarregar todos os chats.',
   'chats.messages.reload.title': 'Recarregar as mensagens dos chats?',
