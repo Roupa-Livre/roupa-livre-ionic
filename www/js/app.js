@@ -161,7 +161,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $state.go('menu.apparel');
       };
       $rootScope.isMainState = function() {
-        return ($ionicHistory.currentStateName() == 'menu.apparel');
+        return ($ionicHistory.currentStateName() == 'menu.apparel' || $ionicHistory.currentStateName() == 'menu.apparels_not_found');
       };
 
       $rootScope.goChats = function() {
@@ -187,7 +187,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       };
       $rootScope.isMenuState = function() {
         var stateName = $ionicHistory.currentStateName();
-        return (stateName == 'menu.menu');
+        return (stateName == 'menu.menu' || stateName == 'menu.new');
       };
 
       $rootScope.showLoading = function(message) {
