@@ -202,7 +202,11 @@ ion-footer-bar form {
 
 .registerClothes span.input-label {
   color: #b3b3b3;
-  font-size: 12px; }
+  font-size: 12px;
+  display: block; }
+  .registerClothes span.input-label.subtitle {
+    font-size: 11px;
+    color: #b5b5b5; }
 
 .registerClothes input {
   font-size: 13px; }
@@ -907,7 +911,11 @@ ion-footer-bar form {
 
 .search span.input-label {
   color: #b3b3b3;
-  font-size: 12px; }
+  font-size: 12px;
+  display: block; }
+  .search span.input-label.subtitle {
+    font-size: 11px;
+    color: #b5b5b5; }
 
 .search input {
   font-size: 13px; }

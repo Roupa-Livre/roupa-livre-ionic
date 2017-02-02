@@ -11,6 +11,8 @@ ion-view.search
       .item.item-input.item-stacked-label
         span.input-label
           | {{t('search_apparels.titles.hashtags')}}
+        span.input-label.subtitle
+          | {{t('search_apparels.subtitles.hashtags')}}
         tags-input type="text" placeholder="{{t('search_apparels.placeholders.hashtags')}}" ng-model="filters.tags" display-property="name" keyProperty="name" /
       .item.item-input.item-stacked-label
         span.input-label

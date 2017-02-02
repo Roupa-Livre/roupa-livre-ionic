@@ -64,7 +64,8 @@
 
 .item.item-input.item-stacked-label
   span.input-label ng-bind="t('apparel_form.titles.hashtags')"
-  tags-input type="text" placeholder="{{t('apparel_form.placeholders.hashtags')}}" ng-model="entry.apparel_tags" display-property="name" keyProperty="id" /
+  span.input-label.subtitle ng-bind="t('apparel_form.subtitles.hashtags')"
+  tags-input type="text" ng-class="{'empty': (entry.apparel_tags.length == 0), 'filled': (entry.apparel_tags.length > 0)}" placeholder="{{t('apparel_form.placeholders.hashtags')}}" ng-model="entry.apparel_tags" display-property="name" keyProperty="id" /
 
 .item.item-input.item-stacked-label
   span.input-label ng-bind="t('apparel_form.titles.description')"

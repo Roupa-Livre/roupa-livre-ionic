@@ -49,7 +49,7 @@
   </div>
 </div>
 <div class="item item-input item-stacked-label">
-  <span class="input-label" ng-bind="t(&#39;apparel_form.titles.hashtags&#39;)"></span><tags-input display-property="name" keyProperty="id" ng-model="entry.apparel_tags" placeholder="{{t(&#39;apparel_form.placeholders.hashtags&#39;)}}" type="text" />
+  <span class="input-label" ng-bind="t(&#39;apparel_form.titles.hashtags&#39;)"></span><span class="input-label subtitle" ng-bind="t(&#39;apparel_form.subtitles.hashtags&#39;)"></span><tags-input display-property="name" keyProperty="id" ng-class="{&#39;empty&#39;: (entry.apparel_tags.length == 0), &#39;filled&#39;: (entry.apparel_tags.length &gt; 0)}" ng-model="entry.apparel_tags" placeholder="{{t(&#39;apparel_form.placeholders.hashtags&#39;)}}" type="text" />
 </div>
 <div class="item item-input item-stacked-label">
   <span class="input-label" ng-bind="t(&#39;apparel_form.titles.description&#39;)"></span><textarea ng-model="entry.description" placeholder="{{t(&#39;apparel_form.placeholders.description&#39;)}}" />

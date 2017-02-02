@@ -277,6 +277,12 @@ ion-footer-bar {
   span.input-label {
     color:#b3b3b3;
     font-size:12px;
+    display: block;
+
+    &.subtitle {
+      font-size:11px;
+      color:#b5b5b5;
+    }
   }
 
   input {
@@ -1296,6 +1302,12 @@ ion-footer-bar {
   span.input-label {
     color:#b3b3b3;
     font-size:12px;
+    display: block;
+
+    &.subtitle {
+      font-size:11px;
+      color:#b5b5b5;
+    }
   }
 
   input {
