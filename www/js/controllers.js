@@ -1,6 +1,7 @@
 angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io', 'app.factories'])
   .controller('initialCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck) {
-    $scope.loadingMessage = "Bem vindo!!"
+    $scope.loadingMessage = t('initial.loading');
+    console.log($scope.loadingMessage);
 
     function validate() {
       $auth.validateUser()

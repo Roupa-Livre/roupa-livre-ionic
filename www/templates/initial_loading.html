@@ -2,5 +2,5 @@
     <div class="logo">
       <img alt="{{t(&#39;global.app.name&#39;)}}" src="img/logoWhite.png" />
     </div>
-    <p class="loadingText" ng-bind="loadingMessage &amp;&amp; loadingMessage.length &gt; 0 ? loadingMessage : t(&#39;shared.loading&#39;)"></p>
+    <p class="loadingText" ng-bind-html="loadingMessage &amp;&amp; loadingMessage.length &gt; 0 ? trustAsHtml(loadingMessage) : t(&#39;shared.loading&#39;)"></p>
   </ion-content></ion-view>

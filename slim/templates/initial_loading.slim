@@ -3,4 +3,4 @@ ion-view.initial_loading
   ion-content scroll="false" 
     .logo
       img alt=("{{t('global.app.name')}}") src="img/logoWhite.png" /
-    p.loadingText ng-bind="loadingMessage && loadingMessage.length > 0 ? loadingMessage : t('shared.loading')" 
+    p.loadingText ng-bind-html="loadingMessage && loadingMessage.length > 0 ? trustAsHtml(loadingMessage) : t('shared.loading')"

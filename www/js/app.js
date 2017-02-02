@@ -51,7 +51,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     }
     return service;
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup, $sce) {
     $rootScope.cleanInitialState = function(fallbackState) {
       $rootScope.initialState = null;
       $rootScope.initialStateParams = null;
@@ -253,6 +253,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
       $rootScope.getLocalizedMessage = getLocalizedMessage;
       $rootScope.t = t;
+      $rootScope.trustAsHtml = function(value) {
+        return $sce.trustAsHtml(value);
+      };
 
       console.log('READY')
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
