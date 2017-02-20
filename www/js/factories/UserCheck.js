@@ -16,16 +16,26 @@ angular.module('app.factories', ['ngCordova', 'ngResource', 'rails'])
 
       service.redirectLoggedUser = function() {
         function onUserHasOwnApparels() {
-          $rootScope.gotToInitialState('menu.apparel');
-          $rootScope.cleanInitialState();
+          if ($auth.user.agreed) {
+            $rootScope.gotToInitialState('menu.apparel');
+            $rootScope.cleanInitialState();
+          } else {
+            $rootScope.gotToInitialState('terms');
+            $rootScope.cleanInitialState();
+          }
         };
 
         function onUserHasNoApparel() {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('menu.new');
+          if ($auth.user.agreed) {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('menu.new');
+          } else {
+            $rootScope.gotToInitialState('terms');
+            $rootScope.cleanInitialState();
+          }
         }
 
-        function successUpdatedGeo() {
+        function successUpdatedGeo(resp) {
           service.doOwnsApparels().then(onUserHasOwnApparels, onUserHasNoApparel);
         };
 

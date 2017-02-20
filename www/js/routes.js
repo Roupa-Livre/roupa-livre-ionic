@@ -18,6 +18,12 @@ angular.module('app.routes', [])
       controller: 'initialCtrl'
     })
 
+    .state('terms', {
+      url: '/terms',
+      templateUrl: 'templates/terms.html',
+      controller: 'termsCtrl'
+    })
+
     .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',

@@ -22,6 +22,47 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       validate();
   })
 
+  .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config) {
+    function validate() {
+      $auth.validateUser()
+        .then(function(data) {
+          UserCheck.redirectLoggedUser();
+        }, function(result) {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('login');
+
+          return result;
+        });
+    }
+
+    $scope.agree = function() {
+      $http({
+        method: 'POST', 
+        data: { },
+        headers: $auth.retrieveData('auth_headers'),
+        url: config.API_URL + '/users/agreed_to_terms'
+      }).then(function(data) {
+        validate();
+      })
+    };
+
+    $scope.cancel = function() {
+      $auth.signOut()
+        .then(function(res) {
+          // handle success response
+          console.log(res);
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('login');
+        })
+        .catch(function(res) {
+          // handle error response
+          console.log(res);
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('login');
+        });
+    };
+  })
+
   .controller('menuCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
     $scope.goApparels = function() {
       $ionicHistory.nextViewOptions({ disableBack: true });

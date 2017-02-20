@@ -23,6 +23,7 @@ var TEXT_RESOURCES = {
   'shared.buttons.confirm': 'confirmar',
   'shared.buttons.save': 'salvar',
   'shared.buttons.block': 'Bloquear',
+  'shared.buttons.agree': 'Concordo',
   'shared.titles.size_info': 'tamanho',
   'shared.options.gender.fem': 'feminino',
   'shared.options.gender.masc': 'masculino',
