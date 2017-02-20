@@ -11,7 +11,12 @@
   </div>
   <div class="row">
     <div class="input-col">
-      <input id="spam_reason" name="gender" ng-model="report_entry.reason" type="radio" value="spam" /><label for="spam_reason">{{ t('report.reason.spam') }} </label>
+      <input id="spam_reason" name="reason" ng-model="report_entry.reason" type="radio" value="spam" /><label for="spam_reason">{{ t('report.reason.spam') }} </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-col">
+      <input id="other_reason" name="reason" ng-model="report_entry.reason" type="radio" value="other" /><label for="other_reason">{{ t('report.reason.other') }} </label>
     </div>
   </div>
 </div>

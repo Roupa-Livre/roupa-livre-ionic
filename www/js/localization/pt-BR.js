@@ -12,6 +12,7 @@ var TEXT_RESOURCES = {
   'report.reason.not_apparel': 'Não é uma peça.',
   'report.reason.offensive': 'É ofensivo.',
   'report.reason.spam': 'É spam.',
+  'report.reason.other': 'Outro motivo',
   'shared.you': 'Você',
   'shared.loading': 'Carregando...',
   'shared.buttons.cancel': 'cancelar',
