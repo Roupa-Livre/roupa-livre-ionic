@@ -214,6 +214,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return this.age_info != null;
       }
 
+      resource.prototype.report = function(reason) {
+        return resource.$post(this.$url('report'), { reason: reason });
+      }
+
       return resource;
   }])
 

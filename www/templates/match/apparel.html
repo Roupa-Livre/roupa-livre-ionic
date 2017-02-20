@@ -26,6 +26,11 @@
         <p class="ownerName" ng-bind="entry.user | shortName"></p>
         <p class="ownerDistance" ng-bind="entry.distance | distanceToString"></p>
       </div>
+      <div class="item">
+        <a class="report" href="" ng-click="report()"><img src="img/iconWarningGray.png" />
+          <p ng-bind="t(&#39;apparel.buttons.report&#39;)"></p>
+        </a>
+      </div>
     </div>
   </ion-content><!--FOOTER--><ion-footer-bar ng-show="entry != null">
     <div class="row buttonBar">

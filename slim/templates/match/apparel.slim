@@ -26,6 +26,10 @@ ion-view.searchMatch
         img.avatar ng-src="{{(entry.user | userImageSrc) || 'img/avatar.png'}}" /
         p.ownerName ng-bind="entry.user | shortName"
         p.ownerDistance ng-bind="entry.distance | distanceToString"
+      .item
+        a.report href="" ng-click="report()"
+          img src="img/iconWarningGray.png" /
+          p ng-bind="t('apparel.buttons.report')"
   
   /! FOOTER
   ion-footer-bar ng-show="entry != null"

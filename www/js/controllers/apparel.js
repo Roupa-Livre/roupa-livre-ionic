@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config, NotificationManager) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config, NotificationManager, $ionicPopup) {
     $scope.showLoading = function(message) {
       $rootScope.showReadableLoading(message);
     };
@@ -89,6 +89,39 @@ angular.module('app.controllers')
       }, failAfterRating);
 
       goToNextApparel();
+    }
+
+    $scope.report = function() {
+      $scope.report_entry = { reason: null };
+      var confirmPopup = $ionicPopup.show({
+        title: t('apparel.report.title'),
+        templateUrl: '/templates/match/_report.html',
+        scope: $scope,
+        buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+          text: t('shared.buttons.cancel'),
+          type: 'button-default'
+        }, {
+          text: t('shared.buttons.confirm'),
+          type: 'button-positive',
+          onTap: function(e) {
+            if ($scope.report_entry.reason) {
+              return $scope.report_entry.reason;
+            } else {
+              e.preventDefault();
+            }
+          }
+        }]
+      });
+
+      confirmPopup.then(function(res, e) {
+        if(res) {
+          $scope.entry.report(res).then(function(data) {
+            goToNextApparel();
+          });
+        } else {
+          console.log('You are not sure');
+        }
+      });
     }
 
     loadNextApparel();
