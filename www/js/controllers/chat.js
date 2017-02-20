@@ -268,6 +268,23 @@ angular.module('app.controllers')
       }
     };
 
+    $scope.block = function() {
+      var popup = $rootScope.showConfirmPopup(t('chat.confirmations.block.title'), t('chat.confirmations.block.subtitle'));
+      popup.then(function(res) {
+        if (res) {
+          $scope.chat.block().then(function(blockData) {
+            Chat.clearCache().then(function() {
+              Chat.force_reload_active().then(function(data) {
+                $rootScope.goChats();
+              }, function() {
+                $rootScope.goChats();
+              });
+            });
+          });
+        }
+      });
+    };
+
     $scope.getIncludeFile = function(chat_message) {
       if (chat_message.hasOwnProperty('type')) {
         return chat_message.type + '.html';

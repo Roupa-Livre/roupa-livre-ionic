@@ -778,28 +778,62 @@ ion-footer-bar form {
   padding-top: 15px; }
 
 .chat .chatHeader {
-  display: block; }
-  .chat .chatHeader .left img {
-    float: left;
-    max-width: 50px;
-    max-height: 50px;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    margin-left: 10px;
-    margin-top: 10px; }
+  display: block;
+  position: relative;
+  color: #fff; }
+  .chat .chatHeader .left {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 15px 5px; }
+    .chat .chatHeader .left a.block-item {
+      display: block;
+      margin: auto;
+      text-decoration: none;
+      color: #fff;
+      font-size: 11px; }
+      .chat .chatHeader .left a.block-item:visited {
+        color: #fff; }
+      .chat .chatHeader .left a.block-item img {
+        max-width: 15px;
+        max-height: 15px;
+        width: 100%;
+        height: 100%; }
+  .chat .chatHeader .center {
+    margin: auto;
+    text-align: center;
+    max-width: 50%; }
+    .chat .chatHeader .center img {
+      max-width: 50px;
+      max-height: 50px;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      margin-top: 0px; }
+    .chat .chatHeader .center p {
+      margin: 0px;
+      margin-top: -5px; }
   .chat .chatHeader .right {
-    float: right; }
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px 5px; }
     .chat .chatHeader .right a.matchLink {
-      text-decoration: none; }
+      text-decoration: none;
+      display: block;
+      margin: auto; }
       .chat .chatHeader .right a.matchLink img {
-        display: block;
         max-width: 30px;
         max-height: 30px;
         width: 100%;
         height: 100%;
-        border-radius: 50%;
-        margin: 10px auto 5px auto; }
+        border-radius: 50%; }
       .chat .chatHeader .right a.matchLink .matchLinkText {
         color: #fff;
         max-width: 75px;

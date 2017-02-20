@@ -408,6 +408,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         });
       };
 
+      resource.prototype.block = function() {
+        return resource.$post(this.$url('block'), { });
+      }
+
       return resource;
   }])
 
