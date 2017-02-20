@@ -22,12 +22,16 @@ cordova build --release android
 3 - Assine o apk
 ```
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Developer/keystores/roupa-livre/play-store-nucleo.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk nucleo
+rm -f ./RELEASE/android-release-unsigned.apk
+mkdir RELEASE
+mv -f platforms/android/build/outputs/apk/android-release-unsigned.apk ./RELEASE/android-release-unsigned.apk
 ```
 
 4 - Gere o APK final
 ```
-rm -f ~/Downloads/roupa-livre/new_version.apk
-~/Library/Developer/Xamarin/android-sdk-macosx/build-tools/22.0.1/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk ~/Downloads/roupa-livre/new_version.apk
+rm -f ./UPLOAD/new_version.apk
+mkdir UPLOAD
+~/Library/Developer/Xamarin/android-sdk-macosx/build-tools/22.0.1/zipalign -v 4 ./RELEASE/android-release-unsigned.apk ./UPLOAD/new_version.apk
 ```
 
 5 - Volte os plugins removidos
