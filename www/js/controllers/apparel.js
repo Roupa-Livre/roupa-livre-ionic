@@ -95,7 +95,7 @@ angular.module('app.controllers')
       $scope.report_entry = { reason: null };
       var confirmPopup = $ionicPopup.show({
         title: t('apparel.report.title'),
-        templateUrl: '/templates/match/_report.html',
+        templateUrl: 'templates/match/_report.html',
         scope: $scope,
         buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
           text: t('shared.buttons.cancel'),
