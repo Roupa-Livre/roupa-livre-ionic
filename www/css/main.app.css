@@ -492,6 +492,8 @@ ion-footer-bar form {
     width: auto;
     margin: auto;
     margin-bottom: 10px; }
+    .popup-container .popup .input-col.invalid {
+      color: red; }
     .popup-container .popup .input-col input[type="radio"] {
       width: auto;
       margin-right: 5px; }

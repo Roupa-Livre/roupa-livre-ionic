@@ -677,6 +677,10 @@ ion-footer-bar {
       margin: auto;
       margin-bottom: 10px;
 
+      &.invalid {
+        color:red;
+      }
+
       input[type="radio"] {
         width: auto;
         margin-right: 5px;

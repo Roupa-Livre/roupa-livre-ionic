@@ -104,9 +104,11 @@ angular.module('app.controllers')
           text: t('shared.buttons.confirm'),
           type: 'button-positive',
           onTap: function(e) {
+            $scope.invalid_report = false;
             if ($scope.report_entry.reason) {
               return $scope.report_entry.reason;
             } else {
+              $scope.invalid_report = true;
               e.preventDefault();
             }
           }
@@ -115,8 +117,12 @@ angular.module('app.controllers')
 
       confirmPopup.then(function(res, e) {
         if(res) {
+          $rootScope.showReadableLoading(t('apparel.report.loading'));
           $scope.entry.report(res).then(function(data) {
+            $rootScope.hideReadableLoading();
             goToNextApparel();
+          }, function(error) {
+            $rootScope.hideReadableLoading();
           });
         } else {
           console.log('You are not sure');

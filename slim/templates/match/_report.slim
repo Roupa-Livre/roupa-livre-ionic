@@ -1,21 +1,21 @@
 .report
   .row
-    .input-col
+    .input-col ng-class="{'invalid': invalid_report}"
       input#not_apparel_reason type="radio" ng-model="report_entry.reason" name="reason" value="not_apparel"
       label for="not_apparel_reason"
         | {{ t('report.reason.not_apparel') }}
   .row
-    .input-col
+    .input-col ng-class="{'invalid': invalid_report}"
       input#offensive_reason type="radio" ng-model="report_entry.reason" name="reason" value="offensive"
       label for="offensive_reason"
         | {{ t('report.reason.offensive') }}
   .row
-    .input-col
+    .input-col ng-class="{'invalid': invalid_report}"
       input#spam_reason type="radio" ng-model="report_entry.reason" name="reason" value="spam"
       label for="spam_reason"
         | {{ t('report.reason.spam') }} 
   .row
-    .input-col
+    .input-col ng-class="{'invalid': invalid_report}"
       input#other_reason type="radio" ng-model="report_entry.reason" name="reason" value="other"
       label for="other_reason"
         | {{ t('report.reason.other') }} 

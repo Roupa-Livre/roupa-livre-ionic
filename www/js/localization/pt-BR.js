@@ -9,6 +9,7 @@ var TEXT_RESOURCES = {
   'apparel.confirmations.add_apparels.add_new_button': 'Oferecer peças',
   'apparel.buttons.report': 'Denunciar',
   'apparel.report.title': 'Deseja denunciar esta peça?',
+  'apparel.report.loading': 'Enviando denúncia',
   'report.reason.not_apparel': 'Não é uma peça.',
   'report.reason.offensive': 'É ofensivo.',
   'report.reason.spam': 'É spam.',
