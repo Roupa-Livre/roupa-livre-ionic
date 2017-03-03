@@ -38,7 +38,15 @@
       "locator": "https://github.com/hrangel/cordova-plugin-crop.git",
       "id": "cordova-plugin-crop"
     },
-    "cordova-plugin-app-version"
+    "cordova-plugin-app-version",
+    {
+      "variables": {
+        "ROLLBAR_ACCESS_TOKEN": "dd577078592e46d197e8fc41a3e46b2c",
+        "ROLLBAR_ENVIRONMENT": "production"
+      },
+      "locator": "https://github.com/Resgrid/cordova-plugins-rollbar.git",
+      "id": "resgrid.cordova.plugins.rollbar"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

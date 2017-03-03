@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'btford.socket-io', 'ksSwiper', 'angular.filter'])
+angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ionic-native-transitions', 'ngSanitize', 'ng-token-auth', 'ngTagsInput', 'btford.socket-io', 'ksSwiper', 'angular.filter', 'tandibar/ng-rollbar'])
   .constant('config', {
       SHOWS_STACK: true,
       // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
@@ -18,6 +18,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       MIN_READING_TIMEOUT: (2 * 1000),
       MIN_TOAST_READING_TIMEOUT: (3 * 1000)
   })
+  .config(['RollbarProvider', function(RollbarProvider) {
+    RollbarProvider.init({
+      accessToken: "dd577078592e46d197e8fc41a3e46b2c",
+      captureUncaught: true,
+      payload: {
+        environment: 'production'
+      }
+    });
+  }])
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;
     $authProvider.configure({
@@ -156,10 +165,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         StatusBar.styleDefault();
       }
 
+      try {
+        window.cordova.plugins.Rollbar.init();
+      } catch (ex) { }
+
       $rootScope.goMain = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('menu.apparel');
       };
+
       $rootScope.isMainState = function() {
         return ($ionicHistory.currentStateName() == 'menu.apparel' || $ionicHistory.currentStateName() == 'menu.apparels_not_found');
       };
@@ -168,6 +182,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('menu.chats');
       };
+
       $rootScope.isChatState = function() {
         var stateName = $ionicHistory.currentStateName();
         return (stateName == 'menu.chats' || stateName == 'menu.chat');
@@ -185,6 +200,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           $state.go('menu.menu');
         }
       };
+
       $rootScope.isMenuState = function() {
         var stateName = $ionicHistory.currentStateName();
         return (stateName == 'menu.menu' || stateName == 'menu.new');
@@ -196,7 +212,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
           templateUrl: 'templates/loading.html', 
           scope: $rootScope
         });
-        
+
       };
 
       $rootScope.hideLoading = function() {
@@ -257,7 +273,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         return $sce.trustAsHtml(value);
       };
 
-      console.log('READY')
+      console.log('READY');
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
         Chat.force_reload_active().then(function() {
           $rootScope.GlobalChatNotifications = Chat.GlobalNotifications;
