@@ -19,13 +19,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       MIN_TOAST_READING_TIMEOUT: (3 * 1000)
   })
   .config(['RollbarProvider', function(RollbarProvider) {
-    RollbarProvider.init({
-      accessToken: "dd577078592e46d197e8fc41a3e46b2c",
-      captureUncaught: true,
-      payload: {
-        environment: 'production'
-      }
-    });
+    try {
+      RollbarProvider.init({
+        accessToken: "dd577078592e46d197e8fc41a3e46b2c",
+        captureUncaught: true,
+        payload: {
+          environment: 'production'
+        }
+      });
+    } catch (ex) { }
   }])
   .config(function($authProvider, $ionicConfigProvider, config) {
     var isMob = window.cordova !== undefined;
@@ -164,10 +166,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-
-      try {
-        window.cordova.plugins.Rollbar.init();
-      } catch (ex) { }
 
       $rootScope.goMain = function() {
         $ionicHistory.nextViewOptions({ disableBack: true });
