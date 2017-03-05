@@ -21,10 +21,10 @@ cordova build --release android
 
 3 - Assine o apk
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Developer/keystores/roupa-livre/play-store-nucleo.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk nucleo
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Developer/keystores/roupa-livre/play-store-nucleo.keystore platforms/android/build/outputs/apk/android-x86-release-unsigned.apk nucleo
 rm -f ./RELEASE/android-release-unsigned.apk
 mkdir RELEASE
-mv -f platforms/android/build/outputs/apk/android-release-unsigned.apk ./RELEASE/android-release-unsigned.apk
+mv -f platforms/android/build/outputs/apk/android-x86-release-unsigned.apk ./RELEASE/android-release-unsigned.apk
 ```
 
 4 - Gere o APK final
