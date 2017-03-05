@@ -382,13 +382,21 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
+  .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $cordovaAppVersion) {
     var isMob = window.cordova !== undefined;
     $scope.appVersion = '-';
     if (isMob) {
-      cordova.getAppVersion.getVersionNumber().then(function (version) {
-        $scope.appVersion = version;
-      });
+      if ($cordovaAppVersion) {
+        $cordovaAppVersion.getVersionNumber().then(function (version) {
+          $scope.appVersion = version;
+          console.log(version);
+        }, function(error) {
+          console.log(error);
+          $scope.appVersion = 'cordova ver';
+        });
+      } else {
+        $scope.appVersion = 'cordova version';
+      }
     } else {
       $scope.appVersion = 'web version';
     }
