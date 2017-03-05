@@ -1,15 +1,19 @@
 angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io', 'app.factories'])
-  .controller('initialCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck) {
+  .controller('initialCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $timeout) {
     $scope.loadingMessage = t('initial.loading');
     console.log($scope.loadingMessage);
 
     function validate() {
       $auth.validateUser()
         .then(function(data) {
-          UserCheck.redirectLoggedUser();
+          $timeout(function() {
+            UserCheck.redirectLoggedUser();
+          });
         }, function(result) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('login');
+          $timeout(function() {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('login');
+          });
 
           return result;
         });
@@ -18,8 +22,11 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     var isMob = window.cordova !== undefined;
     if (isMob)
       document.addEventListener("deviceready", validate, false);
-    else
-      validate();
+    else {
+      $timeout(function() {
+        validate();
+      });
+    }
   })
 
   .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config) {
