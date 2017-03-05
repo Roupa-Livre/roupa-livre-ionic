@@ -9,8 +9,18 @@ angular.module('app.controllers')
     $scope.loadingPrevious = false;
     $scope.reachedEnd = false;
     $scope.onMessageInfiniteScroll = ionic.debounce(function() {
-      if ($ionicScrollDelegate.getScrollPosition().top <= 50) {
-        $scope.onMessagesScroll();
+      var scrollPosition = $ionicScrollDelegate.getScrollPosition();
+      try {
+        if (scrollPosition.top <= 50) {
+          $scope.onMessagesScroll();
+        }
+      } catch (ex) {
+        if (!scrollPosition || scrollPosition == null || (typeof scrollPosition === "undefined")) {
+          // Does dothing, scroller not visible yet
+          console.log(ex);
+        } else {
+          throw ex;
+        }
       }
     }, 500);
 
