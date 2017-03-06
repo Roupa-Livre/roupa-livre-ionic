@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.nucleo235.roupalivre" version="0.5.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.nucleo235.roupalivre" version="1.0.1" android-versionCode="100001" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>RoupaLivre</name>
     <description>Roupa Livre</description>
     <author email="mobileapps@nucleo235.com.br" href="http://nucleo235.com.br/">
@@ -30,6 +30,7 @@
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
     <platform name="android">
+        <hook src="hooks/before_build/cordova_hook_copy_files_to_platform.js" type="before_build"/>
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />

@@ -21,16 +21,16 @@ cordova build --release android
 
 3 - Assine o apk
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Developer/keystores/roupa-livre/play-store-nucleo.keystore platforms/android/build/outputs/apk/android-x86-release-unsigned.apk nucleo
-rm -f ./RELEASE/android-release-unsigned.apk
-mkdir RELEASE
-mv -f platforms/android/build/outputs/apk/android-x86-release-unsigned.apk ./RELEASE/android-release-unsigned.apk
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Developer/keystores/roupa-livre/play-store-nucleo.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk nucleo
+rm -rf ./RELEASE/android-release-unsigned.apk
+mkdir -p RELEASE
+mv -f platforms/android/build/outputs/apk/android-release-unsigned.apk ./RELEASE/android-release-unsigned.apk
 ```
 
 4 - Gere o APK final
 ```
-rm -f ./UPLOAD/new_version.apk
-mkdir UPLOAD
+rm -rf ./UPLOAD/new_version.apk
+mkdir -p UPLOAD
 ~/Library/Developer/Xamarin/android-sdk-macosx/build-tools/22.0.1/zipalign -v 4 ./RELEASE/android-release-unsigned.apk ./UPLOAD/new_version.apk
 ```
 

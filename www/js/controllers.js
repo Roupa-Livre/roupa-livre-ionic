@@ -29,14 +29,18 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     }
   })
 
-  .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config) {
+  .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config, $timeout) {
     function validate() {
       $auth.validateUser()
         .then(function(data) {
-          UserCheck.redirectLoggedUser();
+          $timeout(function() {
+            UserCheck.redirectLoggedUser();
+          });
         }, function(result) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('login');
+          $timeout(function() {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('login');
+          });
 
           return result;
         });
