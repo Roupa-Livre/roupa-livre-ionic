@@ -14,21 +14,26 @@ function trimStartChar(value, charValue) {
 };
 
 function getImageAsSource($auth, image) {
-  if (image.hasOwnProperty('image'))
-    image = image.image;
+  try {
+    if (image.hasOwnProperty('image'))
+      image = image.image;
 
-  if (image.hasOwnProperty('file_url'))
-    return getProbableApiUrl($auth, image.file_url);
-  else if (image.hasOwnProperty('data'))
-    return image.data;
-  else if (image.hasOwnProperty('url')) {
-    if (image.url)
-      return getProbableApiUrl($auth, image.url);
+    if (image.hasOwnProperty('file_url'))
+      return getProbableApiUrl($auth, image.file_url);
+    else if (image.hasOwnProperty('data'))
+      return image.data;
+    else if (image.hasOwnProperty('url')) {
+      if (image.url)
+        return getProbableApiUrl($auth, image.url);
+      else
+        return null;
+    }
     else
-      return null;
+      return image;
+  } catch (ex) {
+    if (image !== undefined)
+      throw ex;
   }
-  else
-    return image;
 };
 
 function timeToDate(time) {

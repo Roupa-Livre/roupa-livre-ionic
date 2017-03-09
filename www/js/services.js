@@ -214,6 +214,18 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return this.age_info != null;
       }
 
+      resource.prototype.hasImages = function() {
+        if (!this.apparel_images || this.apparel_images == null || !this.apparel_images.length == 0)
+          return false;
+
+        for (var i = 0; i < this.apparel_images.length; i++) {
+          var image = this.apparel_images[i];
+          if (!image.hasOwnProperty('_destroy') || !image._destroy)
+            return true;
+        }
+        return false;
+      }
+
       resource.prototype.report = function(reason) {
         return resource.$post(this.$url('report'), { reason: reason });
       }

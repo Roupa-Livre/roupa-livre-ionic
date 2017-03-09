@@ -11,7 +11,8 @@ ion-view.myClothes
     .row ng-repeat="apparel_chunk in apparels | chunkBy:2"
       .col.col-50 ng-repeat="apparel in apparel_chunk"
         ion-item
-          img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" /
+          div ng-if="apparel.apparel_images && apparel.apparel_images.length > 0"
+            img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" /
           p.title ng-bind="apparel.title"
           p
             span ng-bind="apparel.size_info"
@@ -26,4 +27,3 @@ ion-view.myClothes
             .col
               a href="" ng-click="edit(apparel)"
                 img ng-src="img/btnEdit.png" /
-      

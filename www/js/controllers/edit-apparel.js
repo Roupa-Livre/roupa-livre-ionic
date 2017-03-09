@@ -128,25 +128,29 @@ angular.module('app.controllers')
     $scope.submit = function() {
       var isNew = !$scope.entry.hasOwnProperty('id') || $scope.entry.id < 1;
       if (!$scope.savingEntry) {
-        $rootScope.showReadableLoading(t('apparel_form.saving.message'));
+        if ($scope.entry.hasImages()) {
+          $rootScope.showReadableLoading(t('apparel_form.saving.message'));
 
-        $scope.savingEntry = true;
-        $scope.entry.save().then(function(data) {
-          data.update_owned_cache();
+          $scope.savingEntry = true;
+          $scope.entry.save().then(function(data) {
+            data.update_owned_cache();
 
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $rootScope.hideReadableLoading();
-          if (isNew) {
-            $rootScope.showToastMessage(t('apparel_form.messages.new_saved'));
-            $state.go('menu.apparel');
-          } else {
-            $state.go('menu.apparel_list');
-          }
-        }, function(err) {
-          $rootScope.hideReadableLoading();
-          console.log(err);
-          $scope.savingEntry = false;
-        });
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $rootScope.hideReadableLoading();
+            if (isNew) {
+              $rootScope.showToastMessage(t('apparel_form.messages.new_saved'));
+              $state.go('menu.apparel');
+            } else {
+              $state.go('menu.apparel_list');
+            }
+          }, function(err) {
+            $rootScope.hideReadableLoading();
+            console.log(err);
+            $scope.savingEntry = false;
+          });
+        } else {
+          $rootScope.showToastMessage(t('apparel_form.messages.error.no_images'), 2000);
+        }
       } else {
         // $rootScope.showToastMessage(t('edit_apparel.form.already_saving'));
       }

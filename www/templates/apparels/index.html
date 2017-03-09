@@ -8,7 +8,10 @@
   <!--CONTENT--><ion-content class="has-header has-subheader">
     <div class="row" ng-repeat="apparel_chunk in apparels | chunkBy:2">
       <div class="col col-50" ng-repeat="apparel in apparel_chunk">
-        <ion-item><img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" />
+        <ion-item>
+          <div ng-if="apparel.apparel_images &amp;&amp; apparel.apparel_images.length &gt; 0">
+            <img ng-src="{{ apparel.apparel_images[0] | imageSrc }}" width="100%" />
+          </div>
           <p class="title" ng-bind="apparel.title"></p>
           <p>
             <span ng-bind="apparel.size_info"></span><span ng-if="apparel.hasGender()"> | </span><span ng-bind="apparel.gender | genderName" ng-if="apparel.hasGender()"></span><span ng-if="apparel.hasAgeInfo()"> | </span><span ng-bind="apparel.age_info | ageInfoName" ng-if="apparel.hasAgeInfo()"></span>

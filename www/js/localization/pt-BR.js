@@ -70,6 +70,7 @@ var TEXT_RESOURCES = {
   'apparel_form.messages.error.loading': 'Ops. Parece que sua conexão caiu',
   'apparel_form.messages.confirm_delete.title': 'Deletar imagem?',
   'apparel_form.messages.confirm_main.title': 'Exibir esta imagem em primeiro lugar?',
+  'apparel_form.messages.error.no_images': 'Por favor adicionar pelo menos uma imagem.',
   'apparel_form.saving.message': 'Salvando peça ...',
   'edit_apparel.form.already_saving': 'Quase lá, as informações da sua peça estão sendo salvas.',
   'new_apparel.form.buttons.save': 'oferecer peça',
