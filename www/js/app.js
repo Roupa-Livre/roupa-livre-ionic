@@ -39,6 +39,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       omniauthWindowType: isMob ? 'inAppBrowser' : 'newWindow',
       authProviderPaths: {
         facebook: '/auth/facebook'
+      },
+      createPopup: function(url) {
+        return window.open(url, '_blank', 'closebuttoncaption=Cancel,location=no,toolbar=no,hidden=no');
       }
     });
 

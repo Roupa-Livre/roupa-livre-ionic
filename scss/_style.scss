@@ -544,10 +544,12 @@ ion-footer-bar {
 
   div.logo {
     margin-bottom: 20px;
+    margin-bottom: 10vh;
 
     img {
       display:block;
       margin:20% auto 10px auto;
+      margin: 15vh auto 5vh auto;
       width:118px;
       height:auto;
     }
@@ -561,6 +563,7 @@ ion-footer-bar {
   a {
     color: #0062f2;
     margin:60px 40px 0 40px;
+    margin: 8vh 40px 0 40px;
     text-align: center;
     display: block;
     text-decoration: none;

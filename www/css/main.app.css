@@ -400,10 +400,12 @@ ion-footer-bar form {
 .about {
   background-color: white; }
   .about div.logo {
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    margin-bottom: 10vh; }
     .about div.logo img {
       display: block;
       margin: 20% auto 10px auto;
+      margin: 15vh auto 5vh auto;
       width: 118px;
       height: auto; }
     .about div.logo span.version {
@@ -413,6 +415,7 @@ ion-footer-bar form {
   .about a {
     color: #0062f2;
     margin: 60px 40px 0 40px;
+    margin: 8vh 40px 0 40px;
     text-align: center;
     display: block;
     text-decoration: none; }
