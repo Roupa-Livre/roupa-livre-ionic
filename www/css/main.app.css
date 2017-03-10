@@ -291,17 +291,25 @@ ion-footer-bar form {
 
 .searchMatch p.title {
   font-size: 16px;
-  font-weight: 700; }
+  font-weight: 700;
+  white-space: normal;
+  max-width: 100%; }
 
 .searchMatch p.details {
-  font-size: 12px; }
+  font-size: 12px;
+  white-space: normal;
+  max-width: 100%; }
 
 .searchMatch p.hashtags {
-  font-size: 12px; }
+  font-size: 12px;
+  white-space: normal;
+  max-width: 100%; }
 
 .searchMatch p.description {
   font-size: 12px;
-  font-weight: 700; }
+  font-weight: 700;
+  white-space: normal;
+  max-width: 100%; }
 
 .searchMatch img.avatar {
   border: 2px solid #3df2d6;

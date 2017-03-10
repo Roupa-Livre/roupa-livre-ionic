@@ -402,19 +402,27 @@ ion-footer-bar {
   p.title {
     font-size:16px;
     font-weight:700;
+    white-space: normal;
+    max-width: 100%;
   }
 
   p.details {
     font-size:12px;
+    white-space: normal;
+    max-width: 100%;
   }
 
   p.hashtags {
     font-size:12px;
+    white-space: normal;
+    max-width: 100%;
   }
 
   p.description {
     font-size:12px;
     font-weight:700;
+    white-space: normal;
+    max-width: 100%;
   }
 
   img.avatar {
