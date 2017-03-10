@@ -215,7 +215,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       }
 
       resource.prototype.hasImages = function() {
-        if (!this.apparel_images || this.apparel_images == null || !this.apparel_images.length == 0)
+        if (!this.apparel_images || this.apparel_images == null || this.apparel_images.length == 0)
           return false;
 
         for (var i = 0; i < this.apparel_images.length; i++) {
