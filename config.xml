@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.nucleo235.roupalivre" version="1.0.7" android-versionCode="100007" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="100008" id="com.nucleo235.roupalivre" version="1.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>RoupaLivre</name>
     <description>Roupa Livre</description>
     <author email="mobileapps@nucleo235.com.br" href="http://nucleo235.com.br/">
@@ -22,6 +22,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
+
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -30,7 +31,7 @@
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
     <platform name="android">
-        <hook src="hooks/before_build/cordova_hook_copy_files_to_platform.js" type="before_build"/>
+        <hook src="hooks/before_build/cordova_hook_copy_files_to_platform.js" type="before_build" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -70,7 +71,17 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2208" src="resources/ios/splash/Default~iphone-6.png" width="1242" />
+        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+            <string>Somente as fotos cadastradas por você no app serão publicadas. Ficarão disponíveis sempre que um usuário visualizar uma peça de vestimenta cadastrada por você.</string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
+            <string>Somente as fotos cadastradas por você no app serão publicadas. Ficarão disponíveis sempre que um usuário visualizar uma peça de vestimenta cadastrada por você.</string>
+        </config-file>
+        <config-file parent="ITSAppUsesNonExemptEncryption" target="*-Info.plist">
+            <false/>
+        </config-file>
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
+    <plugin name="cordova-plugin-settings-hook" spec="~0.2.4" />
 </widget>
