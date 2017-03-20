@@ -322,6 +322,21 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       }
     });
   })
+  .run(function($ionicPlatform, $cordovaAppVersion, Rollbar) {
+    $ionicPlatform.ready(function(readyEventData) {
+      if (window.cordova && $cordovaAppVersion) {
+        $cordovaAppVersion.getVersionNumber().then(function (version) {
+          if (version) {
+            Rollbar.configure({
+              payload: {
+                appVersion: version
+              }
+            });
+          }
+        });
+      }
+    });
+  })
 
   .config(function($ionicNativeTransitionsProvider){
       $ionicNativeTransitionsProvider.setDefaultOptions({
