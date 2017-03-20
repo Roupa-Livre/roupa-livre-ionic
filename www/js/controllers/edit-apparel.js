@@ -73,9 +73,11 @@ angular.module('app.controllers')
       if (isMob) {
         $scope.getNewPhoto()
           .then(function(result) {
-            $scope.entry.apparel_images.push({ data: result });
-            $ionicSlideBoxDelegate.update();
-            refereshApparelSwiper();
+            $timeout(function() {
+              $scope.entry.apparel_images.push({ data: result });
+              $ionicSlideBoxDelegate.update();
+              refereshApparelSwiper();
+            });
           }, function(error) {
             console.log(error);
           });
@@ -109,18 +111,20 @@ angular.module('app.controllers')
     $scope.makeMainImage = function(image) {
       $rootScope.showConfirmPopup(t('apparel_form.messages.confirm_main.title')).then(function(res) {
         if(res) {
-          var index = $scope.entry.apparel_images.indexOf(image);
-          // verifica se achou e se ja não é a primeira
-          if (index > 0) {
-            $scope.entry.apparel_images[0].sort_order = 2;
-            $scope.entry.apparel_images.splice(index, 1);
-            $scope.entry.apparel_images.unshift(image);
-            image.sort_order = 1;
-            $ionicSlideBoxDelegate.update();
-            refereshApparelSwiper(function() {
-              $scope.apparelSwiper.slideTo(0);
-            });
-          }
+          $timeout(function() {
+            var index = $scope.entry.apparel_images.indexOf(image);
+            // verifica se achou e se ja não é a primeira
+            if (index > 0) {
+              $scope.entry.apparel_images[0].sort_order = 2;
+              $scope.entry.apparel_images.splice(index, 1);
+              $scope.entry.apparel_images.unshift(image);
+              image.sort_order = 1;
+              $ionicSlideBoxDelegate.update();
+              refereshApparelSwiper(function() {
+                $scope.apparelSwiper.slideTo(0);
+              });
+            }
+          });
         }
       });
     };
@@ -135,14 +139,17 @@ angular.module('app.controllers')
           $scope.entry.save().then(function(data) {
             data.update_owned_cache();
 
-            $ionicHistory.nextViewOptions({ disableBack: true });
-            $rootScope.hideReadableLoading();
-            if (isNew) {
-              $rootScope.showToastMessage(t('apparel_form.messages.new_saved'));
-              $state.go('menu.apparel');
-            } else {
-              $state.go('menu.apparel_list');
-            }
+            $timeout(function() {
+              $ionicHistory.nextViewOptions({ disableBack: true });
+              $rootScope.hideReadableLoading();
+
+              if (isNew) {
+                $rootScope.showToastMessage(t('apparel_form.messages.new_saved'));
+                $state.go('menu.apparel');
+              } else {
+                $state.go('menu.apparel_list');
+              }
+            });
           }, function(err) {
             $rootScope.hideReadableLoading();
             console.log(err);
@@ -163,22 +170,19 @@ angular.module('app.controllers')
       }
     };
 
-    // Upload.fileTo($auth.apiUrl() + '/apparels').then(
-    //   function(res) {
-    //     // Success
-    //   }, function(err) {
-    //     // Error
-    //   });
-
     function setCurrentApparel() {
       if ($stateParams.hasOwnProperty('id')) {
         Apparel.get($stateParams["id"]).then(function(apparel) {
-          $scope.entry = apparel;
-          $ionicSlideBoxDelegate.update();
+          $timeout(function() {
+            $scope.entry = apparel;
+            $ionicSlideBoxDelegate.update();
+          });
         }, function(error) {
-          $rootScope.showToastMessage(t('apparel_form.messages.error.loading'));
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('menu.apparel_list');
+          $timeout(function() {
+            $rootScope.showToastMessage(t('apparel_form.messages.error.loading'));
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('menu.apparel_list');
+          });
         });
       }
       else {
@@ -188,7 +192,6 @@ angular.module('app.controllers')
     }
 
     setCurrentApparel();
-    
-    updateLatLng($cordovaGeolocation, $auth, $q)
-      .then(function(resp) { }, function(resp) { });
+
+    updateLatLng($cordovaGeolocation, $auth, $q);
   });

@@ -33,14 +33,16 @@ angular.module('app.directives', [])
   }
  }
 })
-.directive('myclick', function() {
+.directive('myclick', function($timeout) {
   return function(scope, element, attrs) {
     element.bind('touchstart click', function(event) {
       try {
         event.preventDefault();
         event.stopPropagation();
       } catch (ex) { }
-      scope.$apply(attrs['myclick']);
+      $timeout(function() {
+        scope.$apply(attrs['myclick']);
+      });
       return false;
     });
   };

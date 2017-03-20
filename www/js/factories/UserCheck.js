@@ -1,6 +1,6 @@
 angular.module('app.factories', ['ngCordova', 'ngResource', 'rails'])
-  .factory('UserCheck', ['$auth', '$q', '$rootScope', '$state', '$cordovaGeolocation', '$ionicHistory', 'Apparel',
-    function($auth, $q, $rootScope, $state, $cordovaGeolocation, $ionicHistory, Apparel) {
+  .factory('UserCheck', ['$auth', '$q', '$rootScope', '$state', '$cordovaGeolocation', '$ionicHistory', 'Apparel', '$timeout',
+    function($auth, $q, $rootScope, $state, $cordovaGeolocation, $ionicHistory, Apparel, $timeout) {
       var service = {};
 
       service.doOwnsApparels = function() {
@@ -14,25 +14,38 @@ angular.module('app.factories', ['ngCordova', 'ngResource', 'rails'])
         return q.promise;
       };
 
-      service.redirectLoggedUser = function() {
-        function onUserHasOwnApparels() {
-          if ($auth.user.agreed) {
-            $rootScope.gotToInitialState('menu.apparel');
-            $rootScope.cleanInitialState();
-          } else {
-            $rootScope.gotToInitialState('terms');
-            $rootScope.cleanInitialState();
+      service.redirectLoggedUser = function(hideLoading) {
+        function hideLoadingIfNeeded() {
+          if (hideLoading && !(typeof hideLoading === "undefined")) {
+            $rootScope.hideReadableLoading();
           }
+        }
+        function onUserHasOwnApparels() {
+          hideLoadingIfNeeded();
+
+          $timeout(function() {
+            if ($auth.user.agreed) {
+              $rootScope.gotToInitialState('menu.apparel');
+              $rootScope.cleanInitialState();
+            } else {
+              $rootScope.gotToInitialState('terms');
+              $rootScope.cleanInitialState();
+            }
+          });
         };
 
         function onUserHasNoApparel() {
-          if ($auth.user.agreed) {
-            $ionicHistory.nextViewOptions({ disableBack: true });
-            $state.go('menu.new');
-          } else {
-            $rootScope.gotToInitialState('terms');
-            $rootScope.cleanInitialState();
-          }
+          hideLoadingIfNeeded();
+
+          $timeout(function() {
+            if ($auth.user.agreed) {
+              $ionicHistory.nextViewOptions({ disableBack: true });
+              $state.go('menu.new');
+            } else {
+              $rootScope.gotToInitialState('terms');
+              $rootScope.cleanInitialState();
+            }
+          });
         }
 
         function successUpdatedGeo(resp) {

@@ -29,7 +29,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     }
   })
 
-  .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config, $timeout) {
+  .controller('termsCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $http, config, $timeout, Rollbar) {
     function validate() {
       $auth.validateUser()
         .then(function(data) {
@@ -53,6 +53,11 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
         headers: $auth.retrieveData('auth_headers'),
         url: config.API_URL + '/users/agreed_to_terms'
       }).then(function(data) {
+        validate();
+      }, function(response) {
+        try {
+          Rollbar.info(response);
+        } catch (ex) { }
         validate();
       })
     };
@@ -96,9 +101,11 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('loginCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck) {
+  .controller('loginCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, UserCheck, $timeout) {
     function successLogged(data) {
-      UserCheck.redirectLoggedUser();
+      $timeout(function() {
+        UserCheck.redirectLoggedUser(true);
+      });
     };
 
     function logOrRegisterWithUUID() {
@@ -152,17 +159,29 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       logOrRegisterWithUUID();
     };
 
+    var validating = false;
     $scope.loginWithFacebook = function() {
-      $auth.authenticate('facebook')
-        .then(successLogged)
-        .catch(function(resp) {
-          console.log(resp);
-          //logOrRegisterWithUUID();
-        });
+      if (!validating) {
+        $rootScope.showReadableLoading($rootScope.t('login.loading'));
+        $auth.authenticate('facebook')
+          .then(function(data) {
+            successLogged(data);
+          })
+          .catch(function(resp) {
+            console.log(resp);
+            //logOrRegisterWithUUID();
+          });
+      }
     };
 
     function validate() {
-      $auth.validateUser().then(successLogged, function(result) {
+      validating = true;
+      $auth.validateUser().then(function(data) {
+        $rootScope.showReadableLoading($rootScope.t('login.loading'));
+        validating = false;
+        successLogged(data);
+      }, function(result) {
+        validating = false;
         // deixa a pessoa fazer seu próprio login
         // setTimeout(logOrRegisterWithUUID, 100);
 
@@ -177,32 +196,36 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       validate();
   })
 
-  .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, UserCheck) {
+  .controller('logoutCtrl', function($scope, $cordovaGeolocation, $ionicHistory, $state, $auth, UserCheck, $timeout) {
     $auth.signOut()
       .then(function(resp) {
-        $state.go('login');
+        $timeout(function() {
+          $state.go('login');
+        });
       })
       .catch(function(resp) {
-        UserCheck.redirectLoggedUser();
+        $timeout(function() {
+          UserCheck.redirectLoggedUser();
+        });
       });
   })
 
-  .controller('matchWarningCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, Apparel, Chat) {
+  .controller('matchWarningCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, Apparel, Chat, $timeout) {
     $scope.single_option = false;
     Chat.local_active_by_id($stateParams["chat_id"]).then(function(chat) {
-      $scope.chat = chat;
-      if (!$scope.chat) {
-        Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
-          $scope.chat = chat;
-        }, function(error) {
-          console.log(error);
-        });
-      }
+      $timeout(function() {
+        $scope.chat = chat;
+        if (!$scope.chat) {
+          Chat.online_active_by_id($stateParams["chat_id"]).then(function(chat) {
+            $timeout(function() {
+              $scope.chat = chat;
+            });
+          }, function(error) {
+            console.log(error);
+          });
+        }
+      });
     });
-
-    function successUpdatedGeo() {
-
-    };
 
     $scope.cancel = function() {
       $ionicHistory.nextViewOptions({ disableBack: true });
@@ -214,12 +237,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       $state.go('menu.chat', { id: $scope.chat.id });
     };
 
-    updateLatLng($cordovaGeolocation, $auth, $q)
-      .then(function(resp) {
-        successUpdatedGeo();
-      }, function(resp) {
-        successUpdatedGeo();
-      });
+    updateLatLng($cordovaGeolocation, $auth, $q);
   })
 
   .controller('matchNotFoundCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $stateParams, $auth, $q, $cordovaSocialSharing, Apparel) {
@@ -255,7 +273,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     updateLatLng($cordovaGeolocation, $auth, $q);
   })
 
-  .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel) {
+  .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel, $timeout) {
     var user_id = $stateParams.hasOwnProperty("user_id") && $stateParams.user_id > 0 ? $stateParams.user_id : null;
     $scope.is_mine = user_id == null;
     if ($scope.is_mine) 
@@ -264,7 +282,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     function refreshApparels() {
       if ($scope.is_mine) {
         Apparel.owned().then(function(apparels) {
-          $scope.apparels = apparels;
+          $timeout(function() {
+            $scope.apparels = apparels;
+          });
         });
       } else {
         // TODO Carrega apparels de outro user
@@ -290,8 +310,10 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
           if(res) {
             console.log('You are sure');
             apparel.delete().then(function() {
-              Apparel.clear_owned_cache();
-              refreshApparels();
+              $timeout(function() {
+                Apparel.clear_owned_cache();
+                refreshApparels();
+              });
             });
           } else {
             console.log('You are not sure');
@@ -301,7 +323,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     }
   })
 
-  .controller('chatsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup) {
+  .controller('chatsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup, $timeout) {
 
     $scope.onForceRefresh = function() {
       $rootScope.showConfirmPopup(t('chats.messages.reload.title'), null, t('chats.messages.reload.body')).then(function(res) {
@@ -309,16 +331,22 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
           $rootScope.showReadableLoading();
           Chat.clearCache().then(function() {
             Chat.force_reload_active().then(function(data) {
-              $scope.chats = data;
-              $scope.$broadcast('scroll.refreshComplete');
-              $rootScope.hideReadableLoading();
+              $timeout(function() {
+                $scope.chats = data;
+                $scope.$broadcast('scroll.refreshComplete');
+                $rootScope.hideReadableLoading();
+              });
             }, function() {
+              $timeout(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+                $rootScope.hideReadableLoading();
+              });
+            });
+          }, function() {
+            $timeout(function() {
               $scope.$broadcast('scroll.refreshComplete');
               $rootScope.hideReadableLoading();
             });
-          }, function() {
-            $scope.$broadcast('scroll.refreshComplete');
-            $rootScope.hideReadableLoading();
           });
         } else
           $scope.$broadcast('scroll.refreshComplete');
@@ -326,22 +354,28 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
 
     Chat.active().then(function(old_data) {
-      $scope.chats = old_data;
-      if (!$scope.chats || $scope.chats.length == 0) {
-        $rootScope.showReadableLoading();
-      }
-      Chat.force_reload_active().then(function(data) {
-        $scope.chats = data;
-        $rootScope.hideReadableLoading();
-        if (!data || data.length == 0) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
-          $state.go('menu.not_found');
+      $timeout(function() {
+        $scope.chats = old_data;
+        if (!$scope.chats || $scope.chats.length == 0) {
+          $rootScope.showReadableLoading();
         }
+        Chat.force_reload_active().then(function(data) {
+          $timeout(function() {
+            $scope.chats = data;
+            $rootScope.hideReadableLoading();
+            if (!data || data.length == 0) {
+              $ionicHistory.nextViewOptions({ disableBack: true });
+              $state.go('menu.not_found');
+            }
+          });
+        });
       });
     }, function(data) {
       console.log(data);
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.not_found');
+      $timeout(function() {
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('menu.not_found');
+      });
     });
 
     $scope.open = function(chat) {
@@ -349,12 +383,17 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('chatDetailsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub) {
+  .controller('chatDetailsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, $timeout) {
     Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
-      $scope.chat = chat;
-      Chat.online_active_by_id($stateParams["id"]).then(function(newChatInfo) {
-        if (newChatInfo)
-          $scope.chat = newChatInfo;
+      $timeout(function() {
+        $scope.chat = chat;
+        Chat.online_active_by_id($stateParams["id"]).then(function(newChatInfo) {
+          if (newChatInfo) {
+            $timeout(function() {
+              $scope.chat = newChatInfo;
+            });
+          }
+        });
       });
     });
 
@@ -362,7 +401,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
       $ionicHistory.goBack();
     };
   })
-  
+
   .controller('filterCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, Apparel, ApparelMatcher) {
     $scope.filters = angular.extend({}, Apparel.getFilters());
 
@@ -375,7 +414,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
             tags = tags + ',' + $scope.filters.tags[i].name;
           }
         }
-        
+
         $scope.filters.apparel_tags = tags;
       } else if ($scope.filters.hasOwnProperty('apparel_tags')) {
         delete $scope.filters['apparel_tags'];
@@ -393,17 +432,22 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $cordovaAppVersion) {
+  .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $cordovaAppVersion, $timeout) {
     var isMob = window.cordova !== undefined;
     $scope.appVersion = '-';
+
     if (isMob) {
       if ($cordovaAppVersion) {
         $cordovaAppVersion.getVersionNumber().then(function (version) {
-          $scope.appVersion = version;
-          console.log(version);
+          $timeout(function() {
+            $scope.appVersion = version;
+            console.log(version);
+          });
         }, function(error) {
-          console.log(error);
-          $scope.appVersion = 'cordova ver';
+          $timeout(function() {
+            console.log(error);
+            $scope.appVersion = 'cordova ver';
+          });
         });
       } else {
         $scope.appVersion = 'cordova version';

@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, config, $ionicPopup) {
+  .controller('chatCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $stateParams, $ionicScrollDelegate, Chat, ChatMessage, ChatSub, config, $ionicPopup, $timeout) {
     $scope.pageSize = 20;
     $scope.$on("$destroy", function(){
       if ($scope.chat && $scope.chat != null)
@@ -40,20 +40,24 @@ angular.module('app.controllers')
           showLoading();
 
           ChatMessage.clearCache($scope.chat).then(function() {
-            $scope.loadingPrevious = false;
-            $scope.reachedEnd = false;
-            $scope.chat_messages = null;
-            $scope.chat_messages_map = {};
-            checkChat().then(function() {
-              $scope.$broadcast('scroll.refreshComplete');
-              hideLoading();
-            }, function() {
+            $timeout(function() {
+              $scope.loadingPrevious = false;
+              $scope.reachedEnd = false;
+              $scope.chat_messages = null;
+              $scope.chat_messages_map = {};
+              checkChat().then(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+                hideLoading();
+              }, function() {
+                $scope.$broadcast('scroll.refreshComplete');
+                hideLoading();
+              });
+            });
+          }, function() {
+            $timeout(function() {
               $scope.$broadcast('scroll.refreshComplete');
               hideLoading();
             });
-          }, function() {
-            $scope.$broadcast('scroll.refreshComplete');
-            hideLoading();
           });
         }
       });
@@ -64,12 +68,16 @@ angular.module('app.controllers')
         if (!$scope.loadingPrevious) {
           $scope.loadingPrevious = true;
           $scope.loadPrevious().then(function(data) {
-            $scope.reachedEnd = !data || data.length == 0;
-            $scope.loadingPrevious = false;
-            $scope.$broadcast('scroll.refreshComplete');
+            $timeout(function() {
+              $scope.reachedEnd = !data || data.length < $scope.pageSize;
+              $scope.loadingPrevious = false;
+              $scope.$broadcast('scroll.refreshComplete');
+            });
           }, function() {
-            $scope.loadingPrevious = false;
-            $scope.$broadcast('scroll.refreshComplete');
+            $timeout(function() {
+              $scope.loadingPrevious = false;
+              $scope.$broadcast('scroll.refreshComplete');
+            });
           });
         }
       } else {
@@ -123,18 +131,22 @@ angular.module('app.controllers')
     function updateLastReadDate() {
       ChatMessage.retrieveLastMessage($scope.chat).then(function(lastMessage) {
         if (lastMessage != null) {
-          $scope.last_message_sent = lastMessage;
-          $scope.chat.last_message_sent = lastMessage;
-          $scope.chat.last_read_at = lastMessage.created_at;
-          $scope.chat.saveLocally();
+          $timeout(function() {
+            $scope.last_message_sent = lastMessage;
+            $scope.chat.last_message_sent = lastMessage;
+            $scope.chat.last_read_at = lastMessage.created_at;
+            $scope.chat.saveLocally();
+          });
         }
       });
     }
 
     $scope.getLatestMessages = function() {
       return ChatMessage.latestAfterRead($scope.chat, $scope.chat.last_read_at, $scope.pageSize).then(function(new_messages) {
-        onNewMessages(new_messages);
-        updateLastReadDate();
+        $timeout(function() {
+          onNewMessages(new_messages);
+          updateLastReadDate();
+        });
 
         return new_messages;
       },function(error) {
@@ -217,11 +229,17 @@ angular.module('app.controllers')
       else {
         showLoading(t('chat.loading.message'));
         return Chat.online_active_by_id($stateParams["id"]).then(function(chat) {
-          $scope.chat = chat;
-          checkInitialMessages().then(function() {
-            hideLoading();
-          }, function() {
-            hideLoading();
+          $timeout(function() {
+            $scope.chat = chat;
+            checkInitialMessages().then(function() {
+              $timeout(function() {
+                hideLoading();
+              });
+            }, function() {
+              $timeout(function() {
+                hideLoading();
+              });
+            });
           });
           return chat;
         });
@@ -232,8 +250,10 @@ angular.module('app.controllers')
     $scope.chat_messages = null;
     $scope.chat_messages_map = { };
     Chat.local_active_by_id($stateParams["id"]).then(function(chat) {
-      $scope.chat = chat;
-      checkChat();
+      $timeout(function() {
+        $scope.chat = chat;
+        checkChat();
+      });
     }, function(error) {
       console.log(error);
       checkChat();
@@ -251,7 +271,9 @@ angular.module('app.controllers')
       }
       else {
         return ChatMessage.previousMessages($scope.chat, $scope.chat_messages[0], $scope.pageSize).then(function(new_messages) {
-          addPreviousMessages(new_messages);
+          $timeout(function() {
+            addPreviousMessages(new_messages);
+          });
           return new_messages;
         });
       }
@@ -262,16 +284,20 @@ angular.module('app.controllers')
       if (messageTrimmed.length > 0) {
         var chat_message = new ChatMessage({chat_id: $scope.chat.id, message: messageTrimmed})
         chat_message.saveAndPersist().then(function(savedMessage) {
-          $scope.chat.last_sent_message = null;
-          setAndAddLastMessage(new ChatMessage(savedMessage));
+          $timeout(function() {
+            $scope.chat.last_sent_message = null;
+            setAndAddLastMessage(new ChatMessage(savedMessage));
+          });
         }, function(errorData) {
-          $scope.chat.last_sent_message = null;
-          try {
-            if (config.SHOWS_STACK)
-              $rootScope.showToastMessage('Erro enviando mensagem', null, true, JSON.stringify(errorData));
-            else
-              $rootScope.showToastMessage(t('chat.messages.error.sending'));
-          } catch (ex) { }
+          $timeout(function() {
+            $scope.chat.last_sent_message = null;
+            try {
+              if (config.SHOWS_STACK)
+                $rootScope.showToastMessage('Erro enviando mensagem', null, true, JSON.stringify(errorData));
+              else
+                $rootScope.showToastMessage(t('chat.messages.error.sending'));
+            } catch (ex) { }
+          });
         });
       } else {
         $rootScope.showToastMessage(t('chat.messages.error.blank_message'));
@@ -285,9 +311,13 @@ angular.module('app.controllers')
           $scope.chat.block().then(function(blockData) {
             Chat.clearCache().then(function() {
               Chat.force_reload_active().then(function(data) {
-                $rootScope.goChats();
+                $timeout(function() {
+                  $rootScope.goChats();
+                });
               }, function() {
-                $rootScope.goChats();
+                $timeout(function() {
+                  $rootScope.goChats();
+                });
               });
             });
           });

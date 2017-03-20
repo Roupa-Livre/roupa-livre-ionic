@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config, NotificationManager, $ionicPopup) {
+  .controller('apparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, $ionicSlideBoxDelegate, Apparel, ApparelRating, Chat, ApparelMatcher, $ionicLoading, $log, config, NotificationManager, $ionicPopup, $timeout) {
     $scope.showLoading = function(message) {
       $rootScope.showReadableLoading(message);
     };
@@ -36,15 +36,19 @@ angular.module('app.controllers')
       }
 
       ApparelMatcher.getNextAvailableApparel().then(function(apparel) {
-        setCurrentApparel(apparel);
-        setTimeout(function() {
-          ApparelMatcher.loadApparelsIfNeededAsync();
-        }, 500);
-        $scope.hideLoading();
+        $timeout(function() {
+          setCurrentApparel(apparel);
+          setTimeout(function() {
+            ApparelMatcher.loadApparelsIfNeededAsync();
+          }, 500);
+          $scope.hideLoading();
+        });
       }, function(error) {
         $log.debug(error);
-        $scope.hideLoading();
-        $rootScope.showToastMessage(t('apparel.messages.error.loading'), 1000);
+        $timeout(function() {
+          $scope.hideLoading();
+          $rootScope.showToastMessage(t('apparel.messages.error.loading'), 1000);
+        });
       });
     }
 
@@ -74,9 +78,11 @@ angular.module('app.controllers')
       rating.save().then(function(data) {
         ApparelMatcher.markAsRated(data.id);
 
-        if (data.hasOwnProperty('chat') && data.chat != null)
-          nextAfterMatch(data.chat);
-
+        if (data.hasOwnProperty('chat') && data.chat != null) {
+          $timeout(function() {
+            nextAfterMatch(data.chat);
+          });
+        }
       }, failAfterRating);
 
       goToNextApparel();
@@ -119,10 +125,14 @@ angular.module('app.controllers')
         if(res) {
           $rootScope.showReadableLoading(t('apparel.report.loading'));
           $scope.entry.report(res).then(function(data) {
-            $rootScope.hideReadableLoading();
-            goToNextApparel();
+            $timeout(function() {
+              $rootScope.hideReadableLoading();
+              goToNextApparel();
+            });
           }, function(error) {
-            $rootScope.hideReadableLoading();
+            $timeout(function() {
+              $rootScope.hideReadableLoading();
+            });
           });
         } else {
           console.log('You are not sure');
@@ -132,15 +142,7 @@ angular.module('app.controllers')
 
     loadNextApparel();
 
-    updateLatLng($cordovaGeolocation, $auth, $q)
-      .then(function(resp) {
-        // $scope.getApparels().then(function(data){
-        //   // TODO
-        //   $scope.hide();
-        // });
-      }, function(resp) {
-        // $scope.hide();
-      });
+    updateLatLng($cordovaGeolocation, $auth, $q);
 
     NotificationManager.showApparelsNotificationIfNeeded();
   });

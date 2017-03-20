@@ -2,6 +2,7 @@ var TEXT_RESOURCES = {
   'global.app.name': 'ROUPA LIVRE',
   'initial.loading': 'Que bom que<br />você chegou :)',
   'login.initial': 'liberte suas roupas.',
+  'login.loading': 'conectando...',
   'login.buttons.facebook': 'entrar com facebook',
   'apparel.loading.message': 'Buscando peças ...',
   'apparel.messages.error.loading': 'Oops. Parece que houve um erro. Tente novamente em alguns instantes.',

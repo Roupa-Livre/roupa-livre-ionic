@@ -24,7 +24,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         accessToken: "dd577078592e46d197e8fc41a3e46b2c",
         captureUncaught: true,
         payload: {
-          environment: 'production'
+          environment: ((window.cordova !== undefined) ? 'production' : 'development')
         }
       });
     } catch (ex) { }
@@ -65,7 +65,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     }
     return service;
   })
-  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup, $sce) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading, $ionicHistory, $state, $auth, Chat, $q, config, $http, BackgroundCheck, $cordovaDevice, $ionicPopup, $sce, Rollbar) {
     $rootScope.cleanInitialState = function(fallbackState) {
       $rootScope.initialState = null;
       $rootScope.initialStateParams = null;
@@ -83,6 +83,20 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $state.go(fallbackState);
       }
     };
+    function setUserOnRollbar(user) {
+      try {
+        Rollbar.configure({
+          payload: {
+            person: {
+              id: user.id,
+              email: user.email,
+              username: user.email,
+              name: user.name
+            }
+          }
+        });
+      } catch (ex) { }
+    }
     function setupPush() {
       function onRegistration(data) {
         var postData = { registration_id: data.registrationId, provider: null, device_uid: $cordovaDevice.getUUID() }
@@ -146,6 +160,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
       $rootScope.$on('auth:login-success', function(ev, user) {
         tryRegisterOnPush();
+        setUserOnRollbar(user);
       });
 
       $rootScope.$on('auth:logout-success', function(ev) {
@@ -156,6 +171,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         if (MainPushSystem == null) {
           tryRegisterOnPush();
         }
+        setUserOnRollbar(user);
       });
     }
     $ionicPlatform.ready(function(readyEventData) {
