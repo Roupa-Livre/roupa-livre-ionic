@@ -32,7 +32,9 @@ angular.module('app.controllers')
 
     function loadNextApparel() {
       if (!ApparelMatcher.isNextAlreadyLoaded()) {
-        $scope.showLoading(t('apparel.loading.message'));
+        $timeout(function() {
+          $scope.showLoading(t('apparel.loading.message'));
+        });
       }
 
       ApparelMatcher.getNextAvailableApparel().then(function(apparel) {
