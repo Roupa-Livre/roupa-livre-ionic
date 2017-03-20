@@ -260,9 +260,10 @@ angular.module('app.controllers')
     })
 
     $scope.showChatDetails = function() {
-      $ionicHistory.nextViewOptions({ disableBack: false });
-      // $state.go($state.current, {}, {reload: true});
-      $state.go('menu.chat_details', { id: $scope.chat.id });
+      if ($scope.chat) {
+        $ionicHistory.nextViewOptions({ disableBack: false });
+        $state.go('menu.chat_details', { id: $scope.chat.id });
+      }
     };
 
     $scope.loadPrevious = function() {
