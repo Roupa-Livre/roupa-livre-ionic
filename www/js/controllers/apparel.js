@@ -75,29 +75,33 @@ angular.module('app.controllers')
     };
 
     $scope.like = function() {
-      var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
+      if ($scope.entry) {
+        var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: true})
 
-      rating.save().then(function(data) {
-        ApparelMatcher.markAsRated(data.id);
+        rating.save().then(function(data) {
+          ApparelMatcher.markAsRated(data.id);
 
-        if (data.hasOwnProperty('chat') && data.chat != null) {
-          $timeout(function() {
-            nextAfterMatch(data.chat);
-          });
-        }
-      }, failAfterRating);
+          if (data.hasOwnProperty('chat') && data.chat != null) {
+            $timeout(function() {
+              nextAfterMatch(data.chat);
+            });
+          }
+        }, failAfterRating);
 
-      goToNextApparel();
+        goToNextApparel();
+      }
     };
 
     $scope.dislike = function() {
-      var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: false})
-      rating.save().then(function(data) {
-        ApparelMatcher.markAsRated(data.id);
-      }, failAfterRating);
+      if ($scope.entry) {
+        var rating = new ApparelRating({apparel_id: $scope.entry.id, liked: false})
+        rating.save().then(function(data) {
+          ApparelMatcher.markAsRated(data.id);
+        }, failAfterRating);
 
-      goToNextApparel();
-    }
+        goToNextApparel();
+      }
+    };
 
     $scope.report = function() {
       $scope.report_entry = { reason: null };
@@ -140,7 +144,7 @@ angular.module('app.controllers')
           console.log('You are not sure');
         }
       });
-    }
+    };
 
     loadNextApparel();
 
