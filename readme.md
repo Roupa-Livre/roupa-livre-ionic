@@ -35,6 +35,7 @@ rm -rf ./UPLOAD
 mkdir -p UPLOAD
 ~/Library/Developer/Xamarin/android-sdk-macosx/build-tools/22.0.1/zipalign -v 4 ./RELEASE/android-x86-release-unsigned.apk ./UPLOAD/new_version-x86.apk
 ~/Library/Developer/Xamarin/android-sdk-macosx/build-tools/22.0.1/zipalign -v 4 ./RELEASE/android-armv7-release-unsigned.apk ./UPLOAD/new_version-armv7.apk
+open ./UPLOAD
 ```
 
 5 - Volte os plugins removidos
