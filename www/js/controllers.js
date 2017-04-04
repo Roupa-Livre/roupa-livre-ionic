@@ -326,6 +326,12 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
   .controller('chatsCtrl', function($scope, $rootScope, $cordovaGeolocation, $ionicHistory, $state, $auth, $q, Chat, $ionicPopup, $timeout) {
 
     $scope.onForceRefresh = function() {
+      $timeout(function() {
+        $scope.doForceRefresh();
+      });
+    };
+
+    $scope.doForceRefresh = function() {
       $rootScope.showConfirmPopup(t('chats.messages.reload.title'), null, t('chats.messages.reload.body')).then(function(res) {
         if(res) {
           $rootScope.showReadableLoading();
@@ -379,7 +385,9 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     });
 
     $scope.open = function(chat) {
-      $state.go('menu.chat', { id: chat.id });
+      $timeout(function() {
+        $state.go('menu.chat', { id: chat.id });
+      });
     };
   })
 
