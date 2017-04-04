@@ -39,10 +39,11 @@
       "id": "cordova-plugin-crop"
     },
     "cordova-plugin-app-version",
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }
