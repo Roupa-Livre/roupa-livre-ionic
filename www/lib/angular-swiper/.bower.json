@@ -31,6 +31,5 @@
   },
   "_source": "https://github.com/ksachdeva/angular-swiper.git",
   "_target": "^0.4.0",
-  "_originalSource": "angular-swiper",
-  "_direct": true
+  "_originalSource": "angular-swiper"
 }

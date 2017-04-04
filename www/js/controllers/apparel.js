@@ -7,6 +7,27 @@ angular.module('app.controllers')
       $rootScope.hideReadableLoading();
     };
 
+    $scope.apparelSwiper = {};
+
+    $scope.onReadySwiper = function(swiper) {
+      $scope.apparelSwiper = swiper;
+      $timeout(function() {
+        if ($scope.apparelSwiper.update)
+          $scope.apparelSwiper.update();
+      }, 200);
+    };
+
+    function refereshApparelSwiper(onRefreshed) {
+      if ($scope.apparelSwiper.update) {
+        $timeout(function() {
+            // $scope.apparelSwiper.update();
+            $scope.apparelSwiper.update();
+            if (onRefreshed)
+              onRefreshed();
+          }, 100);
+      }
+    };
+
     function setCurrentApparel(apparel) {
       if (apparel != null) {
         var entry = apparel;
@@ -24,6 +45,7 @@ angular.module('app.controllers')
 
         $scope.entry = entry;
         $ionicSlideBoxDelegate.update();
+        refereshApparelSwiper();
       } else {
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('menu.apparels_not_found');

@@ -6,7 +6,7 @@
     </div>
     <div class="list" ng-show="entry != null">
       <div class="item item-image clothesImage">
-        <ks-swiper-container initial-slide="0" loop="false" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="true" show-nav-buttons="false" slides-per-view="1" space-between="0" speed="2000"><ks-swiper-slide class="swiper-slide" ng-repeat="image in entry.apparel_images"><img ng-src="{{image | imageSrc}}" width="100%" /></ks-swiper-slide></ks-swiper-container>
+        <ks-swiper-container initial-slide="0" loop="false" on-ready="onReadySwiper(swiper)" override-parameters="{paginationHide: false}" pagination-clickable="true" pagination-is-active="true" show-nav-buttons="true" slides-per-view="1" space-between="0" speed="2000" swiper="apparelSwiper"><ks-swiper-slide class="swiper-slide" ng-repeat="image in entry.apparel_images"><img ng-src="{{image | imageSrc}}" width="100%" /></ks-swiper-slide></ks-swiper-container>
       </div>
       <div class="item">
         <p class="title" ng-bind="entry.title"></p>
