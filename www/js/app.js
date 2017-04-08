@@ -83,6 +83,110 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         $state.go(fallbackState);
       }
     };
+
+    $rootScope.goMain = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.apparel');
+    };
+
+    $rootScope.isMainState = function() {
+      return ($ionicHistory.currentStateName() == 'menu.apparel' || $ionicHistory.currentStateName() == 'menu.apparels_not_found');
+    };
+
+    $rootScope.goChats = function() {
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('menu.chats');
+    };
+
+    $rootScope.isChatState = function() {
+      var stateName = $ionicHistory.currentStateName();
+      return (stateName == 'menu.chats' || stateName == 'menu.chat');
+    };
+
+    $rootScope.goMenu = function() {
+      if ($ionicHistory.currentStateName() == 'menu.menu') {
+        var backView = $ionicHistory.backView()
+        if (backView && backView.name != 'menu.menu')
+          $ionicHistory.goBack();
+        else
+          $state.go('menu.apparel');
+      } else {
+        $ionicHistory.nextViewOptions({ disableBack: false });
+        $state.go('menu.menu');
+      }
+    };
+
+    $rootScope.isMenuState = function() {
+      var stateName = $ionicHistory.currentStateName();
+      return (stateName == 'menu.menu' || stateName == 'menu.new');
+    };
+
+    $rootScope.showLoading = function(message) {
+      $rootScope.loadingMessage = message;
+      $ionicLoading.show({ 
+        templateUrl: 'templates/loading.html', 
+        scope: $rootScope
+      });
+    };
+
+    $rootScope.hideLoading = function() {
+      $ionicLoading.hide();
+    };
+
+    $rootScope.loadingShownAt = null;
+    $rootScope.showReadableLoading = function(message) {
+      $rootScope.loadingShownAt = new Date();
+      $rootScope.showLoading(message);
+    };
+
+    $rootScope.hideReadableLoading = function() {
+      if ($rootScope.loadingShownAt != null) {
+        sleepToBeReadbleIfNeeded($rootScope.loadingShownAt, config, function() {
+          $rootScope.hideLoading();
+          $rootScope.loadingShownAt = null;
+        });
+      }
+    };
+
+    $rootScope.showConfirmPopup = function(title, subTitle, template, cancelText, confirmText) {
+      var options = { title: title, cssClass: 'popup-confirm' };
+      if (subTitle && subTitle.length > 0)
+        options.subTitle = subTitle;
+      if (template && template.length > 0)
+        options.template = template;
+
+      options.cancelText = (cancelText && cancelText.length > 0 ) ? cancelText : t('shared.buttons.cancel');
+      options.okText = (confirmText && confirmText.length > 0 ) ? confirmText : t('shared.buttons.confirm');
+
+      return $ionicPopup.confirm(options);
+    }
+
+    $rootScope.showToastMessage = function(message, timeout, fixed, messageBody) {
+      var messageTimeout = timeout && timeout > 0 ? timeout : config.MIN_TOAST_READING_TIMEOUT;
+      var messagedFixed = (fixed == true);
+      // messagedFixed = true; // para testes
+
+      var options = { title: message, cssClass: 'popup-show' };
+      if (messageBody && messageBody.length > 0)
+        options.template = messageBody;
+
+      if (messagedFixed)
+        options.buttons = [ { text: t('shared.buttons.close') } ];
+
+      var popup = $ionicPopup.show(options);
+      if (!messagedFixed) {
+        setTimeout(function() {
+          popup.close();
+        }, messageTimeout);
+      }
+    };
+
+    $rootScope.getLocalizedMessage = getLocalizedMessage;
+    $rootScope.t = t;
+    $rootScope.trustAsHtml = function(value) {
+      return $sce.trustAsHtml(value);
+    };
+
     function setUserOnRollbar(user) {
       try {
         Rollbar.configure({
@@ -185,110 +289,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-
-      $rootScope.goMain = function() {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.apparel');
-      };
-
-      $rootScope.isMainState = function() {
-        return ($ionicHistory.currentStateName() == 'menu.apparel' || $ionicHistory.currentStateName() == 'menu.apparels_not_found');
-      };
-
-      $rootScope.goChats = function() {
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('menu.chats');
-      };
-
-      $rootScope.isChatState = function() {
-        var stateName = $ionicHistory.currentStateName();
-        return (stateName == 'menu.chats' || stateName == 'menu.chat');
-      };
-
-      $rootScope.goMenu = function() {
-        if ($ionicHistory.currentStateName() == 'menu.menu') {
-          var backView = $ionicHistory.backView()
-          if (backView && backView.name != 'menu.menu')
-            $ionicHistory.goBack();
-          else
-            $state.go('menu.apparel');
-        } else {
-          $ionicHistory.nextViewOptions({ disableBack: false });
-          $state.go('menu.menu');
-        }
-      };
-
-      $rootScope.isMenuState = function() {
-        var stateName = $ionicHistory.currentStateName();
-        return (stateName == 'menu.menu' || stateName == 'menu.new');
-      };
-
-      $rootScope.showLoading = function(message) {
-        $rootScope.loadingMessage = message;
-        $ionicLoading.show({ 
-          templateUrl: 'templates/loading.html', 
-          scope: $rootScope
-        });
-
-      };
-
-      $rootScope.hideLoading = function() {
-        $ionicLoading.hide();
-      };
-
-      $rootScope.loadingShownAt = null;
-      $rootScope.showReadableLoading = function(message) {
-        $rootScope.loadingShownAt = new Date();
-        $rootScope.showLoading(message);
-      };
-
-      $rootScope.hideReadableLoading = function() {
-        if ($rootScope.loadingShownAt != null) {
-          sleepToBeReadbleIfNeeded($rootScope.loadingShownAt, config, function() {
-            $rootScope.hideLoading();
-            $rootScope.loadingShownAt = null;
-          });
-        }
-      };
-
-      $rootScope.showConfirmPopup = function(title, subTitle, template, cancelText, confirmText) {
-        var options = { title: title, cssClass: 'popup-confirm' };
-        if (subTitle && subTitle.length > 0)
-          options.subTitle = subTitle;
-        if (template && template.length > 0)
-          options.template = template;
-
-        options.cancelText = (cancelText && cancelText.length > 0 ) ? cancelText : t('shared.buttons.cancel');
-        options.okText = (confirmText && confirmText.length > 0 ) ? confirmText : t('shared.buttons.confirm');
-
-        return $ionicPopup.confirm(options);
-      }
-
-      $rootScope.showToastMessage = function(message, timeout, fixed, messageBody) {
-        var messageTimeout = timeout && timeout > 0 ? timeout : config.MIN_TOAST_READING_TIMEOUT;
-        var messagedFixed = (fixed == true);
-        // messagedFixed = true; // para testes
-
-        var options = { title: message, cssClass: 'popup-show' };
-        if (messageBody && messageBody.length > 0)
-          options.template = messageBody;
-
-        if (messagedFixed)
-          options.buttons = [ { text: t('shared.buttons.close') } ];
-
-        var popup = $ionicPopup.show(options);
-        if (!messagedFixed) {
-          setTimeout(function() {
-            popup.close();
-          }, messageTimeout);
-        }
-      };
-
-      $rootScope.getLocalizedMessage = getLocalizedMessage;
-      $rootScope.t = t;
-      $rootScope.trustAsHtml = function(value) {
-        return $sce.trustAsHtml(value);
-      };
 
       console.log('READY');
       if ($rootScope.user && $rootScope.user.hasOwnProperty('id') && $rootScope.user.id > 0) {
