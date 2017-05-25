@@ -36,7 +36,7 @@ var TEXT_RESOURCES = {
   'shared.options.age_info.any': 'tanto faz',
   'shared.datetime.yesterday': 'ontem',
   'shared.datetime.since_days': 'dias atrás',
-  'shared.distance.really_close': 'pertinho',
+  'shared.distance.really_close': 'cerca de 500m',
   'shared.distance.close_to_prefix': 'Está a ',
   'shared.distance.less_than_one_km': 'menos de 1',
   'shared.distance.close_to_sufix': 'km',
