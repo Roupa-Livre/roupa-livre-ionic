@@ -162,7 +162,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     var validating = false;
     $scope.loginWithFacebook = function() {
       if (!validating) {
-        $rootScope.showReadableLoading($rootScope.t('login.loading'));
+        $rootScope.showReadableLoading(getLocalizedMessage('login.loading'));
         $auth.authenticate('facebook')
           .then(function(data) {
             successLogged(data);
@@ -177,7 +177,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     function validate() {
       validating = true;
       $auth.validateUser().then(function(data) {
-        $rootScope.showReadableLoading($rootScope.t('login.loading'));
+        $rootScope.showReadableLoading(getLocalizedMessage('login.loading'));
         validating = false;
         successLogged(data);
       }, function(result) {
