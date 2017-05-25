@@ -150,10 +150,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         serializer: 'ApparelSerializer'
       });
 
-      var filters = {};
+      var filters = { range: 100 };
 
       resource.hasFilters = function() {
-        return !isEmptyObject(filters);
+        return !isEmptyObject(filters) && filters.range != 100;
       };
 
       resource.applyFilters = function(newFilters) {
@@ -161,7 +161,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       };
 
       resource.clearFilters = function() {
-        filters = {};
+        filters = { range: 100 };
       };
 
       resource.getFilters = function() {
@@ -172,6 +172,9 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         params = params || {};
         filters = filters || {};
         var mergedParams = angular.extend({}, params, filters)
+        if (mergedParams.range && mergedParams.range >= 100)
+          delete mergedParams["range"];
+
         return resource.query(mergedParams);
       };
 

@@ -47,6 +47,15 @@ ion-view.search
           .col.col-33
             ion-radio ng-model="filters.age_info" name="age_info" ng-value="null"
               | {{ t('shared.options.age_info.any') }}
+      .item.item-input.item-stacked-label
+        span.input-label
+          | {{t('search_apparels.titles.range') }}
+          b
+            | {{filters.range < 100 ? (t('search_apparels.titles.range_prefix') + filters.range + 'km') : t('search_apparels.titles.range_all')}}
+        .range.range-assertive
+          | 1km
+          input type="range" min="1" max="100" ng-model="filters.range" step="1"/
+          | {{t('search_apparels.placeholders.range.none')}}
   /! FOOTER
   ion-footer-bar
     .row.buttonBar

@@ -43,6 +43,12 @@
           </div>
         </div>
       </div>
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">{{t('search_apparels.titles.range') }}<b>{{filters.range < 100 ? (t('search_apparels.titles.range_prefix') + filters.range + 'km') : t('search_apparels.titles.range_all')}}</b></span>
+        <div class="range range-assertive">
+          1km<input max="100" min="1" ng-model="filters.range" step="1" type="range" />{{t('search_apparels.placeholders.range.none')}}
+        </div>
+      </div>
     </div>
   </ion-content><!--FOOTER--><ion-footer-bar>
     <div class="row buttonBar">
