@@ -12,6 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
       REALTIME_URL: 'http://realtimeapi.roupalivre.com.br:80',
       API_URL: 'http://api.roupalivre.com.br',
+      // API_URL: 'http://54.233.232.60', - LIVE NOVO
       SENDER_ID: '468184339406',
       // REALTIME_URL: 'http://localhost:5001',
       // API_URL: 'http://localhost:3000',
@@ -55,7 +56,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
     var service = {};
     var inBackground = false;
 
-    $ionicPlatform.ready(function() {        
+    $ionicPlatform.ready(function() {
         document.addEventListener("resume", function(){inBackground = false;}, false);
         document.addEventListener("pause", function(){inBackground = true;}, false);
     });
@@ -123,8 +124,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
 
     $rootScope.showLoading = function(message) {
       $rootScope.loadingMessage = message;
-      $ionicLoading.show({ 
-        templateUrl: 'templates/loading.html', 
+      $ionicLoading.show({
+        templateUrl: 'templates/loading.html',
         scope: $rootScope
       });
     };
@@ -211,8 +212,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         }
 
         if (postData.provider != null) {
-          $http({ 
-            method: 'POST', 
+          $http({
+            method: 'POST',
             data: postData,
             headers: $auth.retrieveData('auth_headers'),
             url: config.API_URL + '/users/register_device'
@@ -228,8 +229,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
         }
 
         if (postData.provider != null) {
-          $http({ 
-            method: 'POST', 
+          $http({
+            method: 'POST',
             data: postData,
             headers: $auth.retrieveData('auth_headers'),
             url: config.API_URL + '/users/unregister_device'
