@@ -10,5 +10,9 @@
     "!www/lib/**/*",
     "scss/**/*"
   ],
-  "type": "ionic1"
+  "type": "ionic1",
+  "integrations": {
+    "cordova": {},
+    "gulp": {}
+  }
 }

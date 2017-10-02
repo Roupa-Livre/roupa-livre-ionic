@@ -45,6 +45,8 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
         <resource-file src="resources/android/drawable/default_push_icon.png" target="res/drawable/default_push_icon.png" />
         <resource-file src="resources/android/drawable/default_push_icon.png" target="res/drawable-hdpi/default_push_icon.png" />
+        <resource-file src="resources/android/drawable/default_push_image.png" target="res/drawable/default_push_image.png" />
+        <resource-file src="resources/android/drawable/default_push_image.png" target="res/drawable-hdpi/default_push_image.png" />
     </platform>
     <platform name="ios">
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

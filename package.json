@@ -27,6 +27,7 @@
         "gulp-sass": "^2.3.2",
         "gulp-slim": "^0.3.0",
         "gulp-util": "^2.2.14",
+        "ionic": "3.12.0",
         "shelljs": "^0.3.0"
     },
     "cordovaPlugins": [
