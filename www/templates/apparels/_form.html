@@ -17,36 +17,8 @@
 <div class="item item-input item-stacked-label">
   <span class="input-label" ng-bind="t(&#39;apparel_form.titles.title&#39;)"></span><input ng-model="entry.title" placeholder="{{t(&#39;apparel_form.placeholders.title&#39;)}}" type="text" />
 </div>
-<div class="item item-input item-stacked-label">
-  <span class="input-label" ng-bind="t(&#39;apparel_form.titles.size_info&#39;)"></span><input name="size_info" ng-model="entry.size_info" placeholder="{{t(&#39;apparel_form.placeholders.size_info&#39;)}}" type="text" />
-</div>
-<div class="item item-input item-stacked-label">
-  <span class="input-label" ng-bind="t(&#39;apparel_form.titles.gender&#39;)"></span>
-  <div class="row">
-    <div class="col col-33">
-      <ion-radio name="gender" ng-model="entry.gender" value="FEM">{{ t('shared.options.gender.fem') }}</ion-radio>
-    </div>
-    <div class="col col-33">
-      <ion-radio name="gender" ng-model="entry.gender" value="MASC">{{ t('shared.options.gender.masc') }}</ion-radio>
-    </div>
-    <div class="col col-33">
-      <ion-radio name="gender" ng-model="entry.gender" value="SKIP">{{ t('shared.options.gender.skip') }}</ion-radio>
-    </div>
-  </div>
-</div>
-<div class="item item-input item-stacked-label">
-  <span class="input-label" ng-bind="t(&#39;apparel_form.titles.age_info&#39;)"></span>
-  <div class="row">
-    <div class="col col-33">
-      <ion-radio name="age_info" ng-model="entry.age_info" value="ADU">{{ t('shared.options.age_info.adult') }}</ion-radio>
-    </div>
-    <div class="col col-33">
-      <ion-radio name="age_info" ng-model="entry.age_info" value="INF">{{ t('shared.options.age_info.child') }}</ion-radio>
-    </div>
-    <div class="col col-33">
-      <ion-radio name="age_info" ng-model="entry.age_info" value="ANY">{{ t('shared.options.age_info.any') }}</ion-radio>
-    </div>
-  </div>
+<div class="item item-input item-stacked-label item-select" ng-repeat="group in propertyGroups">
+  <span class="input-label" ng-bind="group.name"></span><select id="{{group.prop_name}}" name="{{group.prop_name}}" ng-change="groupPropertySelectionChanged(group)" ng-model="entry.apparel_property[group.prop_name]" ng-options="option.id as option.name for option in group.properties track by option.id" required="required"></select>
 </div>
 <div class="item item-input item-stacked-label">
   <span class="input-label" ng-bind="t(&#39;apparel_form.titles.hashtags&#39;)"></span><span class="input-label subtitle" ng-bind="t(&#39;apparel_form.subtitles.hashtags&#39;)"></span><tags-input display-property="name" keyProperty="id" ng-class="{&#39;empty&#39;: (entry.apparel_tags.length == 0), &#39;filled&#39;: (entry.apparel_tags.length &gt; 0)}" ng-model="entry.apparel_tags" placeholder="{{t(&#39;apparel_form.placeholders.hashtags&#39;)}}" type="text" />

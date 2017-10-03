@@ -10,12 +10,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.filters', 'app.routes', 
       SHOWS_STACK: true,
       // REALTIME_URL: 'http://roupa-livre-realtime-staging.herokuapp.com:80',
       // API_URL: 'http://roupa-livre-api-staging.herokuapp.com',
-      REALTIME_URL: 'http://realtimeapi.roupalivre.com.br:80',
-      API_URL: 'http://api.roupalivre.com.br',
+      // REALTIME_URL: 'http://realtimeapi.roupalivre.com.br:80',
+      // API_URL: 'http://api.roupalivre.com.br',
       // API_URL: 'http://54.233.232.60', - LIVE NOVO
       SENDER_ID: '468184339406',
-      // REALTIME_URL: 'http://localhost:5001',
-      // API_URL: 'http://localhost:3000',
+      REALTIME_URL: 'http://localhost:5001',
+      API_URL: 'http://localhost:3000',
       MIN_READING_TIMEOUT: (2 * 1000),
       MIN_TOAST_READING_TIMEOUT: (3 * 1000)
   })

@@ -1,14 +1,15 @@
 ion-view.registerClothes
   /! CONTENT
   ion-content.has-header
-    .list
-      div ng-include="'templates/apparels/_form.html'"
-      
-      /! FOOTER
-      .row.buttonBar
-        .col
-          button.button.button-cancel ng-click="cancel()" 
-            | {{ t('shared.buttons.cancel') }}
-        .col
-          button.button.button-offer ng-click="submit()" 
-            | {{ t('new_apparel.form.buttons.save' )}}
+    form ng-submit="submit()"
+      .list
+        div ng-include="'templates/apparels/_form.html'"
+
+        /! FOOTER
+        .row.buttonBar
+          .col
+            button.button.button-cancel ng-click="cancel()"
+              | {{ t('shared.buttons.cancel') }}
+          .col
+            button.button.button-offer type="submit"
+              | {{ t('new_apparel.form.buttons.save' )}}

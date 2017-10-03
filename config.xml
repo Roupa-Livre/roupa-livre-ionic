@@ -91,4 +91,5 @@
     <plugin name="cordova-plugin-compat" spec="~1.1.0" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.6.2" />
     <plugin name="cordova-plugin-settings-hook" spec="~0.2.4" />
+    <engine name="browser" spec="~4.1.0" />
 </widget>

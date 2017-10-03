@@ -16,6 +16,7 @@ angular.module('app.directives', [])
       }
     };
 })
+
 .directive('browseTo', function ($ionicGesture) {
  return {
   restrict: 'A',
