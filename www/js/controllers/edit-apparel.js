@@ -295,9 +295,9 @@ angular.module('app.controllers')
           $timeout(function() {
             if (!apparel.apparel_property)
               apparel.apparel_property = { };
+            $scope.entry = apparel;
 
             loadRootGroups(apparel).then(function() {
-              $scope.entry = apparel;
               $ionicSlideBoxDelegate.update();
               refereshApparelSwiper();
 
@@ -322,15 +322,15 @@ angular.module('app.controllers')
         });
       } else {
         var apparel = new Apparel({apparel_images: [ ], apparel_tags: [], apparel_property: {}});
+        $scope.entry = apparel;
+
         loadRootGroups($scope.entry).then(function() {
-          $scope.$apply(function() {
-            $scope.entry = apparel;
-            $ionicSlideBoxDelegate.update();
-            refereshApparelSwiper();
-          });
+          $ionicSlideBoxDelegate.update();
+          refereshApparelSwiper();
 
           $timeout(function() {
             $scope.loadingRootGroups = false;
+            fixForDynamicSelects();
           });
         }, function(error) {
           console.error(error);

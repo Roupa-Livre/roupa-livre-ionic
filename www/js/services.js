@@ -309,7 +309,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
           for (var i = 0; i < matcher.already_seen.length; i++) {
             var auxId = matcher.already_seen[i];
             if (auxId == apparelId) {
-              matcher.already_seen.remove(i);
+              matcher.already_seen.splice(i, 1);
               break;
             }
           }
