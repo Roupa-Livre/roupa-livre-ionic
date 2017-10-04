@@ -8,6 +8,7 @@ angular.module('app.controllers')
     };
 
     $scope.apparelSwiper = {};
+    $scope.apparelProperties = null;
 
     $scope.onReadySwiper = function(swiper) {
       $scope.apparelSwiper = swiper;
@@ -16,6 +17,24 @@ angular.module('app.controllers')
           $scope.apparelSwiper.update();
       }, 200);
     };
+
+    function setApparelProperties() {
+      $scope.apparelProperties = null;
+      if ($scope.entry.apparel_property) {
+        var apparelProperties = [];
+        for (var prop_name in $scope.entry.apparel_property) {
+          if ($scope.entry.apparel_property.hasOwnProperty(prop_name)) {
+            if (prop_name.indexOf("_name") > -1) {
+              var value = $scope.entry.apparel_property[prop_name];
+              if (value)
+                apparelProperties.push({ prop_name: prop_name, value: value });
+            }
+          }
+        }
+        $scope.apparelProperties = apparelProperties;
+      }
+
+    }
 
     function refereshApparelSwiper(onRefreshed) {
       if ($scope.apparelSwiper.update) {
@@ -44,6 +63,7 @@ angular.module('app.controllers')
         }
 
         $scope.entry = entry;
+        setApparelProperties();
         $ionicSlideBoxDelegate.update();
         refereshApparelSwiper();
       } else {

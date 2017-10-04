@@ -139,8 +139,8 @@ angular.module('app.controllers')
 
           if (getPicture) {
             var options = { destinationType: Camera.DestinationType.DATA_URL,
-              targetWidth: 400,
-              targetHeight: 400,
+              targetWidth: 1000,
+              targetHeight: 1000,
               allowEdit: true
             };
 
