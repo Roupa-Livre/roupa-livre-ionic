@@ -91,7 +91,7 @@ angular.module('app.filters', [])
       var result = null
       if (user) {
         if (user.image)
-          result =  getImageAsSource($auth, user.image);  
+          result =  getImageAsSource($auth, user.image);
         if (!result && user.social_image)
           result = getProbableApiUrl($auth, user.social_image);
       }
@@ -125,7 +125,8 @@ angular.module('app.filters', [])
       else
         return null;
     };
-  }).filter('ageInfoName', function ($auth) {
+  })
+  .filter('ageInfoName', function ($auth) {
     return function (gender) {
       if (gender == "ADU")
         return t('shared.options.age_info.adult');
@@ -136,4 +137,20 @@ angular.module('app.filters', [])
       else
         return null;
     };
-  });
+  })
+  .filter('notHiddenOnly', ['decoration', function(decoration) {
+    return function(input) {
+      var list = [];
+      try {
+        for (var i = 0; i < input.length; i++) {
+          var item = input[i];
+          if (!item._hidden) {
+            list.push(item);
+          }
+        }
+      } catch (ex) {}
+
+      return list;
+
+    }
+  }]);

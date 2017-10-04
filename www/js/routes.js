@@ -35,7 +35,7 @@ angular.module('app.routes', [])
       templateUrl: 'templates/loading.html',
       controller: 'logoutCtrl'
     })
-    
+
     .state('menu', {
       url: '/menu',
       abstract:true,
@@ -43,8 +43,8 @@ angular.module('app.routes', [])
       resolve: {
         auth: function($auth, $location, $state) {
           var response = $auth.validateUser();
-          response.then(function(result) { 
-            return result; 
+          response.then(function(result) {
+            return result;
           }, function(result) {
             $state.go('login');
             return result;
@@ -89,7 +89,7 @@ angular.module('app.routes', [])
       views: {
         'view-content': {
           templateUrl: 'templates/apparels/search.html',
-          controller: 'filterCtrl'
+          controller: 'searchCtrl'
         }
       }
     })
@@ -123,7 +123,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     .state('menu.not_found', {
       url: '/notfound',
       views: {
@@ -133,7 +133,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     .state('menu.apparels_not_found', {
       url: '/apparels_notfound',
       views: {

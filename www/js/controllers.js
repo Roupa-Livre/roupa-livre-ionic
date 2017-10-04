@@ -48,7 +48,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
     $scope.agree = function() {
       $http({
-        method: 'POST', 
+        method: 'POST',
         data: { },
         headers: $auth.retrieveData('auth_headers'),
         url: config.API_URL + '/users/agreed_to_terms'
@@ -276,7 +276,7 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
   .controller('apparelListCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $stateParams, $ionicPopup, Apparel, $timeout) {
     var user_id = $stateParams.hasOwnProperty("user_id") && $stateParams.user_id > 0 ? $stateParams.user_id : null;
     $scope.is_mine = user_id == null;
-    if ($scope.is_mine) 
+    if ($scope.is_mine)
       $scope.owner_user = $rootScope.user;
 
     function refreshApparels() {
@@ -410,36 +410,6 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
     };
   })
 
-  .controller('filterCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, Apparel, ApparelMatcher) {
-    $scope.filters = angular.extend({}, Apparel.getFilters());
-
-    $scope.filter = function() {
-      $rootScope.apparels = [];
-      if ($scope.filters.tags && $scope.filters.tags.length > 0) {
-        var tags = $scope.filters.tags[0].name;
-        if ($scope.filters.tags.length > 1) {
-          for (var i = 1; i < $scope.filters.tags.length; i++) {
-            tags = tags + ',' + $scope.filters.tags[i].name;
-          }
-        }
-
-        $scope.filters.apparel_tags = tags;
-      } else if ($scope.filters.hasOwnProperty('apparel_tags')) {
-        delete $scope.filters['apparel_tags'];
-      }
-
-      Apparel.applyFilters($scope.filters);
-      ApparelMatcher.clearCache();
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('menu.apparel');
-    };
-
-    $scope.cancel = function() {
-      Apparel.clearFilters();
-      $scope.filters = angular.extend({}, Apparel.getFilters());
-    };
-  })
-
   .controller('aboutCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q, $cordovaAppVersion, $timeout) {
     var isMob = window.cordova !== undefined;
     $scope.appVersion = '-';
@@ -467,5 +437,5 @@ angular.module('app.controllers', ['ngCordova', 'ngImgCrop', 'btford.socket-io',
 
 
   .controller('blankCtrl', function($scope, $cordovaGeolocation, $cordovaDevice, $ionicHistory, $state, $auth, $q) {
-    
+
   })

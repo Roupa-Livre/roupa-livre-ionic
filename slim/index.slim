@@ -12,15 +12,15 @@ html
     link href="https://fonts.googleapis.com/css?family=Nunito%3A300%2C400%2C700" rel="stylesheet" type="text/css" /
 
     /! compiled css output
-    script src="lib/ionic/js/ionic.min.js" 
-    script src="lib/angular/angular.js" 
-    script src="lib/angular-animate/angular-animate.min.js" 
-    script src="lib/angular-ui-router/release/angular-ui-router.min.js" 
-    script src="lib/ionic/js/ionic-angular.js" 
-    script src="lib/ionic/js/angular/angular-resource.min.js" 
-    script src="lib/angularjs-rails-resource/angularjs-rails-resource.min.js" 
+    script src="lib/ionic/js/ionic.min.js"
+    script src="lib/angular/angular.js"
+    script src="lib/angular-animate/angular-animate.min.js"
+    script src="lib/angular-ui-router/release/angular-ui-router.min.js"
+    script src="lib/ionic/js/ionic-angular.js"
+    script src="lib/ionic/js/angular/angular-resource.min.js"
+    script src="lib/angularjs-rails-resource/angularjs-rails-resource.min.js"
     script src="lib/angular-cookie/angular-cookie.min.js"
-    
+
     script src="http://roupa-livre-realtime-live.herokuapp.com/socket.io/socket.io.js"
     script src="lib/moment/moment.js"
     script src="lib/angular-sanitize/angular-sanitize.min.js"
@@ -33,36 +33,38 @@ html
     link href="lib/swiper/dist/css/swiper.css" rel="stylesheet" /
     script src="lib/swiper/dist/js/swiper.js"
     script src="lib/angular-swiper/dist/angular-swiper.js"
-    
+
     /! cordova script (this will be a 404 during development)
-    script src="cordova.js" 
-    script src="lib/ngCordova/dist/ng-cordova.js" 
-    script src="lib/ionic-native-transitions/dist/ionic-native-transitions.min.js" 
+    script src="cordova.js"
+    script src="lib/ngCordova/dist/ng-cordova.js"
+    script src="lib/ionic-native-transitions/dist/ionic-native-transitions.min.js"
     script type="text/javascript" src="lib/ng-rollbar/ng-rollbar.min.js"
-    
+
     link href="css/ionic.app.css" rel="stylesheet" /
     link href="css/main.app.css" rel="stylesheet" /
     link rel="stylesheet" type="text/css" href="lib/ng-img-crop/compile/minified/ng-img-crop.css" /
     link rel="stylesheet" type="text/css" href="lib/ng-tags-input/ng-tags-input.min.css" /
 
-    script src="js/services/pushMessages.service.js" 
-    script src="js/services.js" 
-    script src="js/localization/pt-BR.js" 
-    script src="js/localization/main.js" 
+    script src="js/services/pushMessages.service.js"
+    script src="js/services.js"
+    script src="js/services/property_group.js"
+    script src="js/localization/pt-BR.js"
+    script src="js/localization/main.js"
     script src="js/app.js"
-    script src="js/filters.js" 
-    script src="js/upload-service.js" 
-    script src="js/controllers/common.js" 
-    script src="js/controllers.js" 
-    script src="js/controllers/edit-apparel.js" 
-    script src="js/controllers/apparel.js" 
-    script src="js/controllers/chat.js" 
-    script src="js/routes.js" 
-    script src="js/services/fileManager.service.js" 
+    script src="js/filters.js"
+    script src="js/upload-service.js"
+    script src="js/controllers/common.js"
+    script src="js/controllers.js"
+    script src="js/controllers/edit-apparel.js"
+    script src="js/controllers/apparel.js"
+    script src="js/controllers/chat.js"
+    script src="js/controllers/search.js"
+    script src="js/routes.js"
+    script src="js/services/fileManager.service.js"
     script src="js/directives.js"
     script src="js/factories/UserCheck.js"
     script src="js/factories/NotificationManager.js"
     /! Other js
-    / script src="http://maps.google.com/maps/api/js?&amp;sensor=true" 
-  body animation="slide-left-right-ios7" ng-app="app" 
+    / script src="http://maps.google.com/maps/api/js?&amp;sensor=true"
+  body animation="slide-left-right-ios7" ng-app="app"
     ion-nav-view

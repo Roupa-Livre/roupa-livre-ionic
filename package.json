@@ -4,6 +4,7 @@
     "description": "Roupa Livre",
     "dependencies": {
         "cordova-android": "^6.2.3",
+        "cordova-browser": "^4.1.0",
         "cordova-plugin-actionsheet": "~2.3.3",
         "cordova-plugin-app-version": "~0.1.9",
         "cordova-plugin-compat": "~1.1.0",
@@ -67,7 +68,8 @@
             "cordova-plugin-settings-hook": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "browser"
         ]
     }
 }

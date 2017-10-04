@@ -1,8 +1,112 @@
 angular.module('app.controllers')
-  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager) {
+  .controller('editApparelCtrl', function($scope, $rootScope, $cordovaGeolocation, $cordovaActionSheet, $ionicHistory, $ionicLoading, $ionicSlideBoxDelegate, $timeout, $state, $stateParams, $auth, $q, Apparel, ApparelRating, Upload, CurrentCamera, FileManager, PropertyGroup) {
     var currentController = this;
     $scope.savingEntry = false;
     $scope.apparelSwiper = {};
+
+    $scope.propertyGroups = [];
+    $scope.loadingRootGroups = false;
+
+    $scope.groupPropertySelectionChanged = function(group) {
+      if (!$scope.loadingRootGroups) {
+        // console.log('groupPropertySelectionChanged');
+        doGroupPropertySelectionChanged(group, $scope.entry.apparel_property[group.prop_name], $scope.entry);
+      }
+    }
+
+    function fixForDynamicSelects() {
+      for (var i = 0; i < $scope.propertyGroups.length; i++) {
+        var group = $scope.propertyGroups[i];
+        if ($scope.entry.apparel_property[group.prop_name]) {
+          var select = document.getElementById(group.prop_name);
+          if (select)
+            select.value = $scope.entry.apparel_property[group.prop_name].toString();
+        }
+      }
+    }
+
+    function doGroupPropertySelectionChanged(group, newValue, entry) {
+      if (group.childrenGroups) {
+        for (var i = 0; i < group.childrenGroups.length; i++) {;
+          var childGroup = group.childrenGroups[i];
+          var childIndex = $scope.propertyGroups.indexOf(childGroup);
+          if (childIndex > -1) {
+            $scope.propertyGroups.splice(childIndex, 1);
+            doGroupPropertySelectionChanged(childGroup, null, entry);
+          }
+          if (childGroup.unregister) {
+            childGroup.unregister();
+            delete childGroup['unregister'];
+          }
+        }
+      }
+
+      if (newValue) {
+        if (!group.loading) {
+          group.loading = true;
+          loadChildGroups(group, newValue, entry).then(function() {
+            group.loading = false;
+          }, function() {
+            group.loading = false;
+          });
+        }
+      } else {
+        // caso o valor da propriedade esteja preenchida entao limpa
+        entry.apparel_property[group.prop_name] = null;
+      }
+    };
+
+    function doAddPropertyGroup(group, parentGroup, entry) {
+      return $q(function(resolve, reject) {
+        $scope.propertyGroups.push(group);
+        var groupIndex = $scope.propertyGroups.length - 1;
+        if (parentGroup) {
+          if (!parentGroup.childrenGroups)
+            parentGroup.childrenGroups = [];
+          parentGroup.childrenGroups.push(group);
+        }
+
+        // group.unregister = $scope.$watch('entry.apparel_property.' + group.prop_name, function(newValue) {
+        //   if (!$scope.loadingRootGroups)
+        //     groupPropertySelectionChanged(group, newValue, $scope.entry || entry);
+        // });
+        var selectedId = entry.apparel_property[group.prop_name];
+        if (selectedId) {
+          loadChildGroups(group, selectedId, entry).then(function(childrenGroups) {
+            resolve(group);
+          }, reject);
+        } else {
+          entry.apparel_property[group.prop_name] = null;
+          resolve(group);
+        }
+      });
+    }
+
+    function loadRootGroups(entry) {
+      return $q(function(resolve, reject) {
+        PropertyGroup.root().then(function(groups) {
+          var promises = [];
+          for (var i = 0; i < groups.length; i++) {
+            promises.push(doAddPropertyGroup(groups[i], null, entry));
+          }
+          Promise.all(promises).then(resolve, reject);
+        }, reject);
+      });
+    }
+
+    function loadChildGroups(parentGroup, selectedId, entry) {
+      return $q(function(resolve, reject) {
+        PropertyGroup.children(parentGroup.id, selectedId).then(function(groups) {
+          var promises = [];
+          for (var i = 0; i < groups.length; i++) {
+            promises.push(doAddPropertyGroup(groups[i], parentGroup, entry));
+          }
+          Promise.all(promises).then(function(data) {
+            resolve(groups);
+          }, reject);
+        }, reject);
+      });
+    }
 
     $scope.onReadySwiper = function(swiper) {
       $scope.apparelSwiper = swiper;
@@ -46,8 +150,8 @@ angular.module('app.controllers')
 
           if (getPicture) {
             var options = { destinationType: Camera.DestinationType.DATA_URL,
-              targetWidth: 400, 
-              targetHeight: 400, 
+              targetWidth: 1000,
+              targetHeight: 1000,
               allowEdit: true
             };
 
@@ -185,12 +289,29 @@ angular.module('app.controllers')
     };
 
     function setCurrentApparel() {
+      $scope.loadingRootGroups = true;
       if ($stateParams.hasOwnProperty('id')) {
         Apparel.get($stateParams["id"]).then(function(apparel) {
           $timeout(function() {
+            if (!apparel.apparel_property)
+              apparel.apparel_property = { };
             $scope.entry = apparel;
-            $ionicSlideBoxDelegate.update();
-            refereshApparelSwiper();
+
+            loadRootGroups(apparel).then(function() {
+              $ionicSlideBoxDelegate.update();
+              refereshApparelSwiper();
+
+              $timeout(function() {
+                $scope.loadingRootGroups = false;
+                fixForDynamicSelects();
+              });
+            }, function(error) {
+              console.error(error);
+              $timeout(function() {
+                $scope.loadingRootGroups = false;
+              });
+            });
+
           });
         }, function(error) {
           $timeout(function() {
@@ -199,14 +320,29 @@ angular.module('app.controllers')
             $state.go('menu.apparel_list');
           });
         });
-      }
-      else {
-        $scope.entry = new Apparel({apparel_images: [ ], apparel_tags: []});
-        $ionicSlideBoxDelegate.update();
+      } else {
+        var apparel = new Apparel({apparel_images: [ ], apparel_tags: [], apparel_property: {}});
+        $scope.entry = apparel;
+
+        loadRootGroups($scope.entry).then(function() {
+          $ionicSlideBoxDelegate.update();
+          refereshApparelSwiper();
+
+          $timeout(function() {
+            $scope.loadingRootGroups = false;
+            fixForDynamicSelects();
+          });
+        }, function(error) {
+          console.error(error);
+          $timeout(function() {
+            $scope.loadingRootGroups = false;
+          });
+        });
       }
     }
-
-    setCurrentApparel();
+    $scope.$on('$ionicView.loaded', function(event) {
+      setCurrentApparel();
+    });
 
     updateLatLng($cordovaGeolocation, $auth, $q);
   });
