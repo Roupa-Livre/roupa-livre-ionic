@@ -5,9 +5,11 @@
     "dependencies": {
         "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-actionsheet": "~2.3.3",
         "cordova-plugin-app-version": "~0.1.9",
         "cordova-plugin-compat": "~1.1.0",
+        "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-file-transfer": "~1.6.2",
         "cordova-plugin-settings-hook": "~0.2.4",
         "gulp": "^3.5.6",
@@ -65,11 +67,13 @@
             "cordova-plugin-app-version": {},
             "cordova-plugin-compat": {},
             "cordova-plugin-file-transfer": {},
-            "cordova-plugin-settings-hook": {}
+            "cordova-plugin-settings-hook": {},
+            "cordova-plugin-console": {}
         },
         "platforms": [
             "android",
-            "browser"
+            "browser",
+            "ios"
         ]
     }
 }
