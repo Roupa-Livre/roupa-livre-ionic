@@ -3,14 +3,25 @@ angular.module('app.controllers')
     var currentController = this;
     $scope.savingEntry = false;
     $scope.apparelSwiper = {};
-    $scope.propertyGroups = [];
 
+    $scope.propertyGroups = [];
     $scope.loadingRootGroups = false;
 
     $scope.groupPropertySelectionChanged = function(group) {
       if (!$scope.loadingRootGroups) {
         // console.log('groupPropertySelectionChanged');
         doGroupPropertySelectionChanged(group, $scope.entry.apparel_property[group.prop_name], $scope.entry);
+      }
+    }
+
+    function fixForDynamicSelects() {
+      for (var i = 0; i < $scope.propertyGroups.length; i++) {
+        var group = $scope.propertyGroups[i];
+        if ($scope.entry.apparel_property[group.prop_name]) {
+          var select = document.getElementById(group.prop_name);
+          if (select)
+            select.value = $scope.entry.apparel_property[group.prop_name].toString();
+        }
       }
     }
 
@@ -276,17 +287,6 @@ angular.module('app.controllers')
         $ionicHistory.goBack();
       }
     };
-
-    function fixForDynamicSelects() {
-      for (var i = 0; i < $scope.propertyGroups.length; i++) {
-        var group = $scope.propertyGroups[i];
-        if ($scope.entry.apparel_property[group.prop_name]) {
-          var select = document.getElementById(group.prop_name);
-          if (select)
-            select.value = $scope.entry.apparel_property[group.prop_name].toString();
-        }
-      }
-    }
 
     function setCurrentApparel() {
       $scope.loadingRootGroups = true;

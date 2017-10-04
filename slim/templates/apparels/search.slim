@@ -14,39 +14,9 @@ ion-view.search
         span.input-label.subtitle
           | {{t('search_apparels.subtitles.hashtags')}}
         tags-input type="text" placeholder="{{t('search_apparels.placeholders.hashtags')}}" ng-model="filters.tags" display-property="name" keyProperty="name" /
-      .item.item-input.item-stacked-label
-        span.input-label
-          | {{t('search_apparels.titles.size_info')}}
-        input type="text" ng-model="entry.size_info" name="size_info" placeholder="{{t('search_apparels.placeholders.size_info')}}" /
-      .item.item-input.item-stacked-label
-        span.input-label
-          | {{t('search_apparels.titles.gender')}}
-        .row
-          .col.col-33
-            ion-radio ng-model="filters.gender" name="gender" value="FEM"
-              | {{ t('shared.options.gender.fem') }}
-          .col.col-33
-            ion-radio ng-model="filters.gender" name="gender" value="MASC"
-              | {{ t('shared.options.gender.masc') }}
-          / .col.col-25
-            ion-radio ng-model="filters.gender" name="gender" value="NO"
-              | {{ t('shared.options.gender.no') }}
-          .col.col-33
-            ion-radio ng-model="filters.gender" name="gender" ng-value="null"
-              | {{ t('shared.options.gender.any') }}
-      .item.item-input.item-stacked-label
-        span.input-label
-          | {{t('search_apparels.titles.age_info')}}
-        .row
-          .col.col-33
-            ion-radio ng-model="filters.age_info" name="age_info" value="ADU"
-              | {{ t('shared.options.age_info.adult') }}
-          .col.col-33
-            ion-radio ng-model="filters.age_info" name="age_info" value="INF"
-              | {{ t('shared.options.age_info.child') }}
-          .col.col-33
-            ion-radio ng-model="filters.age_info" name="age_info" ng-value="null"
-              | {{ t('shared.options.age_info.any') }}
+      .item.item-input.item-stacked-label.item-select ng-repeat="group in propertyGroups | orderBy:'sort_order'"
+        span.input-label ng-bind="group.name"
+        select id="{{group.prop_name}}" ng-model="filters.apparel_property[group.prop_name]" ng-options="option.id as option.name for option in group.properties track by option.id" name="{{group.prop_name}}" required="required" ng-change="groupPropertySelectionChanged(group)"
       .item.item-input.item-stacked-label
         span.input-label
           | {{t('search_apparels.titles.range') }}
@@ -60,8 +30,8 @@ ion-view.search
   ion-footer-bar
     .row.buttonBar
       .col
-        button.button.button-cancel ng-click="cancel()" 
+        button.button.button-cancel ng-click="cancel()"
           | {{t('search_apparels.buttons.clear')}}
       .col
-        button.button.button-filter ng-click="filter()" 
+        button.button.button-filter ng-click="filter()"
           | {{t('search_apparels.buttons.submit')}}

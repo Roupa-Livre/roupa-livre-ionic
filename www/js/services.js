@@ -162,7 +162,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       var filters = { range: 100 };
 
       resource.hasFilters = function() {
-        return !isEmptyObject(filters) && filters.range != 100;
+        return !isEmptyObject(filters) && (filters.range != 100 || !isEmptyObject(filters.apparel_property));
       };
 
       resource.applyFilters = function(newFilters) {
@@ -170,7 +170,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       };
 
       resource.clearFilters = function() {
-        filters = { range: 100 };
+        filters = { range: 100, apparel_property: {} };
       };
 
       resource.getFilters = function() {
