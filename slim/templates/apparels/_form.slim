@@ -29,7 +29,7 @@
   span.input-label ng-bind="t('apparel_form.titles.title')"
   input type="text" ng-model="entry.title" placeholder="{{t('apparel_form.placeholders.title')}}" /
 
-.item.item-input.item-stacked-label.item-select ng-repeat="group in propertyGroups"
+.item.item-input.item-stacked-label.item-select ng-repeat="group in propertyGroups | orderBy:'sort_order'"
   span.input-label ng-bind="group.name"
   select id="{{group.prop_name}}" ng-model="entry.apparel_property[group.prop_name]" ng-options="option.id as option.name for option in group.properties track by option.id" name="{{group.prop_name}}" required="required" ng-change="groupPropertySelectionChanged(group)"
 

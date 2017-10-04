@@ -17,7 +17,7 @@
 <div class="item item-input item-stacked-label">
   <span class="input-label" ng-bind="t(&#39;apparel_form.titles.title&#39;)"></span><input ng-model="entry.title" placeholder="{{t(&#39;apparel_form.placeholders.title&#39;)}}" type="text" />
 </div>
-<div class="item item-input item-stacked-label item-select" ng-repeat="group in propertyGroups">
+<div class="item item-input item-stacked-label item-select" ng-repeat="group in propertyGroups | orderBy:&#39;sort_order&#39;">
   <span class="input-label" ng-bind="group.name"></span><select id="{{group.prop_name}}" name="{{group.prop_name}}" ng-change="groupPropertySelectionChanged(group)" ng-model="entry.apparel_property[group.prop_name]" ng-options="option.id as option.name for option in group.properties track by option.id" required="required"></select>
 </div>
 <div class="item item-input item-stacked-label">
