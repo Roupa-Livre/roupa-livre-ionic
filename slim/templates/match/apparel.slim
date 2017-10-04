@@ -19,8 +19,8 @@ ion-view.searchMatch
           span ng-bind="entry.gender + ' '"
           span ng-if="entry.age_info" |
           span ng-bind="entry.age_info"
-        p.hashtags ng-if="entry.apparel_tags.length > 0"
-          span ng-repeat="tag in entry.apparel_tags" ng-bind="' #' + (tag.name | trimStartChar:'#')"
+        p.hashtags.navigatable ng-if="entry.apparel_tags.length > 0"
+          span ng-repeat="tag in entry.apparel_tags" ng-class="{'filtered': (isFilteredByTag(tag)) }" ng-click="filterByTag(tag)" ng-bind="'#' + (tag.name | trimStartChar:'#')"
         p
       .item.item-text-wrap
         p.description ng-bind="entry.description"

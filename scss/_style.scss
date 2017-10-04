@@ -413,9 +413,26 @@ ion-footer-bar {
   }
 
   p.hashtags {
-    font-size:12px;
+    font-size:14px;
     white-space: normal;
     max-width: 100%;
+
+    &.navigatable {
+      span {
+        margin-right: 10px;
+        &:last-child {
+          margin-right: 0px;
+        }
+      }
+      span:not(.filtered) {
+        color: blue;
+        text-decoration: underline;
+      }
+      span.filtered {
+        color: #3df2d6;
+        text-decoration: none;
+      }
+    }
   }
 
   p.description {
@@ -901,7 +918,7 @@ ion-footer-bar {
         width: 100px;
         height: 100px;
       }
-      p { 
+      p {
         display: none;
       }
       .swiper-container {
@@ -914,7 +931,7 @@ ion-footer-bar {
         padding-bottom: 0px;
         vertical-align: baseline;
         button {
-          
+
         }
       }
     }

@@ -188,6 +188,25 @@ angular.module('app.controllers')
       });
     };
 
+    $scope.filters = angular.extend({ apparel_property: {} }, Apparel.getFilters());
+    $scope.filteredTags = $scope.filters.apparel_tags ? $scope.filters.apparel_tags.toLowerCase().split(',') : [];
+    $scope.isFilteredByTag = function(tag) {
+      return $scope.filteredTags.indexOf(tag.name.toLowerCase()) > -1;
+    }
+
+    $scope.filterByTag = function(tag) {
+      if ($scope.isFilteredByTag(tag))
+        return;
+      $scope.filteredTags.push(tag.name);
+
+      $scope.filters = angular.extend({ apparel_property: {} }, Apparel.getFilters());
+      $scope.filters.apparel_tags = $scope.filteredTags.join(",");
+
+      Apparel.applyFilters($scope.filters);
+      ApparelMatcher.clearCache();
+      $state.reload();
+    };
+
     loadNextApparel();
 
     updateLatLng($cordovaGeolocation, $auth, $q);

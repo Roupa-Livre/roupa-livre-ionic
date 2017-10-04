@@ -16,8 +16,8 @@
         <p class="details" ng-if="!apparelProperties">
           <span ng-bind="t(&#39;shared.titles.size_info&#39;) + &#39; &#39; + entry.size_info + &#39; &#39;"></span><span ng-if="entry.gender">|</span><span ng-bind="entry.gender + &#39; &#39;"></span><span ng-if="entry.age_info">|</span><span ng-bind="entry.age_info"></span>
         </p>
-        <p class="hashtags" ng-if="entry.apparel_tags.length &gt; 0">
-          <span ng-bind="&#39; #&#39; + (tag.name | trimStartChar:&#39;#&#39;)" ng-repeat="tag in entry.apparel_tags"></span>
+        <p class="hashtags navigatable" ng-if="entry.apparel_tags.length &gt; 0">
+          <span ng-bind="&#39;#&#39; + (tag.name | trimStartChar:&#39;#&#39;)" ng-class="{&#39;filtered&#39;: (isFilteredByTag(tag)) }" ng-click="filterByTag(tag)" ng-repeat="tag in entry.apparel_tags"></span>
         </p>
         <p></p>
       </div>
