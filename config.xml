@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="102000" id="com.nucleo235.roupalivre" version="1.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="102001" id="com.nucleo235.roupalivre" version="1.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>RoupaLivre</name>
     <description>Roupa Livre</description>
     <author email="mobileapps@nucleo235.com.br" href="http://nucleo235.com.br/">
@@ -86,6 +86,12 @@
         <config-file parent="ITSAppUsesNonExemptEncryption" target="*-Info.plist">
             <false />
         </config-file>
+        <config-file parent="NSMainNibFile" target="*-Info.plist">
+            <string />
+        </config-file>
+        <config-file parent="NSMainNibFile~ipad" target="*-Info.plist">
+            <string />
+        </config-file>
         <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
         <splash height="2208" src="resources/ios/splash/Default-736h.png" width="1242" />
         <splash height="1242" src="resources/ios/splash/Default-Landscape-736h.png" width="2208" />
@@ -100,10 +106,10 @@
     <engine name="android" spec="^6.2.3" />
     <engine name="browser" spec="^4.1.0" />
     <engine name="ios" spec="^4.4.0" />
+    <plugin name="cordova-custom-config" spec="^4.0.2" />
     <plugin name="cordova-plugin-actionsheet" spec="~2.3.3" />
     <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
     <plugin name="cordova-plugin-compat" spec="~1.1.0" />
-    <plugin name="cordova-plugin-file-transfer" spec="~1.6.2" />
-    <plugin name="cordova-plugin-settings-hook" spec="~0.2.4" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.2" />
 </widget>
