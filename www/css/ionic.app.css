@@ -9104,7 +9104,7 @@ a.button {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -11445,4 +11445,4 @@ a.button {
   margin-bottom: 3px; }
 
 .fa:before {
-  font: normal normal normal 14px / 1 FontAwesome; }
+  font: normal normal normal 14px/1 FontAwesome; }

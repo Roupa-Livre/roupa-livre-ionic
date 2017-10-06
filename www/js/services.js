@@ -19,15 +19,15 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
     self.init = function() {
       var q = $q.defer();
 
-      self.get_db().then(function (db) {         
+      self.get_db().then(function (db) {
         var CHATS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chats (id integer primary key, user_1_id integer, user_2_id integer, name text, last_read_at date, other_user blob, others_last_read_at date, other_user_apparels blob, owned_apparels blob, unread_messages_count integer, total_messages_count integer, last_message_sent blob, last_message_sent_at date)";
-        // $cordovaSQLite.execute(db, 'DROP TABLE chats'); 
-        $cordovaSQLite.execute(db, CHATS_TABLE_QUERY); 
+        // $cordovaSQLite.execute(db, 'DROP TABLE chats');
+        $cordovaSQLite.execute(db, CHATS_TABLE_QUERY);
 
-        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
+        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages');
         var MESSAGES_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS chat_messages (id integer primary key, chat_id integer, user_id integer, message text, created_at date)";
-        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages'); 
-        $cordovaSQLite.execute(db, MESSAGES_TABLE_QUERY); 
+        // $cordovaSQLite.execute(db, 'DROP TABLE chat_messages');
+        $cordovaSQLite.execute(db, MESSAGES_TABLE_QUERY);
 
         self.query = do_query;
 
@@ -40,21 +40,21 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
     self.get_db = function() {
       var q = $q.defer();
 
-      $ionicPlatform.ready(function () {         
+      $ionicPlatform.ready(function () {
         if (window.cordova) {
           // http://phonegapcmsworld.blogspot.com.br/2016/06/iosDatabaseLocation-value-is-now-mandatory-in-openDatabase-call.html
           if (ionic.Platform.isAndroid()) {
-            db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'}); 
+            db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'});
           } else {
             try {
-              db = window.sqlitePlugin.openDatabase({ name: "roupalivre_v1.db", location: 2, createFromLocation: 1});   
+              db = window.sqlitePlugin.openDatabase({ name: "roupalivre_v1.db", location: 2, createFromLocation: 1});
             } catch (err) {
               console.log(err);
-              db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'}); 
+              db = $cordovaSQLite.openDB({ name: "roupalivre_v1.db", iosDatabaseLocation:'default'});
             }
-            
+
           }
-          
+
         } else {
           db = window.openDatabase('roupalivre_v1.db', '1.0', 'roupa_livre', -1);
         }
@@ -77,10 +77,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
           console.warn(error);
           q.reject(error);
         });
-      
+
       return q.promise;
     }
-      
+
     var check_and_query = function (query, parameters) {
       parameters = parameters || [];
       var q = $q.defer();
@@ -88,12 +88,12 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       self.init().then(function(db) {
         do_query(query, parameters).then(q.resolve, q.reject);
       });
-      
+
       return q.promise;
     }
 
     self.query = check_and_query;
-      
+
     // Processa result set
     self.getAll = function(result) {
       return processAll(result, function(item) { return item; });
@@ -135,25 +135,34 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
     return self;
   }])
 
+  .factory('ApparelProperty', ['$resource', '$auth', 'railsResourceFactory', '$q',
+    function($resource, $auth, railsResourceFactory) {
+      return railsResourceFactory({
+        url: $auth.apiUrl() + '/apparel_properties',
+        name: 'apparel_property'
+      });
+  }])
   .factory('ApparelSerializer', ['railsSerializer', function (railsSerializer) {
     return railsSerializer(function () {
       this.nestedAttribute('apparel_images');
       this.nestedAttribute('apparel_tags');
+      this.nestedAttribute('apparel_property');
+        this.resource('apparel_property', 'ApparelProperty');
     });
   }])
 
-  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', '$q', 
+  .factory('Apparel', ['$resource', '$auth', 'railsResourceFactory', 'ApparelSerializer', '$q',
     function($resource, $auth, railsResourceFactory, ApparelSerializer, $q) {
       var resource = railsResourceFactory({
-        url: $auth.apiUrl() + '/apparels', 
+        url: $auth.apiUrl() + '/apparels',
         name: 'apparel',
         serializer: 'ApparelSerializer'
       });
 
-      var filters = {};
+      var filters = { range: 100 };
 
       resource.hasFilters = function() {
-        return !isEmptyObject(filters);
+        return !isEmptyObject(filters) && (filters.range != 100 || !isEmptyObject(filters.apparel_property));
       };
 
       resource.applyFilters = function(newFilters) {
@@ -161,7 +170,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       };
 
       resource.clearFilters = function() {
-        filters = {};
+        filters = { range: 100, apparel_property: {} };
       };
 
       resource.getFilters = function() {
@@ -172,6 +181,9 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         params = params || {};
         filters = filters || {};
         var mergedParams = angular.extend({}, params, filters)
+        if (mergedParams.range && mergedParams.range >= 100)
+          delete mergedParams["range"];
+
         return resource.query(mergedParams);
       };
 
@@ -233,7 +245,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('ApparelMatcher', ['Apparel', '$q', 
+  .factory('ApparelMatcher', ['Apparel', '$q',
     function(Apparel, $q) {
       var matcher = self;
       self.apparels = [];
@@ -246,7 +258,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             return 3;
         }
 
-        return 1; 
+        return 1;
       };
 
       function getFirstAndDequeue() {
@@ -263,7 +275,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             if (data && data.length > 0) {
               matcher.apparels = data;
               resolve(data);
-            } else 
+            } else
               resolve(null);
           }, reject);
         });
@@ -297,7 +309,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
           for (var i = 0; i < matcher.already_seen.length; i++) {
             var auxId = matcher.already_seen[i];
             if (auxId == apparelId) {
-              matcher.already_seen.remove(i);
+              matcher.already_seen.splice(i, 1);
               break;
             }
           }
@@ -312,10 +324,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       return self;
   }])
 
-  .factory('ApparelRating', ['$resource', '$auth', 'railsResourceFactory', 
+  .factory('ApparelRating', ['$resource', '$auth', 'railsResourceFactory',
     function($resource, $auth, railsResourceFactory) {
       var resource = railsResourceFactory({
-        url: $auth.apiUrl() + '/apparel_ratings', 
+        url: $auth.apiUrl() + '/apparel_ratings',
         name: 'apparel_rating'
       });
 
@@ -325,7 +337,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
   .factory('Chat', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', '$cordovaSQLite', 'DBA',
     function($resource, $auth, $q, $rootScope, railsResourceFactory, $cordovaSQLite, DBA) {
       var resource = railsResourceFactory({
-        url: $auth.apiUrl() + '/chats', 
+        url: $auth.apiUrl() + '/chats',
         name: 'chat'
       });
 
@@ -370,9 +382,9 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         return DBA.query("DELETE FROM chats", []);
       };
 
-      resource.local_active_by_id = function(id) {      
-        return DBA.query("SELECT * FROM chats where id = ?", [ id ]).then(function(chatRows){ 
-          return DBA.processFirstOrNull(chatRows, readFromDB); 
+      resource.local_active_by_id = function(id) {
+        return DBA.query("SELECT * FROM chats where id = ?", [ id ]).then(function(chatRows){
+          return DBA.processFirstOrNull(chatRows, readFromDB);
         });
       };
 
@@ -401,7 +413,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }, reject);
       };
 
-      resource.force_reload_active = function() {      
+      resource.force_reload_active = function() {
         return $q(function(resolve, reject) {
           reloadActive(resolve, reject);
         });
@@ -409,8 +421,8 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       resource.active = function(wasReloading) {
         return $q(function(resolve, reject) {
-          DBA.query("SELECT * FROM chats order by last_message_sent_at desc").then(function(chatRows){ 
-            var chats = DBA.processAll(chatRows, readFromDB); 
+          DBA.query("SELECT * FROM chats order by last_message_sent_at desc").then(function(chatRows){
+            var chats = DBA.processAll(chatRows, readFromDB);
             if (chats.length == 0 && !wasReloading) {
               reloadActive(resolve, reject);
             } else {
@@ -427,10 +439,10 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
       return resource;
   }])
 
-  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', '$cordovaSQLite','DBA', 
+  .factory('ChatMessage', ['$resource', '$auth', '$q', '$rootScope', 'railsResourceFactory', '$cordovaSQLite','DBA',
     function($resource, $auth, $q, $rootScope, railsResourceFactory, $cordovaSQLite, DBA) {
       var resource = railsResourceFactory({
-        url: $auth.apiUrl() + '/chat_messages', 
+        url: $auth.apiUrl() + '/chat_messages',
         name: 'chat_message'
       });
 
@@ -451,7 +463,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
 
       resource.prototype.saveAndPersist = function() {
         return this.save().then(function(savedMessage) {
-          saveToDB(savedMessage); 
+          saveToDB(savedMessage);
           return savedMessage;
         });
       };
@@ -469,7 +481,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
 
         return $q(function(resolve, reject) {
-          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){
             var messages = DBA.processAll(messageRows, readFromDB);
             return messages.length > 0 ? messages[0] : null;
           }, reject);
@@ -486,7 +498,7 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
 
         return $q(function(resolve, reject) {
-          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){
             resolve(reverse(DBA.processAll(messageRows, readFromDB)));
           }, reject);
         });
@@ -519,8 +531,8 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
 
         return $q(function(resolve, reject) {
-          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
-            var messages = DBA.processAll(messageRows, readFromDB); 
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){
+            var messages = DBA.processAll(messageRows, readFromDB);
             resolve(reverse(messages));
           }, reject);
         });
@@ -544,8 +556,8 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
         }
 
         return $q(function(resolve, reject) {
-          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){ 
-            var messages = DBA.processAll(messageRows, readFromDB); 
+          DBA.queryAndFetchIfEmpty(QUERY, ARGS, fetch).then(function(messageRows){
+            var messages = DBA.processAll(messageRows, readFromDB);
             resolve(reverse(messages));
           }, reject);
         });
@@ -582,20 +594,20 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             this.pushContainer(name);
           }
         },
- 
+
         pushContainer : function(subscriptionName){
           container.push(subscriptionName);
         },
- 
+
         //Unsubscribe all containers..
         unsubscribeAll: function(){
           for(var i=0; i<container.length; i++){
-              SocketService.socket.removeAllListeners(container[i]);   
+              SocketService.socket.removeAllListeners(container[i]);
           }
           //Now reset the container..
           container = [];
         },
- 
+
         //Unsubscribe all containers..
         unsubscribe: function(chat){
           var name = this.getSubscriptionName(chat);
@@ -605,7 +617,6 @@ angular.module('app.services', ['ngCordova', 'ngResource', 'rails'])
             container.splice(index, 1);
           }
         }
- 
+
     };
   }]);
-

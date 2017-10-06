@@ -54,7 +54,10 @@ PushSystem.prototype.register = function(senderID) {
   var self = this;
 
   this.pushNotificationService = PushNotification.init({
-    android: { senderID: senderID },
+    android: {
+      senderID: senderID,
+      iconColor: '#0064f0'
+    },
     ios: {
       alert: "true",
       badge: "true",
@@ -84,6 +87,6 @@ PushSystem.prototype.register = function(senderID) {
   this.pushNotificationService.on('error', function(e) {
     console.log(e);
     if (self.onError)
-      self.onError(e);  
+      self.onError(e);
   });
 }

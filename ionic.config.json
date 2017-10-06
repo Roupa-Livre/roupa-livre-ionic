@@ -7,6 +7,12 @@
   ],
   "watchPatterns": [
     "www/**/*",
-    "!www/lib/**/*"
-  ]
+    "!www/lib/**/*",
+    "scss/**/*"
+  ],
+  "type": "ionic1",
+  "integrations": {
+    "cordova": {},
+    "gulp": {}
+  }
 }
