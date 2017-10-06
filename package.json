@@ -67,8 +67,8 @@
             "cordova-plugin-app-version": {},
             "cordova-plugin-compat": {},
             "cordova-plugin-file-transfer": {},
-            "cordova-plugin-console": {},
-            "cordova-custom-config": {}
+            "cordova-custom-config": {},
+            "cordova-plugin-console": {}
         },
         "platforms": [
             "android",
